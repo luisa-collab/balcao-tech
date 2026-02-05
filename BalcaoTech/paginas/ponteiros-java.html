@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C e Java: A Conexão | Balcão Tech</title>
+    <link rel="stylesheet" href="../style.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="header-principal">
+        <div class="container">
+            <h1 class="logo"><a href="../index.html">Balcão Tech<span class="ponto">.</span></a></h1>
+        </div>
+    </header>
+
+    <main class="container artigo-completo">
+    
+        <header class="cabecalho-artigo">
+            <h1>Pare de fugir dos Ponteiros: Por que aprender C muda seu Java (e seu salário)</h1>
+            <p class="meta-data">Por <strong>Luisa Laura</strong> | 23 Jan 2026 </p>
+        </header>
+    
+        <div class="conteudo-texto">
+            <p>Muita gente torce o nariz quando falo que estou estudando <strong>Linguagem C</strong> na faculdade. <em>"Ah Luisa, isso é coisa de velho, ninguém usa C pra fazer site, hoje em dia é tudo JavaScript e Python."</em></p>
+            
+            <p>Errado. E perigoso.</p>
+
+            <p>Ignorar o C é ignorar como o computador realmente funciona. E se você quer trabalhar com Java em grandes bancos ou na AWS, você não pode se dar ao luxo de achar que a memória RAM é mágica.</p>
+
+            <h2>O Mito da "Gestão Automática"</h2>
+            <p>O Java é famoso por ter o <strong>Garbage Collector</strong> (Coletor de Lixo). Ele é tipo uma mãe que vai atrás de você catando a bagunça (memória) que você deixou jogada.</p>
+            <p>Isso é ótimo, mas cria programadores preguiçosos. O dev Java "padrão" cria objetos sem pensar: <code>new String()</code>, <code>new ArrayList()</code>, loops infinitos... "O Java limpa depois", eles pensam.</p>
+
+            <p><strong>Até o dia que o servidor da AWS trava.</strong></p>
+
+            <h2>Onde o C entra nessa história?</h2>
+            <p>Em C, não tem mãe. Se você aloca memória (<code>malloc</code>) e não limpa (<code>free</code>), o programa explode. Você é obrigado a entender:</p>
+            <ul>
+                <li>O que é <strong>Stack</strong> (Pilha) vs <strong>Heap</strong> (Monte).</li>
+                <li>Quanto custa (em bytes) criar uma variável.</li>
+                <li>O que é um vazamento de memória (Memory Leak).</li>
+            </ul>
+
+            <p>Quando você entende <strong>Ponteiros</strong> em C (que nada mais são do que endereços de memória), você começa a ter uma visão de Raio-X.</p>
+
+            <h3>O "Superpoder" no Java</h3>
+            <p>Depois de sofrer com C, você volta para o Java diferente. Você olha para o código e pensa:</p>
+            <blockquote>
+                "Se eu colocar essa String dentro desse loop 'for' que roda 1 milhão de vezes, eu vou entupir a memória Heap e o Garbage Collector vai travar o sistema para limpar. Melhor usar StringBuilder."
+            </blockquote>
+            
+            <p>Percebeu a diferença? O programador comum só vê código. Quem estudou C vê <strong>custo de processamento</strong>.</p>
+
+            <h2>Conclusão: A Base Paga Bem</h2>
+            <p>Bancos e Fintechs processam milhões de transações por segundo. Um erro de memória lá custa milhões de reais. É por isso que eles valorizam quem tem base sólida.</p>
+            
+            <p>Então, não fuja das aulas de C. Não fuja dos ponteiros. A dor de cabeça de hoje é a otimização de performance que vai garantir sua promoção amanhã.</p>
+        </div>
+    
+        <div class="navegacao-fim">
+            <a href="../index.html" class="btn-ler-mais" style="background-color: #5D4037;">&larr; Voltar para o Balcão</a>
+        </div>
+    
+    </main>
+
+    <footer class="rodape">
+        <p>Desenvolvido com ☕ e código por Luisa Laura. &copy; 2026 Balcão Tech.</p>
+    </footer>
+
+</body>
+</html>

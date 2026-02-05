@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Native 2026 | Balcão Tech</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="menu-principal">
+        <div class="container">
+            <ul>
+                <li><a href="../index.html">Início</a></li>
+                <li><a href="biblioteca.html">Biblioteca</a></li>
+                <li><a href="cert.html">Certificações</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="artigo-completo">
+        <header class="header-artigo">
+            <span class="tag diario">Hard Skills</span>
+            <h1>O Padrão "Cloud-Native" em 2026: Se não é contêiner, já nasceu velho</h1>
+            <p class="meta-data">Por <strong>Luisa Laura</strong> | 28 Jan 2026 </p>
+        </header>
+
+        <div class="conteudo-texto">
+            <p class="lead">Estou estudando para a certificação AWS (CLF-C02) e uma coisa ficou clara: não existe mais "subir um site". Existe provisionar infraestrutura. Vamos descomplicar o que significa ser "Nativo da Nuvem".</p>
+
+            <h2>O que é Cloud Native de verdade?</h2>
+            <p>Muita gente acha que Cloud Native é pegar seu código antigo e colocar numa máquina virtual na Amazon (EC2). Isso é <em>Cloud Hosted</em>.</p>
+            <p><strong>Cloud Native</strong> é quando a aplicação é desenhada pensando que o servidor pode morrer a qualquer momento e nada acontece.</p>
+            <ul>
+                <li><strong>Microsserviços:</strong> Em vez de um blocão de código, pequenas peças que conversam entre si.</li>
+                <li><strong>Contêineres (Docker/Kubernetes):</strong> O código roda igual no meu PC e na nuvem, empacotado.</li>
+                <li><strong>DevOps:</strong> Automação total. Ninguém entra no servidor via FTP para mudar arquivo.</li>
+            </ul>
+
+            <h2>A Batalha: Serverless vs Containers</h2>
+            <p>Em 2026, a discussão técnica mais quente é: <em>Devo gerenciar o Kubernetes ou usar tudo Serverless (Lambda)?</em></p>
+            <p>Para quem está começando (como nós), o <strong>Serverless</strong> é mágico. Você sobe apenas a função Java ("CalcularJuros") e a AWS se vira para rodar aquilo. Se ninguém usar, você paga zero. Se 1 milhão de pessoas usarem, ela cria 1 milhão de cópias instantaneamente.</p>
+
+            <div class="destaque-box" style="border-left-color: #ff9900; background-color: #fff8e1;">
+                <h3>⚠️ O Desafio da Certificação AWS</h3>
+                <p>Nas provas da AWS de 2026, eles cobram muito o conceito de <strong>"Well-Architected Framework"</strong>. Não basta funcionar, tem que ser:</p>
+                <ol>
+                    <li>Seguro (IAM, Criptografia)</li>
+                    <li>Eficiente em Custos (Não deixar máquina ligada à toa)</li>
+                    <li>Resiliente (Se cair uma zona em SP, sobe no RJ automaticamente)</li>
+                </ol>
+            </div>
+
+            <h2>Por que estudar isso agora?</h2>
+            <p>Antigamente, o Dev fazia o código e jogava pro time de Infra ("SysAdmin") se virar. Esse muro caiu.</p>
+            <p>Hoje, o código que você escreve no Java precisa saber que está num ambiente Cloud. Se você guarda uma imagem na pasta local do servidor, você perdeu essa imagem quando o servidor reiniciar. Você precisa salvar no S3 (Storage).</p>
+            <p>Essa mudança de mentalidade é o que separa o Dev Júnior do Dev Pleno.</p>
+
+        </div>
+
+        <div class="referencias-box">
+            <h3>📚 Minhas Referências de Estudo</h3>
+            <ul>
+                <li><a href="https://aws.amazon.com/architecture/well-architected/" target="_blank">AWS Well-Architected Framework (Leitura Obrigatória)</a></li>
+                <li><a href="https://www.cncf.io/" target="_blank">Cloud Native Computing Foundation (CNCF)</a></li>
+            </ul>
+        </div>
+            </div>
+        </div>
+    </article>
+
+    <footer class="rodape">
+        <p>&copy; 2026 Balcão Tech.</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java e Bancos | Balcão Tech</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="menu-principal">
+        <div class="container">
+            <ul>
+                <li><a href="../index.html">Início</a></li>
+                <li><a href="biblioteca.html">Biblioteca</a></li>
+                <li><a href="cert.html">Certificações</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="artigo-completo">
+        <header class="header-artigo">
+            <span class="tag carreira">Backend Real</span>
+            <h1>Por que o Java e o C ainda "mandam" no seu dinheiro? (Mesmo em 2026)</h1>
+            <p class="meta-data">Por <strong>Luisa Laura</strong> | 02 Fev 2026 </p>
+        </header>
+
+        <div class="conteudo-texto">
+            <p class="lead">Toda semana nasce uma linguagem nova prometendo ser "Java Killer". Mas quando você abre o capô do Bradesco, do Itaú ou do JP Morgan, quem está lá rodando bilhões de reais? O bom e velho Java (e o imortal C).</p>
+
+            <h2>1. A Falácia da "Tecnologia Velha"</h2>
+            <p>Existe um mito de que bancos usam Java porque "têm preguiça de mudar". Isso é mentira.</p>
+            <p>Bancos usam Java pela mesma razão que aviões usam sistemas redundantes: <strong>Confiabilidade de 99.9999% (Os famosos seis noves)</strong>.</p>
+            <p>Imagine o Nubank caindo por 1 hora. O prejuízo não é só dinheiro, é reputação. O ecossistema Java (JVM) é testado em batalha há 30 anos. Ele aguenta pancada que Node.js ou Python simplesmente não foram desenhados para aguentar em escala transacional crítica.</p>
+
+            <h2>2. O Conceito ACID e a Integridade</h2>
+            <p>No mundo bancário, existe um conceito sagrado chamado <strong>ACID</strong> (Atomicidade, Consistência, Isolamento, Durabilidade).</p>
+            <ul>
+                <li>Se eu transfiro R$ 100 pra você, o dinheiro tem que sair da minha conta E entrar na sua.</li>
+                <li>Se a energia acabar no meio do caminho, o dinheiro não pode sumir. A operação tem que ser cancelada inteira (rollback).</li>
+            </ul>
+            <p>O Java, com frameworks como Spring Transaction Management e integrações robustas com Oracle/DB2, lida com isso de forma nativa e madura. Tentar replicar essa segurança em linguagens muito novas é um risco que CFO nenhum quer correr.</p>
+
+            <h3>3. E onde entra o C/C++?</h3>
+            <p>Se o Java cuida da lógica de negócio, o <strong>C/C++</strong> cuida da velocidade bruta. Sistemas de High-Frequency Trading (HFT), onde microssegundos definem lucro ou prejuízo, rodam em C++.</p>
+            <p>É por isso que eu insisto: aprender ponteiros em C não é perda de tempo. É entender como a máquina pensa. Quem sabe C entende o que o Garbage Collector do Java está fazendo nos bastidores.</p>
+
+            <div class="destaque-box">
+                <h3> O Novo Jogador: DREX</h3>
+                <p>Com a chegada do Real Digital (DREX) em 2026, estamos vendo uma camada nova de <strong>Smart Contracts</strong>. Embora Solidity seja famoso, grandes bancos estão testando soluções de blockchain privadas (Hyperledger Besu) que... adivinha? Rodam em Java.</p>
+            </div>
+
+            <h3> Por dentro do Core Banking</h3>
+            <p>Uma explicação técnica sobre porque migrar legado bancário é quase impossível:</p>
+            <div class="video-container">
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/B9VCXAPbf70" title="Futuro do Java" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <h2>Conclusão para Estudantes</h2>
+            <p>Não tenha vergonha de estudar Java em 2026. Enquanto as startups de "todo list" usam a stack da moda, o dinheiro do mundo real roda na JVM. Se você quer carreira sólida, estabilidade e salários altos, o "legado" é o seu melhor amigo.</p>
+        </div>
+
+        <div class="referencias-box">
+            <h3>📚 Fontes Oficiais</h3>
+            <ul>
+                <li><a href="https://dev.java/" target="_blank">Oracle Java Documentation</a></li>
+                <li><a href="https://www.bcb.gov.br/estabilidadefinanceira/drex" target="_blank">Banco Central do Brasil: DREX (Documentação Técnica)</a></li>
+            </ul>
+        </div>
+            </div>
+        </div>
+
+    </article>
+    
+    <footer class="rodape">
+        <p>&copy; 2026 Balcão Tech.</p>
+    </footer>
+</body>
+</html>

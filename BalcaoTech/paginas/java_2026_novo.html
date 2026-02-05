@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java 26: O que muda? | Balcão Tech</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="menu-principal">
+        <div class="container">
+            <ul>
+                <li><a href="../index.html">Início</a></li>
+                <li><a href="biblioteca.html">Biblioteca</a></li>
+                <li><a href="cert.html">Certificações</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="artigo-completo">
+        <header class="header-artigo">
+            <span class="tag tech" style="background-color: #f89820; color: #fff;">Java 26</span>
+            <h1>Java 26 Chega em Março: A Limpeza que o Mercado Bancário Esperava</h1>
+            <p class="meta-data">Por <strong>Luisa Laura</strong> | 05 Fev 2026 | Destaque Técnico</p>
+        </header>
+
+        <div class="conteudo-texto">
+            <p class="lead">Marque no calendário: <strong>17 de Março de 2026</strong>. Essa é a data oficial do GA (General Availability) do Java 26. Mas, diferentemente das versões anteriores focadas em syntax sugar, o Java 26 vem para "arrumar a casa" e preparar o terreno para a computação quântica e nuvem extrema.</p>
+
+            <h2>As JEPs (Propostas de Melhoria) Confirmadas</h2>
+            <p>Não se trata apenas de recursos novos, mas de performance. Destaquei as 3 principais mudanças que impactam quem trabalha em grandes corporações:</p>
+            
+            <h3>1. JEP 500: Prepare to Make Final Mean Final</h3>
+            <p>O nome é assustador, mas necessário. Por décadas, o Java permitiu que classes marcadas como <code>final</code> fossem modificadas via Reflection (uma "gambiarra" usada por muitos frameworks). O Java 26 começa a bloquear isso de vez. <br><strong>Impacto:</strong> Segurança. Frameworks antigos e mal escritos vão quebrar. O código fica imutável de verdade.</p>
+
+            <h3>2. JEP 516: Ahead-of-Time Object Caching</h3>
+            <p>Essa é para a nuvem. O Java agora consegue salvar o estado da memória (Heap) de forma mais eficiente antes da aplicação reiniciar, permitindo "Cold Starts" (inicialização a frio) quase instantâneos em ambientes Serverless como AWS Lambda.</p>
+
+            <h3>3. HTTP/3 Padrão</h3>
+            <p>O cliente HTTP nativo do Java foi atualizado para suportar HTTP/3 (baseado em protocolo QUIC) por padrão. Isso significa conexões mais rápidas e resilientes para microsserviços.</p>
+
+            <div class="destaque-box">
+                <h3> Opinião Sincera</h3>
+                <p>O mercado vai demorar para migrar? Vai. O Java 21 (LTS) e o 25 (LTS) ainda reinam. Mas entender o JEP 500 mostra que você se preocupa com segurança de código — um diferencial enorme em entrevistas.</p>
+            </div>
+
+            <h3> Deep Dive (Vídeo)</h3>
+            <div class="video-container">
+                <iframe width="100%" height="300" src="https://www.youtube.com/embed/1lYsDMOc7hM" title="Java's Plans for 2026" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <div class="referencias-box">
+            <h3>📚 Fontes Oficiais</h3>
+            <ul>
+                <li><a href="https://openjdk.org/projects/jdk/26/" target="_blank">OpenJDK JDK 26 Project Page</a></li>
+                <li><a href="https://dev.java/" target="_blank">Inside Java News</a></li>
+            </ul>
+        </div>
+    </article>
+
+    <footer class="rodape">
+        <p>&copy; 2026 Balcão Tech.</p>
+    </footer>
+</body>
+</html>

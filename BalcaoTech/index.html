@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balcão Tech</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    
+    <nav class="menu-principal">
+        <div class="container">
+            <ul>
+                <li><a href="index.html" class="ativo">Início</a></li>
+                <li><a href="paginas/por-onde-comecar.html">Caminho das Pedras</a></li>
+                <li><a href="paginas/cert.html">Certificações</a></li>
+                <li><a href="paginas/biblioteca.html">Biblioteca</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="header-principal">
+        <div class="aling-center">
+            <h1 class="logo">Balcão Tech<span class="ponto">.</span></h1>
+            <p class="slogan">Código, Conexão && Café</p>
+        </div>
+
+        <div class="bloco-citacao">
+            <div class="citacao-conteudo" id="box-citacao">
+                <span class="aspas">“</span>
+                <p id="texto-frase">Carregando...</p>
+                <p id="autor-frase" class="autor-citacao">...</p>
+            </div>
+        </div>
+
+        <div class="barra-breaking-news" id="btn-toggle-extra">
+            <div class="container container-news">
+                <span class="badge-extra">EXTRA EXTRA</span>
+            </div>
+        </div>
+
+        <div class="painel-secreto" id="painel-extra">
+            <div class="container grid-extra">
+    
+    <div class="item-extra">
+        <h4>☕ Java 26 em Março</h4>
+        <p>A nova versão foca em limpar métodos antigos e performance extrema para nuvem. O banco agradece.</p>
+        <a href="paginas/java_2026_novo.html" class="link-extra" target="_blank">Ler resumo &rarr;</a>
+    </div>
+
+    <div class="item-extra">
+        <h4>💸 DREX e Smart Contracts</h4>
+        <p>O Real Digital entra na fase de testes com contratos inteligentes. O backend bancário vai mudar.</p>
+        <a href="paginas/drex_2026.html" class="link-extra" target="_blank">Ver detalhes &rarr;</a>
+    </div>
+
+    <div class="item-extra">
+        <h4>🕵️ Shadow Agents (IA)</h4>
+        <p>Relatório de 2026: IAs autônomas já buscam falhas sozinhas. A defesa precisa ser automatizada.</p>
+        <a href="paginas/shadow_agentes.html" class="link-extra" target="_blank">Entender o risco &rarr;</a>
+    </div>
+
+</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container layout-grid">
+    
+        <aside class="coluna-manchetes">
+            <h3 class="titulo-secao">Destaques</h3>
+
+            <a href="paginas/cert.html" target="_blank" class="card-jornal" style="display: block; text-decoration: none;">
+                <div class="manchete-titulo">
+                    A verdade sobre Certificações
+                </div>
+                <div class="manchete-resumo" style="display: block;">
+                    <p><strong>São importantes?</strong> Sim. Entenda por que bancos exigem esse papel.</p>
+                    <span class="link-continuar">Ler a verdade &rarr;</span>
+                </div>
+            </a>
+
+            <a href="paginas/cursosgratis.html" target="_blank" class="card-jornal" style="display: block; text-decoration: none;">
+                <div class="manchete-titulo">
+                    A Mina de Ouro (Grátis)
+                </div>
+                <div class="manchete-resumo" style="display: block;">
+                    <p>Links para estudar de graça na Microsoft, Bradesco e mais.</p>
+                    <span class="link-continuar">Pegar links &rarr;</span>
+                </div>
+            </a>
+
+            <a href="paginas/por-onde-comecar.html" target="_blank" class="card-jornal" style="display: block; text-decoration: none;">
+                <div class="manchete-titulo">
+                    Por onde começar? (Mapa)
+                </div>
+                <div class="manchete-resumo" style="display: block;">
+                    <p>Backend, Frontend, Mobile? Um mapa visual simples.</p>
+                    <span class="link-continuar">Ver mapa &rarr;</span>
+                </div>
+            </a>
+
+            <section class="container secao-chat">
+        <h3 class="titulo-chat">💬 Chat Global </h3>
+        <p style="font-size: 0.85rem; color: red; margin-bottom: 10px;">
+            Atenção: Este chat é público e está conectado em tempo real.
+        </p>
+        
+        <div class="janela-chat" id="chat-window">
+            </div>
+    
+        <div class="controles-chat">
+            <input type="text" id="chat-nome" placeholder="Seu Nick" maxlength="15">
+            <input type="text" id="chat-texto" placeholder="Mensagem para o mundo..." maxlength="100">
+            <button onclick="enviarMensagemFirebase()" class="btn-enviar">Enviar 🚀</button>
+        </div>
+    </section>
+
+        <div class="eventos-widget">
+    <div class="cabecalho-eventos">
+        <h3> Agenda Tech 2026</h3>
+    </div>
+    
+    <div class="conteudo-eventos">
+        <p>Não perca hackathons, congressos e meetups gratuitos.</p>
+        
+        <ul class="lista-eventos-destaque">
+            <li>🚀 <strong>Girls Tech:</strong> 07/Fev (BH)</li>
+            <li>☁️ <strong>AWS Summit:</strong> 14/Mar (Recife)</li>
+            <li>🔒 <strong>BSides Rio:</strong> 28/Mar (Rio)</li>
+        </ul>
+
+        <a href=" https://www.linkedin.com/pulse/agenda-%C3%BAnica-de-eventos-tecnologia-bh-regi%C3%A3o-pedro-lichster-49e6f/ " target="_blank" class="btn-linkedin-eventos">
+            <span class="icone-in">in</span> Ver Calendário Completo
+        </a>
+    </div>
+</div>
+            <div class="biblioteca-widget">
+                <h3 class="titulo-biblioteca-widget"> Biblioteca Tech</h3>
+                <ul class="lista-livros-lateral">
+                    
+                    <li> 
+                        <a href="https://www.inf.ufpr.br/marcos/livro_alg1/livro_alg1.pdf" target="_blank">
+                            <span class="icone-mini"></span> 📚 Algoritmos e Estruturas: Teoria e Prática (Cormen)
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://www.inf.ufpr.br/lesoliveira/download/c-completo-total.pdf" target="_blank">
+                            <span class="icone-mini"></span> 📕 Linguagem C, completo e total. (K&R)
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://www.kufunda.net/publicdocs/Storytelling%20com%20Dados%20(Cole%20Nussbaumer%20Knaflic%20[Knaflic%20etc.).pdf" target="_blank">
+                            <span class="icone-mini"></span> 📊 Storytelling com Dados
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://www.kufunda.net/publicdocs/Hacking%20com%20Kali%20Linux%20T%C3%A9cnicas%20pr%C3%A1ticas%20para%20testes%20de%20invas%C3%A3o%20(James%20Broad%20%20Andrew%20Bindner%20[Broad,%20James]).pdf" target="_blank">
+                            <span class="icone-mini"></span> 📗 Hacking com Kali Linux
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://fateczlads.wordpress.com/wp-content/uploads/2014/01/livro_fundprogcomp_2ed_anafernandagomesparte.pdf" target="_blank">
+                            <span class="icone-mini"></span> 🔍 Fundamentos da progração de computadores 
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://herveiras.rs.gov.br/editais/23-09-16-204239-livroproibidodocursodehackercompleto1.pdf" target="_blank">
+                            <span class="icone-mini"></span> ⚠️ Curso de Hacker
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://cdn.bookey.app/files/pdf/book/pt/c%C3%B3digo-limpo.pdf" target="_blank">
+                            <span class="icone-mini"></span> 📖 Código Limpo
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://cdn.bookey.app/files/pdf/book/pt/arquitetura-limpa-o-guia-do-artesao-para-estrutura-e-design-de-software.pdf" target="_blank">
+                            <span class="icone-mini"></span> 📙 Arquitetura Limpa
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+
+        </aside>
+
+        <main class="area-posts">
+
+    <article class="card-post destaque">
+        <span class="tag">Editorial</span>
+        <h2>Bem-vindos ao Balcão Tech 2026</h2>
+        <p>Se você chegou até aqui, sabe que o mundo tech não para. Eu sou a <strong>Luuh</strong> e este é o espaço onde transformamos a complexidade dos frameworks na solidez da base.</p>
+        <p>Enquanto todos correm atrás da "Hype", aqui discutimos o que sustenta a indústria: <strong>Java, Segurança e Arquitetura</strong>.</p>
+    </article>
+
+    <article class="card-post">
+        <span class="tag tech" style="background-color: #E1BEE7; color: #4A148C;">Tendência 2026</span>
+        <h2>O Ano da Verdade para a IA: De "Chat" para "Agente"</h2>
+        <p class="meta-data">04 Fev 2026 | Tecnologia</p>
+        <p>As empresas pararam de brincar. Em 2026, não basta saber usar o ChatGPT. O mercado busca devs que saibam criar <strong>Agentes Autônomos</strong> que codam, testam e integram sistemas sozinhos. Você está pronto para ser o arquiteto da IA?</p>
+        <a href="paginas/agentes-ia.html" class="btn-ler-mais" target="_blank" >Ler análise completa &rarr;</a>
+    </article>
+
+    <article class="card-post">
+        <span class="tag carreira">Backend Real</span>
+        <h2>Por que o Java e o C ainda "mandam" no seu dinheiro?</h2>
+        <p class="meta-data">02 Fev 2026 | Mercado Financeiro</p>
+        <p>Novas linguagens surgem todo dia (Rust, Go, Carbon...), mas o <strong>Core Banking</strong> do Bradesco, Itaú e Nubank continua rodando em tecnologias robustas. Entenda a tríade: Estabilidade, Legado e Performance.</p>
+        <a href="paginas/java-bancario.html" class="btn-ler-mais" target="_blank">Entender o Legado &rarr;</a>
+    </article>
+
+    <article class="card-post">
+        <span class="tag diario">Hard Skills</span>
+        <h2>O Padrão "Cloud-Native": Se não é contêiner, é velho</h2>
+        <p class="meta-data">28 Jan 2026 | Estudos AWS</p>
+        <p>Não existe mais "migrar para a nuvem". As aplicações modernas já nascem prontas para Kubernetes e Serverless. Um guia prático do que eu estou estudando para não ficar para trás na certificação AWS.</p>
+        <a href="paginas/cloud-native.html" class="btn-ler-mais" target="_blank">Ver guia de estudos &rarr;</a>
+    </article>
+
+</main>
+
+    </div> 
+
+    
+
+    <footer class="rodape">
+        <p>Desenvolvido com ☕ e código por Luisa Laura. &copy; 2026 Balcão Tech.</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <script>
+        // CONFIGURAÇÃO DO FIREBASE (SUAS CHAVES)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDPu_Znf_JGn--LtTYgRKV8CQc5WZvPTQw",
+            authDomain: "balcaotechchat.firebaseapp.com",
+            projectId: "balcaotechchat",
+            storageBucket: "balcaotechchat.firebasestorage.app",
+            messagingSenderId: "376358999241",
+            appId: "1:376358999241:web:0f37380098489f3d882918"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const database = firebase.database();
+
+        const chatWindow = document.getElementById('chat-window');
+        const inputNome = document.getElementById('chat-nome');
+        const inputTexto = document.getElementById('chat-texto');
+
+        // Escuta mensagens
+        database.ref('mensagens').on('child_added', function(snapshot) {
+            const msg = snapshot.val();
+            adicionarNaTela(msg);
+        });
+
+        // Envia mensagens
+        function enviarMensagemFirebase() {
+            const nome = inputNome.value;
+            const texto = inputTexto.value;
+
+            if (nome.trim() === "" || texto.trim() === "") {
+                alert("Preencha nome e mensagem!");
+                return;
+            }
+
+            database.ref('mensagens').push({
+                nome: nome,
+                texto: texto,
+                hora: new Date().toLocaleTimeString()
+            });
+
+            inputTexto.value = ""; 
+        }
+
+        // Mostra na tela
+        function adicionarNaTela(msg) {
+            const div = document.createElement('div');
+            div.classList.add('msg-item');
+            div.innerHTML = `<strong>${msg.nome}</strong> <span style="font-size:0.7rem; color:#999;">(${msg.hora})</span>: ${msg.texto}`;
+            chatWindow.appendChild(div);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+    </script>
+
+    <script>
+        const btnExtra = document.getElementById('btn-toggle-extra');
+        const painelExtra = document.getElementById('painel-extra');
+
+        if (btnExtra && painelExtra) {
+            btnExtra.addEventListener('click', () => {
+                painelExtra.classList.toggle('aberto');
+                btnExtra.classList.toggle('ativo');
+            });
+        }
+
+        const frasesTech = [
+            { texto: "Falar é fácil. Me mostre o código.", autor: "Linus Torvalds" },
+            { texto: "Não comente código ruim. Reescreva-o.", autor: "Brian Kernighan" },
+            { texto: "Primeiro resolva o problema. Depois, escreva o código.", autor: "John Johnson" },
+            { texto: "Se você acha que a instrução é cara, experimente a ignorância.", autor: "Derek Bok" },
+            { texto: "A simplicidade é a alma da eficiência.", autor: "Austin Freeman" },
+            { texto: "Crescimento e conforto não coexistem.", autor: "Ginni Rometty" },
+            { texto: "A melhor maneira de prever o futuro é inventá-lo.", autor: "Alan Kay" }
+        ];
+
+        const elementoTexto = document.getElementById('texto-frase');
+        const elementoAutor = document.getElementById('autor-frase');
+        const boxCitacao = document.getElementById('box-citacao');
+        let indice = 0;
+
+        function trocarFrase() {
+            if (!boxCitacao) return;
+            boxCitacao.classList.add('invisivel');
+            setTimeout(() => {
+                if (elementoTexto && elementoAutor) {
+                    elementoTexto.innerText = frasesTech[indice].texto;
+                    elementoAutor.innerText = "- " + frasesTech[indice].autor;
+                }
+                indice++;
+                if (indice >= frasesTech.length) indice = 0;
+                boxCitacao.classList.remove('invisivel');
+            }, 1000);
+        }
+
+        if (boxCitacao) {
+            elementoTexto.innerText = frasesTech[0].texto;
+            elementoAutor.innerText = "- " + frasesTech[0].autor;
+            setInterval(trocarFrase, 10000);
+        }
+    </script>
+</body>
+</html>
