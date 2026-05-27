@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Games & Desafios — BALCÃO TECH</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #13131a;
+  --surface2: #1a1a24;
+  --border: rgba(255,255,255,0.08);
+  --text: #f0eeff;
+  --muted: rgba(240,238,255,0.4);
+  --pink:   #ff6ef7;
+  --cyan:   #00ffe0;
+  --yellow: #ffe94d;
+  --green:  #4dff91;
+  --orange: #ff8c42;
+  --blue:   #4d9fff;
+  --purple: #b06dff;
+  --red:    #ff5c5c;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9999; opacity: 0.5;
+}
+
+/* BLOBS */
+.blob { position: fixed; border-radius: 50%; filter: blur(130px); pointer-events: none; z-index: 0; opacity: 0.15; }
+.blob-1 { width: 500px; height: 500px; background: var(--yellow); top: -120px; left: -80px; }
+.blob-2 { width: 380px; height: 380px; background: var(--green);  bottom: -60px; right: -60px; }
+.blob-3 { width: 280px; height: 280px; background: var(--orange); top: 50%; left: 60%; }
+
+/* HEADER */
+header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 6%;
+  background: rgba(10,10,15,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.logo { font-family: 'DM Mono', monospace; font-size: 0.9rem; letter-spacing: 2px; color: var(--yellow); text-decoration: none; }
+.logo span { color: var(--text); }
+.btn-voltar { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.btn-voltar:hover { color: var(--cyan); }
+
+/* CONTEÚDO */
+main { position: relative; z-index: 1; padding-top: 80px; }
+
+/* HERO */
+.hero {
+  padding: 70px 6% 60px;
+  position: relative; overflow: hidden;
+}
+.hero::after {
+  content: 'GAMES';
+  position: absolute; right: -2%; top: 50%; transform: translateY(-50%);
+  font-size: 20vw; font-weight: 900;
+  color: rgba(255,255,255,0.025);
+  pointer-events: none; white-space: nowrap; line-height: 1;
+}
+.hero-tag {
+  font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--yellow);
+  letter-spacing: 3px; text-transform: uppercase;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
+}
+.hero-tag::before, .hero-tag::after { content: ''; display: block; width: 28px; height: 1px; background: var(--yellow); }
+.hero h1 { font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 900; line-height: 0.92; margin-bottom: 20px; }
+.hero h1 em { font-style: normal; color: var(--yellow); display: block; }
+.hero-sub { font-size: 1rem; color: var(--muted); line-height: 1.7; max-width: 500px; margin-bottom: 36px; }
+
+.hero-stats { display: flex; gap: 40px; flex-wrap: wrap; }
+.stat { display: flex; flex-direction: column; }
+.stat-num { font-family: 'DM Mono', monospace; font-size: 2rem; font-weight: 700; color: var(--yellow); line-height: 1; }
+.stat-label { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+
+/* MINI GAME CTA */
+.minigame-cta {
+  margin: 0 6% 64px;
+  padding: 32px 36px;
+  background: linear-gradient(135deg, rgba(255,233,77,0.08), rgba(255,140,66,0.08));
+  border: 1.5px solid rgba(255,233,77,0.25);
+  border-radius: 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 24px; flex-wrap: wrap;
+  position: relative; overflow: hidden;
+  cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+}
+.minigame-cta:hover { transform: translateY(-3px); box-shadow: 0 16px 50px rgba(255,233,77,0.12); }
+.minigame-cta::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,233,77,0.05), transparent);
+  opacity: 0; transition: opacity 0.3s;
+}
+.minigame-cta:hover::before { opacity: 1; }
+.cta-left { display: flex; align-items: center; gap: 20px; }
+.cta-emoji { font-size: 3rem; }
+.cta-txt h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 4px; }
+.cta-txt p { font-size: 0.85rem; color: var(--muted); }
+.btn-jogar {
+  font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 800;
+  padding: 14px 32px; border-radius: 100px;
+  background: var(--yellow); color: #0a0a0f;
+  border: none; cursor: pointer; white-space: nowrap;
+  transition: all 0.2s;
+}
+.btn-jogar:hover { transform: scale(1.04); box-shadow: 0 8px 30px rgba(255,233,77,0.4); }
+
+/* SEÇÕES DE PLATAFORMAS */
+.secao { padding: 0 6% 64px; }
+.secao-header {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 24px; padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.secao-bolinha { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.secao-titulo { font-family: 'DM Mono', monospace; font-size: 0.72rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+.secao-desc { font-size: 0.82rem; color: rgba(240,238,255,0.25); margin-left: auto; }
+
+/* GRID DE PLATAFORMAS */
+.grid-plat {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+/* CARD DE PLATAFORMA */
+.plat-card {
+  display: block;
+  padding: 24px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  text-decoration: none; color: inherit;
+  position: relative; overflow: hidden;
+  transition: transform 0.22s ease, border-color 0.22s, box-shadow 0.22s;
+}
+.plat-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--accent-plat, var(--yellow));
+  opacity: 0; transition: opacity 0.22s;
+}
+.plat-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.16); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+.plat-card:hover::before { opacity: 1; }
+
+.plat-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+.plat-emoji { font-size: 2rem; }
+.plat-badge {
+  font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 1px;
+  padding: 4px 10px; border-radius: 100px;
+  background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid var(--border);
+}
+.plat-nome { font-size: 1rem; font-weight: 800; margin-bottom: 6px; }
+.plat-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.55; margin-bottom: 16px; }
+.plat-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.plat-tag {
+  font-family: 'DM Mono', monospace; font-size: 0.6rem; padding: 3px 10px; border-radius: 100px;
+  border: 1px solid var(--border); color: rgba(240,238,255,0.3);
+}
+.plat-rodape {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 12px; border-top: 1px solid var(--border);
+}
+.plat-nivel { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--muted); }
+.plat-seta { font-size: 0.9rem; color: var(--accent-plat, var(--yellow)); opacity: 0; transform: translateX(-4px); transition: all 0.2s; }
+.plat-card:hover .plat-seta { opacity: 1; transform: translateX(0); }
+
+/* ===============================================================
+   MINI GAME MODAL
+=============================================================== */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(5,5,10,0.92);
+  backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.modal-overlay.aberto { opacity: 1; pointer-events: auto; }
+
+.modal {
+  background: var(--surface);
+  border: 1.5px solid rgba(255,233,77,0.2);
+  border-radius: 24px;
+  padding: 36px;
+  max-width: 680px; width: 100%;
+  max-height: 90vh; overflow-y: auto;
+  position: relative;
+  transform: translateY(20px);
+  transition: transform 0.3s;
+}
+.modal-overlay.aberto .modal { transform: translateY(0); }
+
+.modal-close {
+  position: absolute; top: 16px; right: 20px;
+  font-family: 'DM Mono', monospace; font-size: 0.8rem;
+  color: var(--muted); background: none; border: none;
+  cursor: pointer; transition: color 0.2s; padding: 4px 8px;
+}
+.modal-close:hover { color: var(--text); }
+
+/* GAME HEADER */
+.game-header { margin-bottom: 28px; }
+.game-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+.game-titulo { font-size: 1.4rem; font-weight: 900; }
+.game-placar {
+  display: flex; gap: 20px;
+}
+.placar-item { display: flex; flex-direction: column; align-items: center; }
+.placar-num { font-family: 'DM Mono', monospace; font-size: 1.4rem; font-weight: 700; color: var(--yellow); line-height: 1; }
+.placar-label { font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+
+/* TIMER BAR */
+.timer-wrap { height: 4px; background: rgba(255,255,255,0.07); border-radius: 2px; overflow: hidden; margin-bottom: 4px; }
+.timer-fill {
+  height: 100%; border-radius: 2px;
+  background: linear-gradient(90deg, var(--green), var(--yellow), var(--red));
+  transition: width 0.1s linear;
+}
+.timer-num { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted); text-align: right; }
+
+/* QUESTÃO DO JOGO */
+.game-q-meta { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 2px; color: var(--muted); margin-bottom: 10px; }
+
+.game-q-txt {
+  font-size: 1.05rem; font-weight: 700; line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.code-block {
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 16px 20px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.82rem;
+  color: var(--cyan);
+  line-height: 1.7;
+  margin-bottom: 20px;
+  white-space: pre;
+  overflow-x: auto;
+}
+.code-block .kw  { color: var(--pink); }
+.code-block .str { color: var(--yellow); }
+.code-block .num { color: var(--orange); }
+.code-block .cm  { color: rgba(255,255,255,0.25); }
+.code-block .fn  { color: var(--green); }
+
+.game-opcoes { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+
+.game-opcao {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px;
+  background: rgba(255,255,255,0.03);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer; font-size: 0.88rem; font-weight: 700;
+  font-family: 'DM Mono', monospace;
+  transition: all 0.15s;
+}
+.game-opcao:hover:not(.disabled) { border-color: rgba(255,233,77,0.4); background: rgba(255,233,77,0.05); }
+.game-opcao.correta  { border-color: var(--green) !important; background: rgba(77,255,145,0.1) !important; color: var(--green); }
+.game-opcao.errada   { border-color: var(--red)   !important; background: rgba(255,92,92,0.1)  !important; color: var(--red);   opacity: 0.7; }
+.game-opcao.disabled { cursor: default; }
+.opcao-letra-g {
+  font-size: 0.65rem; width: 26px; height: 26px; border-radius: 7px;
+  border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all 0.15s; background: rgba(255,255,255,0.04);
+}
+.game-opcao.correta .opcao-letra-g { background: var(--green); color: #0a0a0f; border-color: var(--green); }
+.game-opcao.errada  .opcao-letra-g { background: var(--red);   color: #0a0a0f; border-color: var(--red); }
+
+/* FEEDBACK */
+.feedback-box {
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-size: 0.85rem; line-height: 1.5;
+  margin-bottom: 16px;
+  display: none;
+}
+.feedback-box.show { display: block; animation: fadeUp 0.3s ease; }
+.feedback-box.ok  { background: rgba(77,255,145,0.08); border: 1px solid rgba(77,255,145,0.25); color: var(--green); }
+.feedback-box.fail{ background: rgba(255,92,92,0.08);  border: 1px solid rgba(255,92,92,0.25);  color: var(--red); }
+
+.btn-next-game {
+  font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 800;
+  padding: 13px 32px; border-radius: 100px;
+  background: var(--yellow); color: #0a0a0f;
+  border: none; cursor: pointer; transition: all 0.2s;
+  display: none;
+}
+.btn-next-game.show { display: inline-flex; align-items: center; gap: 8px; }
+.btn-next-game:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,233,77,0.35); }
+
+/* TELA DE FIM */
+.fim-box { text-align: center; padding: 20px 0; }
+.fim-emoji { font-size: 4rem; display: block; margin-bottom: 16px; animation: bounce 0.6s ease; }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px)} }
+.fim-titulo { font-size: 2rem; font-weight: 900; margin-bottom: 8px; }
+.fim-sub { font-size: 0.9rem; color: var(--muted); margin-bottom: 28px; }
+.fim-score {
+  font-family: 'DM Mono', monospace;
+  font-size: 4rem; font-weight: 700; color: var(--yellow);
+  margin-bottom: 4px; line-height: 1;
+}
+.fim-label { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 32px; }
+.fim-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn-fim {
+  font-family: 'Syne', sans-serif; font-size: 0.88rem; font-weight: 800;
+  padding: 13px 28px; border-radius: 100px; cursor: pointer; transition: all 0.2s;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-fim-prim { background: var(--yellow); color: #0a0a0f; border: none; }
+.btn-fim-prim:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,233,77,0.35); }
+.btn-fim-ghost { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+.btn-fim-ghost:hover { border-color: rgba(255,255,255,0.3); }
+
+/* STREAK */
+.streak-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'DM Mono', monospace; font-size: 0.7rem;
+  padding: 6px 14px; border-radius: 100px;
+  background: rgba(255,233,77,0.1); border: 1px solid rgba(255,233,77,0.25);
+  color: var(--yellow); margin-bottom: 16px;
+  animation: popIn 0.4s ease;
+}
+@keyframes popIn { from{opacity:0;transform:scale(0.8)} to{opacity:1;transform:scale(1)} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+/* RESPONSIVO */
+@media (max-width: 680px) {
+  .hero h1 { font-size: 2.8rem; }
+  .grid-plat { grid-template-columns: 1fr; }
+  .minigame-cta { flex-direction: column; }
+  .modal { padding: 24px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
+<header>
+  <a href="index.html" class="logo">BALCÃO<span> TECH</span></a>
+  <a href="index.html" class="btn-voltar">← voltar</a>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="hero-tag">BALCÃO TECH · GAMES</p>
+    <h1>Aprenda<br><em>jogando.</em></h1>
+    <p class="hero-sub">Desafios de código, puzzles de lógica e batalhas de SQL. Aqui o aprendizado dói menos porque parece diversão.</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">40+</span><span class="stat-label">Plataformas</span></div>
+      <div class="stat"><span class="stat-num">6</span><span class="stat-label">Categorias</span></div>
+      <div class="stat"><span class="stat-num">1</span><span class="stat-label">Mini-jogo interno</span></div>
+    </div>
+  </section>
+
+  <!-- MINI GAME CTA -->
+  <div class="minigame-cta" onclick="abrirJogo()">
+    <div class="cta-left">
+      <span class="cta-emoji">🎮</span>
+      <div class="cta-txt">
+        <h3>CODE QUIZ — Jogue agora, aqui mesmo</h3>
+        <p>20 perguntas de código, 15 segundos cada. Lógica, SQL, front, redes e segurança.</p>
+      </div>
+    </div>
+    <button class="btn-jogar">▶ Jogar</button>
+  </div>
+
+  <!-- ===== LÓGICA & ALGORITMOS ===== -->
+  <section class="secao">
+    <div class="secao-header">
+      <div class="secao-bolinha" style="background:#ffe94d"></div>
+      <span class="secao-titulo">Lógica & Algoritmos</span>
+      <span class="secao-desc">Do iniciante ao competitivo</span>
+    </div>
+    <div class="grid-plat">
+
+      <a href="https://www.beecrowd.com.br" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#ffe94d">
+        <div class="plat-top"><span class="plat-emoji">🐝</span><span class="plat-badge">PT-BR</span></div>
+        <p class="plat-nome">Beecrowd</p>
+        <p class="plat-desc">A maior plataforma brasileira de desafios. Juiz online, ranking e comunidade enorme. Essencial para quem está começando.</p>
+        <div class="plat-tags"><span class="plat-tag">C</span><span class="plat-tag">Java</span><span class="plat-tag">Python</span><span class="plat-tag">C++</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🟢 Iniciante → Avançado</span><span class="plat-seta">↗</span></div>
+      </a>
+
+      <a href="https://www.codewars.com" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#ffe94d">
+        <div class="plat-top"><span class="plat-emoji">⚔️</span><span class="plat-badge">EN</span></div>
+        <p class="plat-nome">Codewars</p>
+        <p class="plat-desc">Sistema de "katas" com ranking por faixas. Cada desafio resolvido sobe seu nível. Muito popular para treino de entrevistas.</p>
+        <div class="plat-tags"><span class="plat-tag">JavaScript</span><span class="plat-tag">Python</span><span class="plat-tag">Ruby</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🟡 Intermediário</span><span class="plat-seta">↗</span></div>
+      </a>
+
+      <a href="https://leetcode.com" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#ffe94d">
+        <div class="plat-top"><span class="plat-emoji">🧩</span><span class="plat-badge">EN</span></div>
+        <p class="plat-nome">LeetCode</p>
+        <p class="plat-desc">O padrão do mercado para entrevistas de big techs. Problemas categorizados por estrutura de dados e nível de dificuldade.</p>
+        <div class="plat-tags"><span class="plat-tag">Grafos</span><span class="plat-tag">DP</span><span class="plat-tag">Árvores</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🔴 Intermediário → Hard</span><span class="plat-seta">↗</span></div>
+      </a>
+
+      <a href="https://www.hackerrank.com" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#ffe94d">
+        <div class="plat-top"><span class="plat-emoji">👾</span><span class="plat-badge">EN</span></div>
+        <p class="plat-nome">HackerRank</p>
+        <p class="plat-desc">Trilhas de problemas por habilidade + certificações reconhecidas pelo mercado. Ótimo para montar portfólio técnico.</p>
+        <div class="plat-tags"><span class="plat-tag">Certificações</span><span class="plat-tag">Trilhas</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🟢 Todos os níveis</span><span class="plat-seta">↗</span></div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ===== SQL & DADOS ===== -->
+  <section class="secao">
+    <div class="secao-header">
+      <div class="secao-bolinha" style="background:#4d9fff"></div>
+      <span class="secao-titulo">SQL & Banco de Dados</span>
+      <span class="secao-desc">Aprenda consultando</span>
+    </div>
+    <div class="grid-plat">
+
+      <a href="https://sqlzoo.net" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#4d9fff">
+        <div class="plat-top"><span class="plat-emoji">🐘</span><span class="plat-badge">EN</span></div>
+        <p class="plat-nome">SQLZoo</p>
+        <p class="plat-desc">Tutorial interativo com exercícios progressivos direto no browser. Sem instalar nada. O melhor ponto de partida para SQL.</p>
+        <div class="plat-tags"><span class="plat-tag">SELECT</span><span class="plat-tag">JOIN</span><span class="plat-tag">GROUP BY</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🟢 Iniciante</span><span class="plat-seta">↗</span></div>
+      </a>
+
+      <a href="https://mystery.knightlab.com" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#4d9fff">
+        <div class="plat-top"><span class="plat-emoji">🔍</span><span class="plat-badge">EN</span></div>
+        <p class="plat-nome">SQL Murder Mystery</p>
+        <p class="plat-desc">Resolva um crime usando apenas SQL. Narrativa de detetive onde cada pista é uma query. Absurdamente viciante.</p>
+        <div class="plat-tags"><span class="plat-tag">JOIN</span><span class="plat-tag">WHERE</span><span class="plat-tag">Subquery</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🟡 Intermediário</span><span class="plat-seta">↗</span></div>
+      </a>
+
+      <a href="https://www.hackerrank.com/domains/sql" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#4d9fff">
+        <div class="plat-top"><span class="plat-emoji">📊</span><span class="plat-badge">EN</span></div>
+        <p class="plat-nome">HackerRank SQL</p>
+        <p class="plat-desc">Trilha completa de SQL do básico ao avançado com feedback instantâneo e certificação ao final.</p>
+        <div class="plat-tags"><span class="plat-tag">Certificação</span><span class="plat-tag">Trilha</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🟢 Todos os níveis</span><span class="plat-seta">↗</span></div>
+      </a>
+
+      <a href="https://selectstarsql.com" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#4d9fff">
+        <div class="plat-top"><span class="plat-emoji">⭐</span><span class="plat-badge">EN</span></div>
+        <p class="plat-nome">Select Star SQL</p>
+        <p class="plat-desc">Livro interativo que ensina SQL analisando dados reais de execuções de pena de morte nos EUA. Contexto e prática juntos.</p>
+        <div class="plat-tags"><span class="plat-tag">Livro Interativo</span><span class="plat-tag">Dados Reais</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🟢 Iniciante</span><span class="plat-seta">↗</span></div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ===== FRONT-END ===== -->
+  <section class="secao">
+    <div class="secao-header">
+      <div class="secao-bolinha" style="background:#ff6ef7"></div>
+      <span class="secao-titulo">Front-End & CSS</span>
+      <span class="secao-desc">Jogue estilizando</span>
+    </div>
+    <div class="grid-plat">
+
+      <a href="https://flexboxfroggy.com/#pt-br" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#ff6ef7">
+        <div class="plat-top"><span class="plat-emoji">🐸</span><span class="plat-badge">PT-BR</span></div>
+        <p class="plat-nome">Flexbox Froggy</p>
+        <p class="plat-desc">Arrume os sapos no nenúfar usando Flexbox. 24 níveis que ensinam cada propriedade de forma visual e memorável.</p>
+        <div class="plat-tags"><span class="plat-tag">CSS</span><span class="plat-tag">Flexbox</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🟢 Iniciante</span><span class="plat-seta">↗</span></div>
+      </a>
+
+      <a href="https://cssgridgarden.com/#pt-br" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#ff6ef7">
+        <div class="plat-top"><span class="plat-emoji">🥕</span><span class="plat-badge">PT-BR</span></div>
+        <p class="plat-nome">CSS Grid Garden</p>
+        <p class="plat-desc">Regue seu jardim de cenouras usando CSS Grid. Mesmo criador do Flexbox Froggy. 28 níveis do básico ao avançado.</p>
+        <div class="plat-tags"><span class="plat-tag">CSS</span><span class="plat-tag">Grid</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🟢 Iniciante</span><span class="plat-seta">↗</span></div>
+      </a>
+
+      <a href="https://flukeout.github.io" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#ff6ef7">
+        <div class="plat-top"><span class="plat-emoji">🍽️</span><span class="plat-badge">EN</span></div>
+        <p class="plat-nome">CSS Diner</p>
+        <p class="plat-desc">Aprenda seletores CSS servindo pratos na mesa certa. 32 níveis que cobrem todos os seletores possíveis.</p>
+        <div class="plat-tags"><span class="plat-tag">Seletores</span><span class="plat-tag">CSS</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🟢 Iniciante</span><span class="plat-seta">↗</span></div>
+      </a>
+
+      <a href="https://javascript30.com" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#ff6ef7">
+        <div class="plat-top"><span class="plat-emoji">⚡</span><span class="plat-badge">EN</span></div>
+        <p class="plat-nome">JavaScript 30</p>
+        <p class="plat-desc">30 projetos em 30 dias usando JS puro, zero frameworks. Cada projeto é um desafio prático com solução em vídeo.</p>
+        <div class="plat-tags"><span class="plat-tag">Vanilla JS</span><span class="plat-tag">DOM</span><span class="plat-tag">Projetos</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🟡 Intermediário</span><span class="plat-seta">↗</span></div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ===== SEGURANÇA / CTF ===== -->
+  <section class="secao">
+    <div class="secao-header">
+      <div class="secao-bolinha" style="background:#ff5c5c"></div>
+      <span class="secao-titulo">Segurança & CTF</span>
+      <span class="secao-desc">Hackear é legal (com permissão)</span>
+    </div>
+    <div class="grid-plat">
+
+      <a href="https://tryhackme.com" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#ff5c5c">
+        <div class="plat-top"><span class="plat-emoji">🧱</span><span class="plat-badge">EN</span></div>
+        <p class="plat-nome">TryHackMe</p>
+        <p class="plat-desc">Ambiente de aprendizado gamificado para cibersegurança. Máquinas virtuais no browser, trilhas guiadas e salas temáticas.</p>
+        <div class="plat-tags"><span class="plat-tag">Pentest</span><span class="plat-tag">Linux</span><span class="plat-tag">CTF</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🟢 Iniciante → Avançado</span><span class="plat-seta">↗</span></div>
+      </a>
+
+      <a href="https://www.hackthebox.com" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#ff5c5c">
+        <div class="plat-top"><span class="plat-emoji">📦</span><span class="plat-badge">EN</span></div>
+        <p class="plat-nome">HackTheBox</p>
+        <p class="plat-desc">O padrão do mercado para pentesters. Máquinas reais para hackear com write-ups da comunidade. Reputação vale currículo.</p>
+        <div class="plat-tags"><span class="plat-tag">Pentest</span><span class="plat-tag">Exploits</span><span class="plat-tag">Máquinas</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🔴 Intermediário → Hard</span><span class="plat-seta">↗</span></div>
+      </a>
+
+      <a href="https://ctftime.org" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#ff5c5c">
+        <div class="plat-top"><span class="plat-emoji">🚩</span><span class="plat-badge">EN</span></div>
+        <p class="plat-nome">CTFtime</p>
+        <p class="plat-desc">Calendário de competições CTF do mundo todo. Rankings de times e write-ups de todas as edições anteriores.</p>
+        <div class="plat-tags"><span class="plat-tag">Competição</span><span class="plat-tag">Times</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🟡 Intermediário</span><span class="plat-seta">↗</span></div>
+      </a>
+
+      <a href="https://www.root-me.org/?lang=pt" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#ff5c5c">
+        <div class="plat-top"><span class="plat-emoji">🌱</span><span class="plat-badge">PT</span></div>
+        <p class="plat-nome">Root-Me</p>
+        <p class="plat-desc">Mais de 400 desafios em web, criptografia, forense, redes e programação. Comunidade ativa com fórum em português.</p>
+        <div class="plat-tags"><span class="plat-tag">Web</span><span class="plat-tag">Crypto</span><span class="plat-tag">Forense</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🟢 Todos os níveis</span><span class="plat-seta">↗</span></div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ===== IA & DADOS ===== -->
+  <section class="secao">
+    <div class="secao-header">
+      <div class="secao-bolinha" style="background:#b06dff"></div>
+      <span class="secao-titulo">IA, Dados & Matemática</span>
+      <span class="secao-desc">Treinar modelos também é um game</span>
+    </div>
+    <div class="grid-plat">
+
+      <a href="https://www.kaggle.com/learn" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#b06dff">
+        <div class="plat-top"><span class="plat-emoji">🏆</span><span class="plat-badge">EN</span></div>
+        <p class="plat-nome">Kaggle Learn</p>
+        <p class="plat-desc">Microcursos práticos de Python, Pandas, ML e IA com notebooks interativos. Competições com prêmios reais para se testar.</p>
+        <div class="plat-tags"><span class="plat-tag">Python</span><span class="plat-tag">ML</span><span class="plat-tag">Competições</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🟢 Iniciante → Expert</span><span class="plat-seta">↗</span></div>
+      </a>
+
+      <a href="https://brilliant.org" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#b06dff">
+        <div class="plat-top"><span class="plat-emoji">💡</span><span class="plat-badge">EN</span></div>
+        <p class="plat-nome">Brilliant</p>
+        <p class="plat-desc">Matemática, lógica, probabilidade e ciência da computação de forma interativa. Design impecável, aprendizado profundo.</p>
+        <div class="plat-tags"><span class="plat-tag">Matemática</span><span class="plat-tag">Lógica</span><span class="plat-tag">CS</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🟡 Intermediário</span><span class="plat-seta">↗</span></div>
+      </a>
+
+      <a href="https://projecteuler.net" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#b06dff">
+        <div class="plat-top"><span class="plat-emoji">🔢</span><span class="plat-badge">EN</span></div>
+        <p class="plat-nome">Project Euler</p>
+        <p class="plat-desc">Problemas matemáticos que precisam de programação para resolver. 800+ desafios que testam raciocínio e otimização.</p>
+        <div class="plat-tags"><span class="plat-tag">Matemática</span><span class="plat-tag">Algoritmos</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🟡 Intermediário</span><span class="plat-seta">↗</span></div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ===== FULL STACK & PROJETOS ===== -->
+  <section class="secao">
+    <div class="secao-header">
+      <div class="secao-bolinha" style="background:#4dff91"></div>
+      <span class="secao-titulo">Full Stack & Projetos Reais</span>
+      <span class="secao-desc">Construindo para aprender</span>
+    </div>
+    <div class="grid-plat">
+
+      <a href="https://www.frontendmentor.io" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#4dff91">
+        <div class="plat-top"><span class="plat-emoji">🖼️</span><span class="plat-badge">EN</span></div>
+        <p class="plat-nome">Frontend Mentor</p>
+        <p class="plat-desc">Desafios de projetos reais com design Figma pronto. Você codifica, submete e recebe feedback da comunidade.</p>
+        <div class="plat-tags"><span class="plat-tag">HTML/CSS</span><span class="plat-tag">React</span><span class="plat-tag">Portfólio</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🟢 Todos os níveis</span><span class="plat-seta">↗</span></div>
+      </a>
+
+      <a href="https://www.theodinproject.com" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#4dff91">
+        <div class="plat-top"><span class="plat-emoji">⚗️</span><span class="plat-badge">EN</span></div>
+        <p class="plat-nome">The Odin Project</p>
+        <p class="plat-desc">Currículo open source para se tornar dev full stack do zero. Baseado em projetos práticos e conteúdo curado gratuitamente.</p>
+        <div class="plat-tags"><span class="plat-tag">Trilha Completa</span><span class="plat-tag">Open Source</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🟢 Do zero ao emprego</span><span class="plat-seta">↗</span></div>
+      </a>
+
+      <a href="https://www.codingame.com" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#4dff91">
+        <div class="plat-top"><span class="plat-emoji">🚀</span><span class="plat-badge">EN</span></div>
+        <p class="plat-nome">CodinGame</p>
+        <p class="plat-desc">Resolva puzzles dentro de jogos reais. Você programa a IA de um personagem para vencer desafios visuais animados.</p>
+        <div class="plat-tags"><span class="plat-tag">Game</span><span class="plat-tag">IA de bot</span><span class="plat-tag">Visual</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🟡 Intermediário</span><span class="plat-seta">↗</span></div>
+      </a>
+
+      <a href="https://codecombat.com" target="_blank" rel="noopener"
+         class="plat-card" style="--accent-plat:#4dff91">
+        <div class="plat-top"><span class="plat-emoji">🧙</span><span class="plat-badge">EN</span></div>
+        <p class="plat-nome">CodeCombat</p>
+        <p class="plat-desc">RPG onde você move seu herói escrevendo código real. Aprende Python ou JavaScript enquanto mata monstros e sobe de nível.</p>
+        <div class="plat-tags"><span class="plat-tag">RPG</span><span class="plat-tag">Python</span><span class="plat-tag">JavaScript</span></div>
+        <div class="plat-rodape"><span class="plat-nivel">🟢 Iniciante</span><span class="plat-seta">↗</span></div>
+      </a>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ===============================================================
+     MODAL — MINI GAME
+=============================================================== -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal-game">
+    <button class="modal-close" onclick="fecharJogo()">✕ fechar</button>
+
+    <!-- TELA DO JOGO -->
+    <div id="game-tela">
+      <div class="game-header">
+        <div class="game-topbar">
+          <h2 class="game-titulo">⚡ CODE QUIZ</h2>
+          <div class="game-placar">
+            <div class="placar-item"><span class="placar-num" id="g-score">0</span><span class="placar-label">Pontos</span></div>
+            <div class="placar-item"><span class="placar-num" id="g-streak">0</span><span class="placar-label">Streak 🔥</span></div>
+            <div class="placar-item"><span class="placar-num" id="g-qnum">1</span><span class="placar-label">/ <span id="g-total">?</span></span></div>
+          </div>
+        </div>
+        <div class="timer-wrap"><div class="timer-fill" id="timer-fill"></div></div>
+        <p class="timer-num" id="timer-num">15s</p>
+      </div>
+
+      <p class="game-q-meta" id="g-categoria"></p>
+      <p class="game-q-txt" id="g-pergunta"></p>
+      <div class="code-block" id="g-codigo" style="display:none"></div>
+      <div class="game-opcoes" id="g-opcoes"></div>
+      <div class="feedback-box" id="g-feedback"></div>
+      <button class="btn-next-game" id="btn-next" onclick="proximaGameQ()">Próxima →</button>
+    </div>
+
+    <!-- TELA DE FIM -->
+    <div id="game-fim" style="display:none">
+      <div class="fim-box">
+        <span class="fim-emoji" id="fim-emoji">🏆</span>
+        <h2 class="fim-titulo" id="fim-titulo">Incrível!</h2>
+        <p class="fim-sub" id="fim-sub">Você completou o CODE QUIZ</p>
+        <div class="fim-score" id="fim-score">0</div>
+        <p class="fim-label">PONTOS</p>
+        <div class="fim-btns">
+          <button class="btn-fim btn-fim-prim" onclick="reiniciarJogo()">↺ Jogar de novo</button>
+          <button class="btn-fim btn-fim-ghost" onclick="fecharJogo()">✕ Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+//  BANCO DE QUESTÕES — 20 perguntas cobrindo todas as áreas
+// ============================================================
+const questoes = [
+  {
+    cat: "🧠 Lógica",
+    p: "Qual é o output desse código Python?",
+    codigo: `x = [1, 2, 3]
+y = x
+y.append(4)
+<span class="fn">print</span>(x)`,
+    ops: ["[1, 2, 3]", "[1, 2, 3, 4]", "None", "Erro de tipo"],
+    correta: 1,
+    exp: "Em Python, y = x não copia a lista — ambas apontam para o mesmo objeto. Ao fazer y.append(4), x também é modificado."
+  },
+  {
+    cat: "🗄️ SQL",
+    p: "Qual query retorna os clientes que NÃO fizeram nenhum pedido?",
+    codigo: `<span class="cm">-- tabelas: clientes(id, nome) e pedidos(id, cliente_id)</span>`,
+    ops: [
+      "SELECT * FROM clientes INNER JOIN pedidos ON clientes.id = pedidos.cliente_id",
+      "SELECT * FROM clientes WHERE id NOT IN (SELECT cliente_id FROM pedidos)",
+      "SELECT * FROM clientes WHERE pedidos.id IS NULL",
+      "SELECT * FROM clientes HAVING COUNT(pedidos.id) = 0"
+    ],
+    correta: 1,
+    exp: "NOT IN com subquery retorna todos os clientes cujo id não aparece na tabela pedidos. LEFT JOIN + WHERE IS NULL também funciona."
+  },
+  {
+    cat: "🎨 Front-End",
+    p: "O que faz a propriedade CSS 'position: sticky'?",
+    codigo: null,
+    ops: [
+      "Fixa o elemento no canto da tela independentemente do scroll",
+      "Faz o elemento se comportar como relative até atingir um threshold, depois age como fixed",
+      "É um alias para position: fixed no Chrome",
+      "Trava o elemento no lugar onde foi renderizado"
+    ],
+    correta: 1,
+    exp: "sticky combina relative e fixed: o elemento rola junto com a página até atingir o valor top/left definido, então 'gruda' nessa posição."
+  },
+  {
+    cat: "🧠 Lógica",
+    p: "Qual estrutura de dados usa o princípio LIFO?",
+    codigo: null,
+    ops: ["Fila (Queue)", "Lista Encadeada", "Pilha (Stack)", "Árvore Binária"],
+    correta: 2,
+    exp: "LIFO = Last In, First Out. A Pilha (Stack) insere e remove pelo mesmo topo — como uma pilha de pratos."
+  },
+  {
+    cat: "🔐 Segurança",
+    p: "O que é um ataque SQL Injection?",
+    codigo: `query = <span class="str">"SELECT * FROM users WHERE name='"</span> + input + <span class="str">"'"</span>`,
+    ops: [
+      "Sobrecarregar o banco de dados com muitas requisições",
+      "Inserir código SQL malicioso em campos de entrada para manipular queries",
+      "Roubar senhas usando força bruta no banco",
+      "Interceptar o tráfego entre cliente e servidor"
+    ],
+    correta: 1,
+    exp: "SQL Injection ocorre quando input não sanitizado é concatenado diretamente na query. O atacante pode alterar a lógica da query, expor dados ou deletar tabelas."
+  },
+  {
+    cat: "🌐 Redes",
+    p: "Qual é a diferença entre HTTP e HTTPS?",
+    codigo: null,
+    ops: [
+      "HTTPS é mais rápido que HTTP",
+      "HTTPS usa criptografia TLS para proteger os dados em trânsito",
+      "HTTP só funciona em localhost, HTTPS em produção",
+      "HTTPS usa a porta 80, HTTP usa a 443"
+    ],
+    correta: 1,
+    exp: "HTTPS adiciona uma camada TLS/SSL sobre o HTTP, criptografando os dados entre cliente e servidor. Usa porta 443. HTTP usa 80 sem criptografia."
+  },
+  {
+    cat: "🧠 Lógica",
+    p: "Qual é a complexidade de tempo de uma busca binária?",
+    codigo: null,
+    ops: ["O(n)", "O(n²)", "O(log n)", "O(1)"],
+    correta: 2,
+    exp: "A busca binária divide o espaço de busca pela metade a cada iteração. Com n=1.000.000, no máximo ~20 comparações. Isso é O(log n)."
+  },
+  {
+    cat: "🎨 Front-End",
+    p: "O que esse JavaScript faz?",
+    codigo: `<span class="kw">const</span> result = [<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>,<span class="num">4</span>,<span class="num">5</span>].<span class="fn">filter</span>(n => n % <span class="num">2</span> === <span class="num">0</span>).<span class="fn">map</span>(n => n * <span class="num">10</span>);`,
+    ops: ["[10, 20, 30, 40, 50]", "[2, 4]", "[20, 40]", "[1, 3, 5]"],
+    correta: 2,
+    exp: "filter(n % 2 === 0) seleciona só os pares: [2, 4]. Depois map(n * 10) multiplica cada um por 10: [20, 40]."
+  },
+  {
+    cat: "🗄️ SQL",
+    p: "Qual é a diferença entre INNER JOIN e LEFT JOIN?",
+    codigo: null,
+    ops: [
+      "Não há diferença, são aliases um do outro",
+      "INNER JOIN retorna só os registros com match nas duas tabelas; LEFT JOIN retorna todos da tabela da esquerda mesmo sem match",
+      "LEFT JOIN é mais rápido que INNER JOIN",
+      "INNER JOIN une tabelas verticalmente, LEFT JOIN horizontalmente"
+    ],
+    correta: 1,
+    exp: "INNER JOIN = interseção. LEFT JOIN = todos da esquerda + matches da direita (NULL onde não há match)."
+  },
+  {
+    cat: "🔐 Segurança",
+    p: "O que é hashing de senha com 'salt'?",
+    codigo: null,
+    ops: [
+      "Criptografar a senha duas vezes para maior segurança",
+      "Adicionar um valor aleatório único à senha antes de hashear, evitando ataques de rainbow table",
+      "Usar uma chave secreta para descriptografar o hash",
+      "Comprimir a senha antes de armazenar"
+    ],
+    correta: 1,
+    exp: "Salt é um valor aleatório único adicionado a cada senha antes do hash. Garante que duas senhas iguais gerem hashes diferentes, tornando rainbow tables inúteis."
+  },
+  {
+    cat: "🧠 Lógica",
+    p: "O que esse código imprime?",
+    codigo: `<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">3</span>):
+    <span class="kw">for</span> j <span class="kw">in</span> <span class="fn">range</span>(<span class="num">3</span>):
+        <span class="kw">if</span> i == j:
+            <span class="fn">print</span>(i, end=<span class="str">" "</span>)`,
+    ops: ["0 1 2", "0 0 1 1 2 2", "0 1 2 0 1 2 0 1 2", "Nada"],
+    correta: 0,
+    exp: "O bloco if só executa quando i == j, ou seja: (0,0), (1,1), (2,2). Imprime 0 1 2 com espaço entre eles."
+  },
+  {
+    cat: "🌐 Redes",
+    p: "O que faz o protocolo DNS?",
+    codigo: null,
+    ops: [
+      "Criptografa o tráfego entre cliente e servidor",
+      "Traduz nomes de domínio (como google.com) para endereços IP",
+      "Gerencia conexões de banco de dados remotas",
+      "Comprime os dados para transferência mais rápida"
+    ],
+    correta: 1,
+    exp: "DNS = Domain Name System. É a 'agenda telefônica' da internet: converte 'google.com' para um IP como '142.250.80.46'."
+  },
+  {
+    cat: "🎨 Front-End",
+    p: "Qual é a diferença entre 'var', 'let' e 'const' em JavaScript?",
+    codigo: null,
+    ops: [
+      "São exatamente iguais, só mudam o estilo de código",
+      "var tem escopo de função e hoisting; let e const têm escopo de bloco; const não pode ser reatribuída",
+      "const é mais rápida que let, que é mais rápida que var",
+      "let é para números, const para strings, var para objetos"
+    ],
+    correta: 1,
+    exp: "var: escopo de função, sofre hoisting. let: escopo de bloco, pode ser reatribuída. const: escopo de bloco, não pode ser reatribuída (mas o conteúdo de objetos/arrays pode mudar)."
+  },
+  {
+    cat: "🗄️ SQL",
+    p: "O que faz a cláusula GROUP BY?",
+    codigo: `SELECT departamento, <span class="fn">COUNT</span>(*) FROM funcionarios
+<span class="kw">GROUP BY</span> departamento;`,
+    ops: [
+      "Ordena os resultados pelo campo departamento",
+      "Agrupa linhas com o mesmo valor e permite usar funções de agregação por grupo",
+      "Filtra apenas os departamentos com mais de 1 funcionário",
+      "Une as tabelas pelo campo departamento"
+    ],
+    correta: 1,
+    exp: "GROUP BY agrupa linhas com o mesmo valor. Combinado com COUNT, SUM, AVG etc., permite calcular estatísticas por grupo."
+  },
+  {
+    cat: "🔐 Segurança",
+    p: "O que é XSS (Cross-Site Scripting)?",
+    codigo: null,
+    ops: [
+      "Um ataque onde o invasor controla o CSS da página",
+      "Injeção de scripts maliciosos em páginas web para executar no browser de outras pessoas",
+      "Copiar o estilo visual de outro site",
+      "Roubar cookies via ataque man-in-the-middle"
+    ],
+    correta: 1,
+    exp: "XSS injeta scripts no browser da vítima via inputs não sanitizados. O script executa com os privilégios da página, podendo roubar cookies, redirecionar o usuário etc."
+  },
+  {
+    cat: "🧠 Lógica",
+    p: "O que é recursividade?",
+    codigo: `<span class="kw">def</span> <span class="fn">fatorial</span>(n):
+    <span class="kw">if</span> n == <span class="num">1</span>: <span class="kw">return</span> <span class="num">1</span>
+    <span class="kw">return</span> n * <span class="fn">fatorial</span>(n - <span class="num">1</span>)`,
+    ops: [
+      "Uma função que usa muita memória RAM",
+      "Quando uma função chama a si mesma até atingir um caso base",
+      "Um loop infinito com while True",
+      "Uma função que retorna outra função"
+    ],
+    correta: 1,
+    exp: "Recursão = função que chama a si mesma. O caso base (if n == 1) evita loop infinito. fatorial(5) = 5 * 4 * 3 * 2 * 1 = 120."
+  },
+  {
+    cat: "🌐 Redes",
+    p: "Qual a diferença entre TCP e UDP?",
+    codigo: null,
+    ops: [
+      "TCP é mais rápido, UDP é mais seguro",
+      "TCP garante entrega ordenada e confiável dos pacotes; UDP é mais rápido mas não garante entrega",
+      "UDP só funciona em redes locais, TCP em redes externas",
+      "São iguais, só diferem na porta padrão usada"
+    ],
+    correta: 1,
+    exp: "TCP: handshake, confirmação de entrega, reordenação de pacotes. UDP: dispara e esquece, sem confirmação. TCP para HTTP/e-mail; UDP para streaming/games onde velocidade > confiabilidade."
+  },
+  {
+    cat: "🗄️ SQL",
+    p: "Qual comando remove dados SEM remover a estrutura da tabela?",
+    codigo: null,
+    ops: ["DROP TABLE", "DELETE FROM tabela", "TRUNCATE e DELETE", "REMOVE FROM"],
+    correta: 2,
+    exp: "DROP remove a tabela inteira. DELETE e TRUNCATE removem dados mas mantêm a estrutura. TRUNCATE é mais rápido pois não loga linha a linha."
+  },
+  {
+    cat: "🎨 Front-End",
+    p: "O que é o box model do CSS?",
+    codigo: null,
+    ops: [
+      "O sistema de grid com 12 colunas do Bootstrap",
+      "O modelo que descreve como cada elemento HTML é uma caixa composta de content, padding, border e margin",
+      "O sistema de variáveis CSS com var()",
+      "O algoritmo que calcula a especificidade dos seletores"
+    ],
+    correta: 1,
+    exp: "Todo elemento HTML é uma caixa retangular: content (conteúdo) → padding (espaço interno) → border (borda) → margin (espaço externo). box-sizing: border-box inclui padding e border no width."
+  },
+  {
+    cat: "🔐 Segurança",
+    p: "O que é autenticação de dois fatores (2FA)?",
+    codigo: null,
+    ops: [
+      "Usar duas senhas diferentes para a mesma conta",
+      "Exigir dois tipos de prova de identidade: algo que você sabe + algo que você tem ou é",
+      "Verificar o login em dois dispositivos diferentes",
+      "Criptografar a senha duas vezes antes de enviar"
+    ],
+    correta: 1,
+    exp: "2FA exige dois fatores de autenticação de categorias diferentes: (1) algo que você sabe (senha), (2) algo que você tem (token/SMS) ou é (biometria). Um vazamento de senha não basta para o invasor."
+  }
+];
+
+// ============================================================
+//  ESTADO DO JOGO
+// ============================================================
+let gAtual = 0;
+let gScore = 0;
+let gStreak = 0;
+let gRespondeu = false;
+let gTimer = null;
+let gTempoRestante = 15;
+const G_TEMPO = 15;
+
+// ============================================================
+//  ABRIR / FECHAR JOGO
+// ============================================================
+function abrirJogo() {
+  document.getElementById('modal-overlay').classList.add('aberto');
+  reiniciarJogo();
+}
+function fecharJogo() {
+  document.getElementById('modal-overlay').classList.remove('aberto');
+  clearInterval(gTimer);
+}
+
+// ============================================================
+//  INICIAR / REINICIAR
+// ============================================================
+function reiniciarJogo() {
+  gAtual = 0; gScore = 0; gStreak = 0; gRespondeu = false;
+  document.getElementById('game-tela').style.display = 'block';
+  document.getElementById('game-fim').style.display  = 'none';
+  document.getElementById('g-total').textContent = questoes.length;
+  renderGameQ();
+}
+
+// ============================================================
+//  RENDER QUESTÃO
+// ============================================================
+function renderGameQ() {
+  clearInterval(gTimer);
+  gRespondeu = false;
+
+  const q = questoes[gAtual];
+  const letras = ['A','B','C','D'];
+
+  document.getElementById('g-categoria').textContent = q.cat + ' · Questão ' + (gAtual+1) + ' de ' + questoes.length;
+  document.getElementById('g-pergunta').textContent  = q.p;
+  document.getElementById('g-qnum').textContent      = gAtual + 1;
+  document.getElementById('g-score').textContent     = gScore;
+  document.getElementById('g-streak').textContent    = gStreak;
+
+  const codigoEl = document.getElementById('g-codigo');
+  if (q.codigo) {
+    codigoEl.style.display = 'block';
+    codigoEl.innerHTML = q.codigo;
+  } else {
+    codigoEl.style.display = 'none';
+  }
+
+  const opcoesEl = document.getElementById('g-opcoes');
+  opcoesEl.innerHTML = '';
+  q.ops.forEach((op, i) => {
+    const div = document.createElement('div');
+    div.className = 'game-opcao';
+    div.innerHTML = `<span class="opcao-letra-g">${letras[i]}</span>${op}`;
+    div.addEventListener('click', () => responder(i, div));
+    opcoesEl.appendChild(div);
+  });
+
+  document.getElementById('g-feedback').className = 'feedback-box';
+  document.getElementById('g-feedback').style.display = 'none';
+  document.getElementById('btn-next').classList.remove('show');
+
+  iniciarTimer();
+}
+
+// ============================================================
+//  TIMER
+// ============================================================
+function iniciarTimer() {
+  gTempoRestante = G_TEMPO;
+  atualizarTimerUI();
+  gTimer = setInterval(() => {
+    gTempoRestante--;
+    atualizarTimerUI();
+    if (gTempoRestante <= 0) {
+      clearInterval(gTimer);
+      if (!gRespondeu) timeOut();
+    }
+  }, 1000);
+}
+
+function atualizarTimerUI() {
+  const pct = (gTempoRestante / G_TEMPO) * 100;
+  document.getElementById('timer-fill').style.width = pct + '%';
+  document.getElementById('timer-num').textContent  = gTempoRestante + 's';
+}
+
+function timeOut() {
+  gRespondeu = true;
+  gStreak = 0;
+  document.getElementById('g-streak').textContent = gStreak;
+  const opcs = document.querySelectorAll('.game-opcao');
+  opcs.forEach((o, i) => {
+    o.classList.add('disabled');
+    if (i === questoes[gAtual].correta) o.classList.add('correta');
+  });
+  mostrarFeedback(false, '⏱️ Tempo esgotado! ' + questoes[gAtual].exp);
+  document.getElementById('btn-next').classList.add('show');
+}
+
+// ============================================================
+//  RESPONDER
+// ============================================================
+function responder(idx, el) {
+  if (gRespondeu) return;
+  gRespondeu = true;
+  clearInterval(gTimer);
+
+  const q = questoes[gAtual];
+  const opcs = document.querySelectorAll('.game-opcao');
+  opcs.forEach(o => o.classList.add('disabled'));
+
+  if (idx === q.correta) {
+    el.classList.add('correta');
+    gStreak++;
+    const bonus = gStreak >= 3 ? 30 : 20;
+    gScore += bonus + Math.ceil(gTempoRestante * 1.5);
+    mostrarFeedback(true, '✅ Correto! ' + q.exp + (gStreak >= 3 ? ' 🔥 Streak x' + gStreak + '!' : ''));
+  } else {
+    el.classList.add('errada');
+    opcs[q.correta].classList.add('correta');
+    gStreak = 0;
+    mostrarFeedback(false, '❌ Errado. ' + q.exp);
+  }
+
+  document.getElementById('g-score').textContent  = gScore;
+  document.getElementById('g-streak').textContent = gStreak;
+  document.getElementById('btn-next').classList.add('show');
+}
+
+function mostrarFeedback(ok, txt) {
+  const el = document.getElementById('g-feedback');
+  el.textContent = txt;
+  el.className   = 'feedback-box ' + (ok ? 'ok' : 'fail') + ' show';
+  el.style.display = 'block';
+}
+
+// ============================================================
+//  PRÓXIMA
+// ============================================================
+function proximaGameQ() {
+  gAtual++;
+  if (gAtual >= questoes.length) {
+    mostrarFim();
+  } else {
+    renderGameQ();
+  }
+}
+
+// ============================================================
+//  FIM DE JOGO
+// ============================================================
+function mostrarFim() {
+  document.getElementById('game-tela').style.display = 'none';
+  document.getElementById('game-fim').style.display  = 'block';
+
+  const pct = Math.round((gScore / (questoes.length * 50)) * 100);
+  let emoji, titulo, sub;
+
+  if (pct >= 85)       { emoji = '🏆'; titulo = 'Você arrasou!';      sub = 'Performance de sênior. Impressionante.'; }
+  else if (pct >= 60)  { emoji = '⚡'; titulo = 'Muito bem!';          sub = 'Tá no caminho certo. Continua assim.'; }
+  else if (pct >= 35)  { emoji = '📚'; titulo = 'Bom começo!';         sub = 'Tem espaço pra crescer — a biblioteca tá aí.'; }
+  else                 { emoji = '💪'; titulo = 'Não desiste não!';     sub = 'Todo dev já foi iniciante. Treino e paciência.'; }
+
+  document.getElementById('fim-emoji').textContent  = emoji;
+  document.getElementById('fim-titulo').textContent = titulo;
+  document.getElementById('fim-sub').textContent    = sub;
+  document.getElementById('fim-score').textContent  = gScore;
+}
+</script>
+</body>
+</html>

@@ -1,348 +1,143 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Balcão Tech</title>
+    <title>BALCÃO TECH</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
-    
-    <nav class="menu-principal">
-        <div class="container">
-            <ul>
-                <li><a href="index.html" class="ativo">Início</a></li>
-                <li><a href="paginas/por-onde-comecar.html">Caminho das Pedras</a></li>
-                <li><a href="paginas/cert.html">Certificações</a></li>
-                <li><a href="paginas/biblioteca.html">Biblioteca</a></li>
-            </ul>
-        </div>
-    </nav>
 
-    <header class="header-principal">
-        <div class="aling-center">
-            <h1 class="logo">Balcão Tech<span class="ponto">.</span></h1>
-            <p class="slogan">Código, Conexão && Café</p>
+    <div id="preloader">
+        <div class="loader-content">
+            <span class="tech-icon">>_</span>
+            <h1 class="loading-text">CARREGANDO CONHECIMENTO...</h1>
+            <p class="brand-text">BALCÃO TECH</p>
         </div>
-
-        <div class="bloco-citacao">
-            <div class="citacao-conteudo" id="box-citacao">
-                <span class="aspas">“</span>
-                <p id="texto-frase">Carregando...</p>
-                <p id="autor-frase" class="autor-citacao">...</p>
-            </div>
-        </div>
-
-        <div class="barra-breaking-news" id="btn-toggle-extra">
-            <div class="container container-news">
-                <span class="badge-extra">EXTRA EXTRA</span>
-            </div>
-        </div>
-
-        <div class="painel-secreto" id="painel-extra">
-            <div class="container grid-extra">
-    
-    <div class="item-extra">
-        <h4>☕ Java 26 em Março</h4>
-        <p>A nova versão foca em limpar métodos antigos e performance extrema para nuvem. O banco agradece.</p>
-        <a href="paginas/java_2026_novo.html" class="link-extra" target="_blank">Ler resumo &rarr;</a>
     </div>
 
-    <div class="item-extra">
-        <h4>💸 DREX e Smart Contracts</h4>
-        <p>O Real Digital entra na fase de testes com contratos inteligentes. O backend bancário vai mudar.</p>
-        <a href="paginas/drex_2026.html" class="link-extra" target="_blank">Ver detalhes &rarr;</a>
-    </div>
+    <div id="universo-jornal">
+        <canvas id="matrix-canvas"></canvas>
 
-    <div class="item-extra">
-        <h4>🕵️ Shadow Agents (IA)</h4>
-        <p>Relatório de 2026: IAs autônomas já buscam falhas sozinhas. A defesa precisa ser automatizada.</p>
-        <a href="paginas/shadow_agentes.html" class="link-extra" target="_blank">Entender o risco &rarr;</a>
-    </div>
-
-</div>
+        <div class="bloco-central-total">
+            <div class="caixa-mascote-animado">
+                <video autoplay loop muted playsinline class="video-coruja-viva">
+                    <source src="photos/mascoteBalcao-Picsart-BackgroundRemover.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="indicador-scroll">
+                <span class="seta"></span>
             </div>
         </div>
-    </header>
 
-    <div class="container layout-grid">
-    
-        <aside class="coluna-manchetes">
-            <h3 class="titulo-secao">Destaques</h3>
+        <div class="camada-revelada">
+            <div class="conteudo-secreto">
+                <div class="frase-container" id="f1">
+                    <p class="linha-topo">Perdido nos estudos?</p>
+                    <h1 class="texto-grande">
+                        Explore o universo <br> de uma perspectiva <br>
+                        <span class="destaque-caixa">DIFERENT<span class="letra-vermelha">E</span></span>
+                    </h1>
+                </div>
 
-            <a href="paginas/cert.html" target="_blank" class="card-jornal" style="display: block; text-decoration: none;">
-                <div class="manchete-titulo">
-                    A verdade sobre Certificações
+                <div class="frase-container" id="f2">
+                    <p class="linha-topo">Vá mais fundo...</p>
+                    <h1 class="texto-grande">
+                        Pense fora da <br>
+                        <span class="destaque-caixa">
+                            CA<span class="meu-i-perfeito">I</span>XA
+                            <span class="acento-controle">.</span>
+                        </span>
+                    </h1>
                 </div>
-                <div class="manchete-resumo" style="display: block;">
-                    <p><strong>São importantes?</strong> Sim. Entenda por que bancos exigem esse papel.</p>
-                    <span class="link-continuar">Ler a verdade &rarr;</span>
-                </div>
-            </a>
 
-            <a href="paginas/cursosgratis.html" target="_blank" class="card-jornal" style="display: block; text-decoration: none;">
-                <div class="manchete-titulo">
-                    A Mina de Ouro (Grátis)
+                <div class="frase-container" id="f3">
+                    <p class="linha-topo">Fica tranquilão, estamos juntos nessa...</p>
+                    <h1 class="texto-grande"> 
+                        Partiu? <br>
+                        <span class="destaque-universo">
+                            IME<span class="r-invertido">R</span>SÃO
+                        </span>
+                    </h1>
                 </div>
-                <div class="manchete-resumo" style="display: block;">
-                    <p>Links para estudar de graça na Microsoft, Bradesco e mais.</p>
-                    <span class="link-continuar">Pegar links &rarr;</span>
-                </div>
-            </a>
+            </div>
+        </div>
 
-            <a href="paginas/por-onde-comecar.html" target="_blank" class="card-jornal" style="display: block; text-decoration: none;">
-                <div class="manchete-titulo">
-                    Por onde começar? (Mapa)
+        <div id="bloco-relax-imersao" style="display: none; opacity: 0;">
+            <div class="layout-meditacao">
+                <div class="ilustracao-personagem">
+                    <video autoplay loop muted playsinline class="video-personagem-imersao">
+                        <source src="photos/lulu-Picsart-BackgroundRemover.mp4" type="video/mp4"> 
+                        Seu navegador não suporta vídeos.
+                    </video>
                 </div>
-                <div class="manchete-resumo" style="display: block;">
-                    <p>Backend, Frontend, Mobile? Um mapa visual simples.</p>
-                    <span class="link-continuar">Ver mapa &rarr;</span>
+                <div class="texto-imersao">
+                    <p class="chamada-topo">SENTE-SE, RELAXE & CONCENTRE-SE!</p>
+                    <h2 class="frase-final">
+                        É incrível o que se pode codar quando <br>
+                        todos os horizontes estão abertos, <br>
+                        não apenas o seu terminal.
+                    </h2>
                 </div>
-            </a>
+            </div>
+        </div>
+    </div>
 
-            <section class="container secao-chat">
-        <h3 class="titulo-chat">💬 Chat Global </h3>
-        <p style="font-size: 0.85rem; color: red; margin-bottom: 10px;">
-            Atenção: Este chat é público e está conectado em tempo real.
-        </p>
-        
-        <div class="janela-chat" id="chat-window">
+    <section id="secao-cards-estudo">
+        <div class="container-cards">
+            <div class="titulo-sessao">
+                <h2>Qual caminho seguir? <br> O que estudar hoje?</h2>
             </div>
     
-        <div class="controles-chat">
-            <input type="text" id="chat-nome" placeholder="Seu Nick" maxlength="15">
-            <input type="text" id="chat-texto" placeholder="Mensagem para o mundo..." maxlength="100">
-            <button onclick="enviarMensagemFirebase()" class="btn-enviar">Enviar 🚀</button>
+            <div class="grid-cards">
+                <a href="teste_vocacinal.html" target="_blank" class="card card-tech">
+                    <div class="detalhe-olho verde"></div>
+                    <h3>TESTE VOCACIONAL TECH</h3>
+                    <p>Descubra se o seu perfil combina mais com Desenvolvimento, Dados ou Segurança.</p>
+                </a>
+
+                
+                <a href="biblioteca.html" target="_blank" class="card card-biblioteca">
+                    <div class="detalhe-olho laranja"></div>
+                    <h3>BIBLIOTECA DIGITAL</h3>
+                    <p>Acesse livros, apostilas e documentações essenciais para o seu semestre em ADS.</p>
+                </a>
+           
+    
+                <a href="games_desafios.html" target="_blank" class="card card-jogos">
+                    <div class="detalhe-olho amarelo"></div>
+                    <h3>GAMES & DESAFIOS</h3>
+                    <p>Aprenda lógica de programação e SQL jogando. Onde o código vira diversão.</p>
+                </a>
+    
+                <a href="mercado_salarios.html" target="_blank" class="card card-mercado">
+                    <div class="detalhe-olho rosa"></div>
+                    <h3>MERCADO & SALÁRIOS</h3>
+                    <p>Fique por dentro das vagas e carreiras que mais pagam no setor de tecnologia.</p>
+                </a>
+    
+                <a href="trilhas.html" target="_blank" class="card card-trilhas">
+                    <div class="detalhe-olho azul"></div>
+                    <h3>TRILHAS DE ESTUDO</h3>
+                    <p>Roadmaps completos para você não se perder entre Java, Python e Cyber.</p>
+                </a>
+    
+                <div class="card card-comunidade">
+                    <div class="detalhe-olho roxo"></div>
+                    <h3>COMUNIDADE TECH</h3>
+                    <p>Conecte-se com outros estudantes e profissionais de BH em nossa rede.</p>
+                </div>
+            </div>
         </div>
     </section>
 
-        <div class="eventos-widget">
-    <div class="cabecalho-eventos">
-        <h3> Agenda Tech 2026</h3>
-    </div>
-    
-    <div class="conteudo-eventos">
-        <p>Não perca hackathons, congressos e meetups gratuitos.</p>
-        
-        <ul class="lista-eventos-destaque">
-            <li>🚀 <strong>Girls Tech:</strong> 07/Fev (BH)</li>
-            <li>☁️ <strong>AWS Summit:</strong> 14/Mar (Recife)</li>
-            <li>🔒 <strong>BSides Rio:</strong> 28/Mar (Rio)</li>
-        </ul>
-
-        <a href=" https://www.linkedin.com/pulse/agenda-%C3%BAnica-de-eventos-tecnologia-bh-regi%C3%A3o-pedro-lichster-49e6f/ " target="_blank" class="btn-linkedin-eventos">
-            <span class="icone-in">in</span> Ver Calendário Completo
-        </a>
-    </div>
-</div>
-            <div class="biblioteca-widget">
-                <h3 class="titulo-biblioteca-widget"> Biblioteca Tech</h3>
-                <ul class="lista-livros-lateral">
-                    
-                    <li> 
-                        <a href="https://www.inf.ufpr.br/marcos/livro_alg1/livro_alg1.pdf" target="_blank">
-                            <span class="icone-mini"></span> 📚 Algoritmos e Estruturas: Teoria e Prática (Cormen)
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="https://www.inf.ufpr.br/lesoliveira/download/c-completo-total.pdf" target="_blank">
-                            <span class="icone-mini"></span> 📕 Linguagem C, completo e total. (K&R)
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="https://www.kufunda.net/publicdocs/Storytelling%20com%20Dados%20(Cole%20Nussbaumer%20Knaflic%20[Knaflic%20etc.).pdf" target="_blank">
-                            <span class="icone-mini"></span> 📊 Storytelling com Dados
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="https://www.kufunda.net/publicdocs/Hacking%20com%20Kali%20Linux%20T%C3%A9cnicas%20pr%C3%A1ticas%20para%20testes%20de%20invas%C3%A3o%20(James%20Broad%20%20Andrew%20Bindner%20[Broad,%20James]).pdf" target="_blank">
-                            <span class="icone-mini"></span> 📗 Hacking com Kali Linux
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="https://fateczlads.wordpress.com/wp-content/uploads/2014/01/livro_fundprogcomp_2ed_anafernandagomesparte.pdf" target="_blank">
-                            <span class="icone-mini"></span> 🔍 Fundamentos da progração de computadores 
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="https://herveiras.rs.gov.br/editais/23-09-16-204239-livroproibidodocursodehackercompleto1.pdf" target="_blank">
-                            <span class="icone-mini"></span> ⚠️ Curso de Hacker
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="https://cdn.bookey.app/files/pdf/book/pt/c%C3%B3digo-limpo.pdf" target="_blank">
-                            <span class="icone-mini"></span> 📖 Código Limpo
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="https://cdn.bookey.app/files/pdf/book/pt/arquitetura-limpa-o-guia-do-artesao-para-estrutura-e-design-de-software.pdf" target="_blank">
-                            <span class="icone-mini"></span> 📙 Arquitetura Limpa
-                        </a>
-                    </li>
-
-                </ul>
-            </div>
-
-        </aside>
-
-        <main class="area-posts">
-
-    <article class="card-post destaque">
-        <span class="tag">Editorial</span>
-        <h2>Bem-vindos ao Balcão Tech 2026</h2>
-        <p>Se você chegou até aqui, sabe que o mundo tech não para. Eu sou a <strong>Luuh</strong> e este é o espaço onde transformamos a complexidade dos frameworks na solidez da base.</p>
-        <p>Enquanto todos correm atrás da "Hype", aqui discutimos o que sustenta a indústria: <strong>Java, Segurança e Arquitetura</strong>.</p>
-    </article>
-
-    <article class="card-post">
-        <span class="tag tech" style="background-color: #E1BEE7; color: #4A148C;">Tendência 2026</span>
-        <h2>O Ano da Verdade para a IA: De "Chat" para "Agente"</h2>
-        <p class="meta-data">04 Fev 2026 | Tecnologia</p>
-        <p>As empresas pararam de brincar. Em 2026, não basta saber usar o ChatGPT. O mercado busca devs que saibam criar <strong>Agentes Autônomos</strong> que codam, testam e integram sistemas sozinhos. Você está pronto para ser o arquiteto da IA?</p>
-        <a href="paginas/agentes-ia.html" class="btn-ler-mais" target="_blank" >Ler análise completa &rarr;</a>
-    </article>
-
-    <article class="card-post">
-        <span class="tag carreira">Backend Real</span>
-        <h2>Por que o Java e o C ainda "mandam" no seu dinheiro?</h2>
-        <p class="meta-data">02 Fev 2026 | Mercado Financeiro</p>
-        <p>Novas linguagens surgem todo dia (Rust, Go, Carbon...), mas o <strong>Core Banking</strong> do Bradesco, Itaú e Nubank continua rodando em tecnologias robustas. Entenda a tríade: Estabilidade, Legado e Performance.</p>
-        <a href="paginas/java-bancario.html" class="btn-ler-mais" target="_blank">Entender o Legado &rarr;</a>
-    </article>
-
-    <article class="card-post">
-        <span class="tag diario">Hard Skills</span>
-        <h2>O Padrão "Cloud-Native": Se não é contêiner, é velho</h2>
-        <p class="meta-data">28 Jan 2026 | Estudos AWS</p>
-        <p>Não existe mais "migrar para a nuvem". As aplicações modernas já nascem prontas para Kubernetes e Serverless. Um guia prático do que eu estou estudando para não ficar para trás na certificação AWS.</p>
-        <a href="paginas/cloud-native.html" class="btn-ler-mais" target="_blank">Ver guia de estudos &rarr;</a>
-    </article>
-
-</main>
-
-    </div> 
-
-    
-
-    <footer class="rodape">
-        <p>Desenvolvido com ☕ e código por Luisa Laura. &copy; 2026 Balcão Tech.</p>
-    </footer>
-
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
+    <script src="motor.js"></script>
     <script>
-        // CONFIGURAÇÃO DO FIREBASE (SUAS CHAVES)
-        const firebaseConfig = {
-            apiKey: "********************************",
-            authDomain: "balcaotechchat.firebaseapp.com",
-            projectId: "balcaotechchat",
-            storageBucket: "balcaotechchat.firebasestorage.app",
-            messagingSenderId: "376358999241",
-            appId: "1:376358999241:web:0f37380098489f3d882918"
-        };
-
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-        const database = firebase.database();
-
-        const chatWindow = document.getElementById('chat-window');
-        const inputNome = document.getElementById('chat-nome');
-        const inputTexto = document.getElementById('chat-texto');
-
-        // Escuta mensagens
-        database.ref('mensagens').on('child_added', function(snapshot) {
-            const msg = snapshot.val();
-            adicionarNaTela(msg);
-        });
-
-        // Envia mensagens
-        function enviarMensagemFirebase() {
-            const nome = inputNome.value;
-            const texto = inputTexto.value;
-
-            if (nome.trim() === "" || texto.trim() === "") {
-                alert("Preencha nome e mensagem!");
-                return;
-            }
-
-            database.ref('mensagens').push({
-                nome: nome,
-                texto: texto,
-                hora: new Date().toLocaleTimeString()
-            });
-
-            inputTexto.value = ""; 
-        }
-
-        // Mostra na tela
-        function adicionarNaTela(msg) {
-            const div = document.createElement('div');
-            div.classList.add('msg-item');
-            div.innerHTML = `<strong>${msg.nome}</strong> <span style="font-size:0.7rem; color:#999;">(${msg.hora})</span>: ${msg.texto}`;
-            chatWindow.appendChild(div);
-            chatWindow.scrollTop = chatWindow.scrollHeight;
-        }
-    </script>
-
-    <script>
-        const btnExtra = document.getElementById('btn-toggle-extra');
-        const painelExtra = document.getElementById('painel-extra');
-
-        if (btnExtra && painelExtra) {
-            btnExtra.addEventListener('click', () => {
-                painelExtra.classList.toggle('aberto');
-                btnExtra.classList.toggle('ativo');
-            });
-        }
-
-        const frasesTech = [
-            { texto: "Falar é fácil. Me mostre o código.", autor: "Linus Torvalds" },
-            { texto: "Não comente código ruim. Reescreva-o.", autor: "Brian Kernighan" },
-            { texto: "Primeiro resolva o problema. Depois, escreva o código.", autor: "John Johnson" },
-            { texto: "Se você acha que a instrução é cara, experimente a ignorância.", autor: "Derek Bok" },
-            { texto: "A simplicidade é a alma da eficiência.", autor: "Austin Freeman" },
-            { texto: "Crescimento e conforto não coexistem.", autor: "Ginni Rometty" },
-            { texto: "A melhor maneira de prever o futuro é inventá-lo.", autor: "Alan Kay" }
-        ];
-
-        const elementoTexto = document.getElementById('texto-frase');
-        const elementoAutor = document.getElementById('autor-frase');
-        const boxCitacao = document.getElementById('box-citacao');
-        let indice = 0;
-
-        function trocarFrase() {
-            if (!boxCitacao) return;
-            boxCitacao.classList.add('invisivel');
+        window.addEventListener('load', () => {
             setTimeout(() => {
-                if (elementoTexto && elementoAutor) {
-                    elementoTexto.innerText = frasesTech[indice].texto;
-                    elementoAutor.innerText = "- " + frasesTech[indice].autor;
-                }
-                indice++;
-                if (indice >= frasesTech.length) indice = 0;
-                boxCitacao.classList.remove('invisivel');
-            }, 1000);
-        }
-
-        if (boxCitacao) {
-            elementoTexto.innerText = frasesTech[0].texto;
-            elementoAutor.innerText = "- " + frasesTech[0].autor;
-            setInterval(trocarFrase, 10000);
-        }
+                document.getElementById('preloader').classList.add('preloader-hidden');
+            }, 3000); 
+        });
     </script>
 </body>
 </html>

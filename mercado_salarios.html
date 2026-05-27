@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mercado & Salários — BALCÃO TECH</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #13131a;
+  --surface2: #1c1c28;
+  --border: rgba(255,255,255,0.07);
+  --text: #f0eeff;
+  --muted: rgba(240,238,255,0.38);
+  --green:  #4dff91;
+  --cyan:   #00ffe0;
+  --yellow: #ffe94d;
+  --pink:   #ff6ef7;
+  --orange: #ff8c42;
+  --blue:   #4d9fff;
+  --purple: #b06dff;
+  --red:    #ff5c5c;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;overflow-x:hidden}
+
+/* GRAIN */
+body::after{content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;opacity:.45}
+
+/* BLOBS */
+.blob{position:fixed;border-radius:50%;filter:blur(140px);pointer-events:none;z-index:0;opacity:.13}
+.b1{width:550px;height:550px;background:var(--green);top:-150px;right:-100px}
+.b2{width:400px;height:400px;background:var(--orange);bottom:-80px;left:-80px}
+.b3{width:300px;height:300px;background:var(--purple);top:45%;left:45%}
+
+/* HEADER */
+header{position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 6%;background:rgba(10,10,15,.85);
+  backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.logo{font-family:'DM Mono',monospace;font-size:.9rem;letter-spacing:2px;color:var(--green);text-decoration:none}
+.logo span{color:var(--text)}
+.btn-voltar{font-family:'DM Mono',monospace;font-size:.8rem;color:var(--muted);text-decoration:none;transition:color .2s}
+.btn-voltar:hover{color:var(--cyan)}
+
+/* NAV INTERNA */
+.subnav{
+  position:sticky;top:57px;z-index:100;
+  display:flex;gap:6px;overflow-x:auto;
+  padding:12px 6%;
+  background:rgba(10,10,15,.9);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  scrollbar-width:none;
+}
+.subnav::-webkit-scrollbar{display:none}
+.snbtn{
+  font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:1.5px;
+  padding:7px 16px;border-radius:100px;white-space:nowrap;
+  border:1.5px solid var(--border);background:transparent;
+  color:var(--muted);cursor:pointer;transition:all .2s;
+}
+.snbtn:hover,.snbtn.ativo{border-color:var(--green);color:var(--green);background:rgba(77,255,145,.07)}
+
+/* LAYOUT GERAL */
+main{position:relative;z-index:1;padding-top:80px}
+.secao{padding:70px 6%}
+.secao+.secao{padding-top:0}
+
+/* HERO */
+.hero{padding:70px 6% 50px;position:relative;overflow:hidden}
+.hero::after{
+  content:'CASH';position:absolute;right:-1%;top:50%;transform:translateY(-50%);
+  font-size:22vw;font-weight:900;color:rgba(255,255,255,.022);
+  pointer-events:none;white-space:nowrap;line-height:1}
+.hero-tag{font-family:'DM Mono',monospace;font-size:.75rem;color:var(--green);
+  letter-spacing:3px;text-transform:uppercase;
+  display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.hero-tag::before,.hero-tag::after{content:'';display:block;width:28px;height:1px;background:var(--green)}
+.hero h1{font-size:clamp(3rem,8vw,6.5rem);font-weight:900;line-height:.92;margin-bottom:20px}
+.hero h1 em{font-style:normal;color:var(--green);display:block}
+.hero-sub{font-size:1rem;color:var(--muted);line-height:1.7;max-width:520px;margin-bottom:36px}
+
+/* STATS ROW */
+.stats-row{display:flex;gap:32px;flex-wrap:wrap;margin-bottom:16px}
+.stat{display:flex;flex-direction:column}
+.stat-num{font-family:'DM Mono',monospace;font-size:2.2rem;font-weight:700;line-height:1}
+.stat-label{font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px}
+
+/* AVISO DISCLAIMER */
+.disclaimer{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'DM Mono',monospace;font-size:.68rem;
+  padding:8px 16px;border-radius:100px;
+  background:rgba(255,233,77,.07);border:1px solid rgba(255,233,77,.2);
+  color:rgba(255,233,77,.7);margin-top:12px;
+}
+
+/* SECTION TITLE */
+.s-titulo{
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:28px;padding-bottom:18px;
+  border-bottom:1px solid var(--border);
+}
+.s-bolinha{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.s-titulo h2{font-size:1.1rem;font-weight:800;letter-spacing:.5px}
+.s-sub{font-size:.75rem;color:var(--muted);margin-left:auto}
+
+/* ============================================================
+   TABELA DE SALÁRIOS BR
+============================================================ */
+.tabela-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:.88rem;min-width:700px}
+thead tr{border-bottom:1px solid var(--border)}
+th{
+  font-family:'DM Mono',monospace;font-size:.62rem;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);padding:12px 16px;text-align:left;font-weight:500}
+th:not(:first-child){text-align:right}
+td{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.04)}
+td:not(:first-child){text-align:right;font-family:'DM Mono',monospace;font-size:.85rem}
+tr:hover td{background:rgba(255,255,255,.025)}
+
+.cargo-wrap{display:flex;align-items:center;gap:10px}
+.cargo-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.cargo-nome{font-weight:700;font-size:.9rem}
+.cargo-nivel{font-size:.7rem;color:var(--muted);margin-top:1px}
+
+.val-jr{color:var(--muted)}
+.val-pl{color:var(--text)}
+.val-sr{color:var(--green);font-weight:700}
+
+.demanda-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  font-family:'DM Mono',monospace;font-size:.6rem;
+  padding:3px 10px;border-radius:100px;
+  border:1px solid;white-space:nowrap;
+}
+.d-alta   {border-color:rgba(77,255,145,.35); color:var(--green)}
+.d-muito  {border-color:rgba(255,140,66,.35);  color:var(--orange)}
+.d-explos {border-color:rgba(255,110,247,.35); color:var(--pink)}
+.d-cresc  {border-color:rgba(77,159,255,.35);  color:var(--blue)}
+
+/* ============================================================
+   COMPARAÇÃO GLOBAL — CARDS PAÍS
+============================================================ */
+.paises-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:14px;
+}
+.pais-card{
+  padding:24px;border-radius:16px;
+  background:var(--surface);border:1.5px solid var(--border);
+  position:relative;overflow:hidden;
+  transition:transform .22s,border-color .22s;
+}
+.pais-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.16)}
+.pais-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--accent-pais,var(--green));opacity:0;transition:opacity .22s}
+.pais-card:hover::before{opacity:1}
+.pais-flag{font-size:2rem;margin-bottom:10px;display:block}
+.pais-nome{font-size:.72rem;font-family:'DM Mono',monospace;letter-spacing:2px;
+  color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.pais-salario{font-size:1.5rem;font-weight:900;line-height:1;margin-bottom:4px}
+.pais-moeda{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--muted)}
+.pais-fator{
+  margin-top:14px;padding-top:12px;border-top:1px solid var(--border);
+  font-family:'DM Mono',monospace;font-size:.7rem;
+}
+.fator-num{font-size:1.1rem;font-weight:700}
+.pais-nota{font-size:.72rem;color:var(--muted);margin-top:6px;line-height:1.4}
+
+/* HIGHLIGHT BR */
+.pais-card.destaque-br{
+  border-color:rgba(77,255,145,.35);
+  background:rgba(77,255,145,.04);
+}
+
+/* ============================================================
+   REGIÕES BR — MAPA SIMPLIFICADO
+============================================================ */
+.regioes-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:12px;
+}
+.regiao-card{
+  padding:20px;border-radius:14px;
+  background:var(--surface);border:1px solid var(--border);
+}
+.regiao-nome{font-size:.72rem;font-family:'DM Mono',monospace;
+  letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
+.regiao-sal{font-size:1.3rem;font-weight:900;line-height:1;margin-bottom:4px}
+.regiao-desc{font-size:.72rem;color:var(--muted);line-height:1.4}
+
+/* ============================================================
+   GRÁFICO DE BARRAS — CRESCIMENTO SALARIAL
+============================================================ */
+.grafico-wrap{display:flex;flex-direction:column;gap:14px}
+.g-item{display:flex;align-items:center;gap:14px}
+.g-label{font-size:.82rem;font-weight:700;min-width:200px;flex-shrink:0}
+.g-bar-wrap{flex:1;height:10px;background:rgba(255,255,255,.06);border-radius:5px;overflow:hidden;position:relative}
+.g-bar{height:100%;border-radius:5px;transition:width 1.4s cubic-bezier(.4,0,.2,1);width:0}
+.g-val{font-family:'DM Mono',monospace;font-size:.75rem;color:var(--muted);min-width:60px;text-align:right;flex-shrink:0}
+.g-pct{font-family:'DM Mono',monospace;font-size:.7rem;min-width:48px;text-align:right;flex-shrink:0}
+
+/* ============================================================
+   SEÇÃO QUANTUM — DESTAQUE ESPECIAL
+============================================================ */
+.quantum-hero{
+  padding:52px;border-radius:24px;
+  background:linear-gradient(135deg,rgba(176,109,255,.1),rgba(0,255,224,.05));
+  border:1.5px solid rgba(176,109,255,.3);
+  position:relative;overflow:hidden;
+  margin-bottom:32px;
+}
+.quantum-hero::before{
+  content:'Q';
+  position:absolute;right:-20px;top:-40px;
+  font-size:20rem;font-weight:900;
+  color:rgba(176,109,255,.04);line-height:1;pointer-events:none}
+.q-tag{
+  font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:3px;
+  color:var(--purple);text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:8px;margin-bottom:16px}
+.q-tag::before{content:'◆';font-size:.5rem}
+.quantum-hero h3{font-size:clamp(1.8rem,4vw,3rem);font-weight:900;line-height:1.1;margin-bottom:16px}
+.quantum-hero p{font-size:.95rem;color:var(--muted);line-height:1.7;max-width:600px;margin-bottom:24px}
+
+.quantum-stats{display:flex;gap:32px;flex-wrap:wrap}
+.q-stat{display:flex;flex-direction:column}
+.q-num{font-family:'DM Mono',monospace;font-size:1.8rem;font-weight:700;color:var(--purple);line-height:1}
+.q-label{font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px}
+
+.quantum-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.q-card{
+  padding:24px;border-radius:16px;
+  background:rgba(176,109,255,.06);
+  border:1px solid rgba(176,109,255,.2);
+}
+.q-card-icon{font-size:1.8rem;margin-bottom:12px;display:block}
+.q-card-titulo{font-size:.95rem;font-weight:800;margin-bottom:8px}
+.q-card-desc{font-size:.78rem;color:var(--muted);line-height:1.6}
+.q-alerta{
+  margin-top:12px;padding:6px 12px;border-radius:8px;
+  background:rgba(176,109,255,.1);
+  font-family:'DM Mono',monospace;font-size:.65rem;
+  color:var(--purple);letter-spacing:1px;display:inline-block}
+
+/* ============================================================
+   TENDÊNCIAS FUTURAS
+============================================================ */
+.tend-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.tend-card{
+  padding:24px;border-radius:16px;
+  background:var(--surface);border:1.5px solid var(--border);
+  position:relative;transition:transform .22s,border-color .22s;
+}
+.tend-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.16)}
+.tend-card::after{
+  content:attr(data-ano);
+  position:absolute;top:16px;right:18px;
+  font-family:'DM Mono',monospace;font-size:.6rem;
+  color:var(--muted);letter-spacing:1px;}
+.tend-icon{font-size:2rem;margin-bottom:12px;display:block}
+.tend-titulo{font-size:1rem;font-weight:800;margin-bottom:8px}
+.tend-desc{font-size:.78rem;color:var(--muted);line-height:1.6;margin-bottom:14px}
+.tend-sal{
+  font-family:'DM Mono',monospace;font-size:.75rem;
+  padding:6px 12px;border-radius:8px;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--border);
+  display:inline-block;color:var(--text);
+}
+
+/* ============================================================
+   DICAS ESTRATÉGICAS
+============================================================ */
+.dicas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.dica-card{
+  padding:24px;border-radius:16px;
+  background:var(--surface);border:1px solid var(--border);
+  display:flex;gap:16px;
+}
+.dica-num{
+  font-family:'DM Mono',monospace;font-size:1.4rem;font-weight:700;
+  color:rgba(255,255,255,.12);flex-shrink:0;line-height:1;
+  padding-top:2px;
+}
+.dica-content h4{font-size:.9rem;font-weight:800;margin-bottom:6px}
+.dica-content p{font-size:.78rem;color:var(--muted);line-height:1.6}
+
+/* FOOTER */
+footer{
+  padding:40px 6%;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  gap:20px;flex-wrap:wrap;}
+.footer-txt{font-family:'DM Mono',monospace;font-size:.72rem;color:rgba(255,255,255,.18);letter-spacing:1px}
+.footer-txt a{color:var(--green);text-decoration:none}
+
+/* ANIMAÇÃO BARRAS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .6s ease both}
+
+/* RESPONSIVO */
+@media(max-width:720px){
+  .hero h1{font-size:2.8rem}
+  .stats-row{gap:20px}
+  table{font-size:.78rem}
+  .quantum-hero{padding:28px 24px}
+  .quantum-stats{gap:20px}
+}
+</style>
+</head>
+<body>
+
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div class="blob b3"></div>
+
+<header>
+  <a href="index.html" class="logo">BALCÃO<span> TECH</span></a>
+  <a href="index.html" class="btn-voltar">← voltar</a>
+</header>
+
+<!-- SUB-NAV -->
+<nav class="subnav" id="subnav">
+  <button class="snbtn ativo" onclick="ir('brasil')">🇧🇷 Salários BR</button>
+  <button class="snbtn" onclick="ir('global')">🌍 Comparação Global</button>
+  <button class="snbtn" onclick="ir('regioes')">📍 Regiões</button>
+  <button class="snbtn" onclick="ir('crescimento')">📈 Crescimento</button>
+  <button class="snbtn" onclick="ir('quantum')">⚛️ Computação Quântica</button>
+  <button class="snbtn" onclick="ir('futuro')">🚀 Tendências 2026+</button>
+  <button class="snbtn" onclick="ir('dicas')">💡 Estratégias</button>
+</nav>
+
+<main>
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section class="hero">
+  <p class="hero-tag">BALCÃO TECH · MERCADO 2025–2026</p>
+  <h1>Quanto<br><em>vale seu código?</em></h1>
+  <p class="hero-sub">Dados reais de salários, comparações globais, o que o mercado está pagando agora — e a área que ninguém está te contando que vai explodir.</p>
+  <div class="stats-row">
+    <div class="stat"><span class="stat-num" style="color:var(--green)">R$&nbsp;9k</span><span class="stat-label">Dev Pleno BR (média)</span></div>
+    <div class="stat"><span class="stat-num" style="color:var(--yellow)">US$&nbsp;110k</span><span class="stat-label">Dev BR nos EUA (média)</span></div>
+    <div class="stat"><span class="stat-num" style="color:var(--purple)">R$&nbsp;50k</span><span class="stat-label">Quantum sênior (projeção)</span></div>
+    <div class="stat"><span class="stat-num" style="color:var(--orange)">4×</span><span class="stat-label">Ganho a mais no exterior</span></div>
+  </div>
+  <div class="disclaimer">⚠️ Dados: Robert Half 2026, Código Fonte TV 2025, TechFX 2025, Pesquisa Salarial CAGED/MTE</div>
+</section>
+
+<!-- ============================================================
+     TABELA SALÁRIOS BR
+============================================================ -->
+<section class="secao" id="brasil">
+  <div class="s-titulo">
+    <div class="s-bolinha" style="background:var(--green)"></div>
+    <h2>Salários no Brasil — 2025/2026</h2>
+    <span class="s-sub">CLT · valores brutos mensais</span>
+  </div>
+
+  <div class="tabela-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Cargo</th>
+          <th>Júnior</th>
+          <th>Pleno</th>
+          <th>Sênior</th>
+          <th>Demanda</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="cargo-wrap"><div class="cargo-dot" style="background:var(--cyan)"></div><div><div class="cargo-nome">Engenheiro de IA / ML</div><div class="cargo-nivel">Machine Learning · LLMs · MLOps</div></div></div></td>
+          <td class="val-jr">R$ 7.000–10.000</td>
+          <td class="val-pl">R$ 12.000–18.000</td>
+          <td class="val-sr">R$ 22.000–35.000</td>
+          <td><span class="demanda-badge d-explos">🔥 Explosiva</span></td>
+        </tr>
+        <tr>
+          <td><div class="cargo-wrap"><div class="cargo-dot" style="background:var(--purple)"></div><div><div class="cargo-nome">Engenheiro de Dados Sênior</div><div class="cargo-nivel">Data Platform · dbt · Spark</div></div></div></td>
+          <td class="val-jr">R$ 6.000–9.000</td>
+          <td class="val-pl">R$ 11.000–18.000</td>
+          <td class="val-sr">R$ 18.000–30.000</td>
+          <td><span class="demanda-badge d-muito">🔶 Muito Alta</span></td>
+        </tr>
+        <tr>
+          <td><div class="cargo-wrap"><div class="cargo-dot" style="background:var(--red)"></div><div><div class="cargo-nome">Especialista em Segurança</div><div class="cargo-nivel">Pentest · SOC · Cloud Security</div></div></div></td>
+          <td class="val-jr">R$ 5.000–8.000</td>
+          <td class="val-pl">R$ 10.000–16.000</td>
+          <td class="val-sr">R$ 18.000–28.000</td>
+          <td><span class="demanda-badge d-muito">🔶 Muito Alta</span></td>
+        </tr>
+        <tr>
+          <td><div class="cargo-wrap"><div class="cargo-dot" style="background:var(--orange)"></div><div><div class="cargo-nome">DevOps / SRE</div><div class="cargo-nivel">Kubernetes · AWS · Terraform</div></div></div></td>
+          <td class="val-jr">R$ 5.500–8.000</td>
+          <td class="val-pl">R$ 10.000–16.000</td>
+          <td class="val-sr">R$ 16.000–25.000</td>
+          <td><span class="demanda-badge d-muito">🔶 Muito Alta</span></td>
+        </tr>
+        <tr>
+          <td><div class="cargo-wrap"><div class="cargo-dot" style="background:var(--green)"></div><div><div class="cargo-nome">Dev Full Stack Sênior</div><div class="cargo-nivel">Node/React · TypeScript · APIs</div></div></div></td>
+          <td class="val-jr">R$ 4.000–6.000</td>
+          <td class="val-pl">R$ 9.000–15.000</td>
+          <td class="val-sr">R$ 15.000–21.000</td>
+          <td><span class="demanda-badge d-alta">✅ Alta</span></td>
+        </tr>
+        <tr>
+          <td><div class="cargo-wrap"><div class="cargo-dot" style="background:var(--blue)"></div><div><div class="cargo-nome">Dev Back-End</div><div class="cargo-nivel">Java · Python · Go · APIs REST</div></div></div></td>
+          <td class="val-jr">R$ 3.500–6.000</td>
+          <td class="val-pl">R$ 7.000–13.000</td>
+          <td class="val-sr">R$ 12.000–20.000</td>
+          <td><span class="demanda-badge d-alta">✅ Alta</span></td>
+        </tr>
+        <tr>
+          <td><div class="cargo-wrap"><div class="cargo-dot" style="background:var(--pink)"></div><div><div class="cargo-nome">Dev Mobile</div><div class="cargo-nivel">React Native · Flutter · Kotlin</div></div></div></td>
+          <td class="val-jr">R$ 3.500–6.000</td>
+          <td class="val-pl">R$ 7.500–13.000</td>
+          <td class="val-sr">R$ 12.000–20.000</td>
+          <td><span class="demanda-badge d-alta">✅ Alta</span></td>
+        </tr>
+        <tr>
+          <td><div class="cargo-wrap"><div class="cargo-dot" style="background:var(--yellow)"></div><div><div class="cargo-nome">Dev Front-End</div><div class="cargo-nivel">React · TypeScript · CSS</div></div></div></td>
+          <td class="val-jr">R$ 3.000–5.000</td>
+          <td class="val-pl">R$ 6.000–12.000</td>
+          <td class="val-sr">R$ 11.000–18.000</td>
+          <td><span class="demanda-badge d-alta">✅ Alta</span></td>
+        </tr>
+        <tr>
+          <td><div class="cargo-wrap"><div class="cargo-dot" style="background:var(--muted)"></div><div><div class="cargo-nome">CIO / CTO</div><div class="cargo-nivel">C-Level · Estratégia de TI</div></div></div></td>
+          <td class="val-jr">—</td>
+          <td class="val-pl">R$ 20.000–35.000</td>
+          <td class="val-sr">R$ 32.000–53.600</td>
+          <td><span class="demanda-badge d-cresc">📈 Crescendo</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================
+     COMPARAÇÃO GLOBAL
+============================================================ -->
+<section class="secao" id="global">
+  <div class="s-titulo">
+    <div class="s-bolinha" style="background:var(--yellow)"></div>
+    <h2>Brasil vs Mundo — Dev Sênior</h2>
+    <span class="s-sub">Salário anual médio · 2025</span>
+  </div>
+
+  <div class="paises-grid">
+
+    <div class="pais-card" style="--accent-pais:#4d9fff">
+      <span class="pais-flag">🇺🇸</span>
+      <p class="pais-nome">Estados Unidos</p>
+      <p class="pais-salario" style="color:var(--blue)">US$ 110.000</p>
+      <p class="pais-moeda">/ ano · ≈ R$ 627.000</p>
+      <div class="pais-fator">
+        <span class="fator-num" style="color:var(--blue)">7,9×</span> mais que BR
+      </div>
+      <p class="pais-nota">85% dos devs BR no exterior trabalham para empresas americanas</p>
+    </div>
+
+    <div class="pais-card" style="--accent-pais:#4dff91">
+      <span class="pais-flag">🇩🇪</span>
+      <p class="pais-nome">Alemanha</p>
+      <p class="pais-salario" style="color:var(--green)">US$ 52.275</p>
+      <p class="pais-moeda">/ ano · ≈ €48.000</p>
+      <div class="pais-fator">
+        <span class="fator-num" style="color:var(--green)">3,7×</span> mais que BR
+      </div>
+      <p class="pais-nota">Working Holiday Visa disponível para brasileiros jovens</p>
+    </div>
+
+    <div class="pais-card" style="--accent-pais:#ff8c42">
+      <span class="pais-flag">🇨🇦</span>
+      <p class="pais-nome">Canadá</p>
+      <p class="pais-salario" style="color:var(--orange)">US$ 61.680</p>
+      <p class="pais-moeda">/ ano · ~80k vagas abertas</p>
+      <div class="pais-fator">
+        <span class="fator-num" style="color:var(--orange)">4,4×</span> mais que BR
+      </div>
+      <p class="pais-nota">Políticas de imigração mais flexíveis que EUA</p>
+    </div>
+
+    <div class="pais-card" style="--accent-pais:#ff6ef7">
+      <span class="pais-flag">🇬🇧</span>
+      <p class="pais-nome">Reino Unido</p>
+      <p class="pais-salario" style="color:var(--pink)">US$ 74.000</p>
+      <p class="pais-moeda">/ ano · £45k média Londres</p>
+      <div class="pais-fator">
+        <span class="fator-num" style="color:var(--pink)">5,3×</span> mais que BR
+      </div>
+      <p class="pais-nota">Alta concentração de fintechs e scale-ups</p>
+    </div>
+
+    <div class="pais-card" style="--accent-pais:#b06dff">
+      <span class="pais-flag">🇵🇹</span>
+      <p class="pais-nome">Portugal</p>
+      <p class="pais-salario" style="color:var(--purple)">€ 44.500</p>
+      <p class="pais-moeda">/ ano · Full Stack Lisboa</p>
+      <div class="pais-fator">
+        <span class="fator-num" style="color:var(--purple)">3×</span> mais que BR
+      </div>
+      <p class="pais-nota">Destino mais escolhido por BR na Europa. Sem barreira de idioma</p>
+    </div>
+
+    <div class="pais-card" style="--accent-pais:#ffe94d">
+      <span class="pais-flag">🇸🇪</span>
+      <p class="pais-nome">Suécia</p>
+      <p class="pais-salario" style="color:var(--yellow)">US$ 61.520</p>
+      <p class="pais-moeda">/ ano · Estocolmo</p>
+      <div class="pais-fator">
+        <span class="fator-num" style="color:var(--yellow)">4,4×</span> mais que BR
+      </div>
+      <p class="pais-nota">Benefícios robustos: licença parental, férias, saúde pública</p>
+    </div>
+
+    <div class="pais-card destaque-br" style="--accent-pais:#4dff91">
+      <span class="pais-flag">🇧🇷</span>
+      <p class="pais-nome">Brasil — Referência</p>
+      <p class="pais-salario" style="color:var(--green)">R$ 79.764</p>
+      <p class="pais-moeda">/ ano · salário médio dev</p>
+      <div class="pais-fator">
+        <span class="fator-num" style="color:var(--green)">1×</span> base de comparação
+      </div>
+      <p class="pais-nota">Média nacional. SP e RJ pagam até 40% mais que outras regiões</p>
+    </div>
+
+    <div class="pais-card" style="--accent-pais:#00ffe0">
+      <span class="pais-flag">🌏</span>
+      <p class="pais-nome">BR Remoto p/ EUA</p>
+      <p class="pais-salario" style="color:var(--cyan)">US$ 60–90k</p>
+      <p class="pais-moeda">/ ano · morando no Brasil</p>
+      <div class="pais-fator">
+        <span class="fator-num" style="color:var(--cyan)">4–7×</span> salário local BR
+      </div>
+      <p class="pais-nota">O melhor custo-benefício: renda global, custo de vida local</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     REGIÕES DO BRASIL
+============================================================ -->
+<section class="secao" id="regioes">
+  <div class="s-titulo">
+    <div class="s-bolinha" style="background:var(--orange)"></div>
+    <h2>Disparidade Regional — Brasil</h2>
+    <span class="s-sub">Dev Pleno · média</span>
+  </div>
+
+  <div class="regioes-grid">
+    <div class="regiao-card" style="border-color:rgba(77,255,145,.25)">
+      <p class="regiao-nome">São Paulo — SP</p>
+      <p class="regiao-sal" style="color:var(--green)">R$ 11.000–16.000</p>
+      <p class="regiao-desc">Hub tech nacional. Fintechs, big techs, startups. Maior concentração de vagas sênior e remoto internacional</p>
+    </div>
+    <div class="regiao-card" style="border-color:rgba(77,159,255,.25)">
+      <p class="regiao-nome">Rio de Janeiro — RJ</p>
+      <p class="regiao-sal" style="color:var(--blue)">R$ 9.000–14.000</p>
+      <p class="regiao-desc">Polo de óleo & gás tech, fintechs e governo digital. Segunda maior concentração de vagas do país</p>
+    </div>
+    <div class="regiao-card" style="border-color:rgba(255,233,77,.25)">
+      <p class="regiao-nome">Florianópolis — SC</p>
+      <p class="regiao-sal" style="color:var(--yellow)">R$ 8.000–14.000</p>
+      <p class="regiao-desc">A "Silicon Valley brasileira". Custo de vida menor que SP com salários competitivos e ecossistema de startups maduro</p>
+    </div>
+    <div class="regiao-card" style="border-color:rgba(255,140,66,.25)">
+      <p class="regiao-nome">Curitiba — PR</p>
+      <p class="regiao-sal" style="color:var(--orange)">R$ 7.500–13.000</p>
+      <p class="regiao-desc">Forte presença de indústria e fintechs. Software houses internacionais com contratos em moeda forte</p>
+    </div>
+    <div class="regiao-card" style="border-color:rgba(176,109,255,.25)">
+      <p class="regiao-nome">Belo Horizonte — MG</p>
+      <p class="regiao-sal" style="color:var(--purple)">R$ 7.000–12.000</p>
+      <p class="regiao-desc">Polo universitário forte (UFMG, PUC). Consultorias, SaaS e startups em crescimento acelerado</p>
+    </div>
+    <div class="regiao-card" style="border-color:rgba(255,110,247,.25)">
+      <p class="regiao-nome">Nordeste & Interior</p>
+      <p class="regiao-sal" style="color:var(--pink)">R$ 4.000–8.000</p>
+      <p class="regiao-desc">Lacuna salarial significativa — mas o remoto está mudando esse cenário. Quem trabalha para SP ou exterior quebra essa barreira</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CRESCIMENTO SALARIAL
+============================================================ -->
+<section class="secao" id="crescimento">
+  <div class="s-titulo">
+    <div class="s-bolinha" style="background:var(--blue)"></div>
+    <h2>Crescimento Salarial por Área — 2023→2026</h2>
+    <span class="s-sub">Variação estimada real</span>
+  </div>
+
+  <div class="grafico-wrap" id="grafico">
+    <div class="g-item">
+      <span class="g-label">⚛️ Computação Quântica</span>
+      <div class="g-bar-wrap"><div class="g-bar" data-pct="100" style="background:var(--purple)"></div></div>
+      <span class="g-pct" style="color:var(--purple)">+∞%</span>
+      <span class="g-val">Mercado novo</span>
+    </div>
+    <div class="g-item">
+      <span class="g-label">🤖 Engenheiro IA / LLMs</span>
+      <div class="g-bar-wrap"><div class="g-bar" data-pct="95" style="background:var(--pink)"></div></div>
+      <span class="g-pct" style="color:var(--pink)">+85%</span>
+      <span class="g-val">R$35k top</span>
+    </div>
+    <div class="g-item">
+      <span class="g-label">🔐 Especialista Segurança</span>
+      <div class="g-bar-wrap"><div class="g-bar" data-pct="75" style="background:var(--red)"></div></div>
+      <span class="g-pct" style="color:var(--red)">+55%</span>
+      <span class="g-val">R$28k top</span>
+    </div>
+    <div class="g-item">
+      <span class="g-label">📊 Engenheiro de Dados</span>
+      <div class="g-bar-wrap"><div class="g-bar" data-pct="68" style="background:var(--cyan)"></div></div>
+      <span class="g-pct" style="color:var(--cyan)">+48%</span>
+      <span class="g-val">R$30k top</span>
+    </div>
+    <div class="g-item">
+      <span class="g-label">☁️ DevOps / Cloud</span>
+      <div class="g-bar-wrap"><div class="g-bar" data-pct="58" style="background:var(--orange)"></div></div>
+      <span class="g-pct" style="color:var(--orange)">+38%</span>
+      <span class="g-val">R$25k top</span>
+    </div>
+    <div class="g-item">
+      <span class="g-label">⚙️ Dev Full Stack</span>
+      <div class="g-bar-wrap"><div class="g-bar" data-pct="42" style="background:var(--green)"></div></div>
+      <span class="g-pct" style="color:var(--green)">+22%</span>
+      <span class="g-val">R$21k top</span>
+    </div>
+    <div class="g-item">
+      <span class="g-label">🎨 Dev Front-End</span>
+      <div class="g-bar-wrap"><div class="g-bar" data-pct="32" style="background:var(--yellow)"></div></div>
+      <span class="g-pct" style="color:var(--yellow)">+15%</span>
+      <span class="g-val">R$18k top</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     COMPUTAÇÃO QUÂNTICA — A APOSTA
+============================================================ -->
+<section class="secao" id="quantum">
+  <div class="s-titulo">
+    <div class="s-bolinha" style="background:var(--purple)"></div>
+    <h2>⚛️ Computação Quântica — A área que ninguém te conta</h2>
+    <span class="s-sub">Fronteira. Agora.</span>
+  </div>
+
+  <div class="quantum-hero">
+    <p class="q-tag">Mercado emergente · Alto risco · Altíssima recompensa</p>
+    <h3>O próximo salto da computação já tem nome. Você vai surfar ou assistir?</h3>
+    <p>Computação quântica deixou o laboratório e começou a entrar nos mercados financeiro, farmacêutico e de energia em 2025. IBM, Google e Microsoft mantêm programas ativos no Brasil. As vagas existem — e quase ninguém está se preparando para elas. Criptografia pós-quântica é urgente: até 2029, os sistemas de criptografia assimétrica tradicionais serão vulneráveis a computadores quânticos. Quem souber bridgear física + computação + segurança vai ser o profissional mais caro do mercado.</p>
+
+    <div class="quantum-stats">
+      <div class="q-stat"><span class="q-num">R$&nbsp;30–50k</span><span class="q-label">Salário sênior (IBM/Google BR)</span></div>
+      <div class="q-stat"><span class="q-num">2029</span><span class="q-label">Criptografias atuais ficam vulneráveis</span></div>
+      <div class="q-stat"><span class="q-num">Poucos</span><span class="q-label">Profissionais formados no mundo</span></div>
+    </div>
+  </div>
+
+  <div class="quantum-cards">
+    <div class="q-card">
+      <span class="q-card-icon">🔬</span>
+      <h4 class="q-card-titulo">Quantum Software Engineer</h4>
+      <p class="q-card-desc">Desenvolve algoritmos quânticos usando Qiskit (IBM) ou Cirq (Google). Precisa entender gates quânticos, superposição e entrelaçamento. Não precisa ser físico — mas ajuda.</p>
+      <span class="q-alerta">🚀 Demanda: escassez total</span>
+    </div>
+    <div class="q-card">
+      <span class="q-card-icon">🔐</span>
+      <h4 class="q-card-titulo">Criptografia Pós-Quântica</h4>
+      <p class="q-card-desc">A urgência real do mercado agora. Migrar sistemas bancários e governamentais para algoritmos resistentes a ataques quânticos. NIST já publicou os padrões oficiais em 2024.</p>
+      <span class="q-alerta">⚡ Prazo: 2027–2029 para migração</span>
+    </div>
+    <div class="q-card">
+      <span class="q-card-icon">💊</span>
+      <h4 class="q-card-titulo">Quantum em Saúde & Pharma</h4>
+      <p class="q-card-desc">Simulação molecular quântica para descoberta de medicamentos. Reduz de anos para horas o tempo de simulação de proteínas. Pfizer, Roche e J&J já investem pesado.</p>
+      <span class="q-alerta">💰 Salários: US$150–250k nos EUA</span>
+    </div>
+    <div class="q-card">
+      <span class="q-card-icon">💹</span>
+      <h4 class="q-card-titulo">Quantum Finance</h4>
+      <p class="q-card-desc">Otimização de portfólio e precificação de derivativos exponencialmente mais rápida. JP Morgan e Goldman Sachs têm times quânticos. Brasil: BTG e Itaú começando exploração.</p>
+      <span class="q-alerta">📈 Crescimento: resultados concretos em 2025</span>
+    </div>
+    <div class="q-card">
+      <span class="q-card-icon">🎓</span>
+      <h4 class="q-card-titulo">Como começar hoje</h4>
+      <p class="q-card-desc">IBM Quantum Learning (gratuito), Qiskit Textbook (open source), cursos no edX de MIT e Berkeley. Matemática de matrizes + lógica + Python é a base. A porta de entrada existe.</p>
+      <span class="q-alerta">🟢 Gratuito: IBM Quantum Learning</span>
+    </div>
+    <div class="q-card">
+      <span class="q-card-icon">🇧🇷</span>
+      <h4 class="q-card-titulo">No Brasil</h4>
+      <p class="q-card-desc">INPE, USP e UNICAMP têm pesquisa quântica ativa. O MCTI investiu R$1,8 bi em ciências emergentes. Programas como Quantum Brasil estão formando os primeiros profissionais.</p>
+      <span class="q-alerta">🏛️ MCTI · INCT · IBM Research BR</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TENDÊNCIAS FUTURAS
+============================================================ -->
+<section class="secao" id="futuro">
+  <div class="s-titulo">
+    <div class="s-bolinha" style="background:var(--cyan)"></div>
+    <h2>Tendências de Mercado — 2026 e além</h2>
+    <span class="s-sub">O que está acontecendo agora</span>
+  </div>
+
+  <div class="tend-grid">
+    <div class="tend-card" data-ano="2025–2026">
+      <span class="tend-icon">🤖</span>
+      <h4 class="tend-titulo">IA Agêntica explode</h4>
+      <p class="tend-desc">Sistemas que agem autonomamente — não apenas respondem. Devs que sabem orquestrar agentes (LangGraph, AutoGen) viram os mais cobiçados. Salários de sênior para quem dominar isso ainda em 2026.</p>
+      <span class="tend-sal">R$ 18k–35k/mês</span>
+    </div>
+    <div class="tend-card" data-ano="2025–2026">
+      <span class="tend-icon">🔒</span>
+      <h4 class="tend-titulo">Cibersegurança crítica</h4>
+      <p class="tend-desc">Com digitalização de infraestrutura nacional (energia, saúde, governo), ataques aumentaram 400% em 3 anos. Projeção: 3,5 milhões de vagas não preenchidas globalmente até 2025. Remuneração acima de R$45k em setores estratégicos.</p>
+      <span class="tend-sal">R$ 15k–45k/mês</span>
+    </div>
+    <div class="tend-card" data-ano="2025–2027">
+      <span class="tend-icon">☁️</span>
+      <h4 class="tend-titulo">Cloud multicloud & Edge</h4>
+      <p class="tend-desc">Arquiteturas que rodam em AWS, GCP e Azure simultâneamente + edge computing para IoT e veículos autônomos. Terraform + Kubernetes + observabilidade é o trio dourado.</p>
+      <span class="tend-sal">R$ 14k–25k/mês</span>
+    </div>
+    <div class="tend-card" data-ano="2026–2028">
+      <span class="tend-icon">⚛️</span>
+      <h4 class="tend-titulo">Computação Quântica</h4>
+      <p class="tend-desc">Do laboratório para o mercado financeiro e farmacêutico. Primeiras aplicações comerciais reais em 2025–2026. Janela de oportunidade para quem entrar agora é enorme — antes da massa chegar.</p>
+      <span class="tend-sal">R$ 30k–50k/mês</span>
+    </div>
+    <div class="tend-card" data-ano="2026">
+      <span class="tend-icon">🌍</span>
+      <h4 class="tend-titulo">Fuga de talentos silenciosa</h4>
+      <p class="tend-desc">Brasileiros estão sendo absorvidos por empresas americanas em ritmo acelerado — morando no Brasil, recebendo em dólar. Inglês técnico + portfólio no GitHub = salário 4–7x maior sem sair de casa.</p>
+      <span class="tend-sal">US$ 60–90k remoto</span>
+    </div>
+    <div class="tend-card" data-ano="2026">
+      <span class="tend-icon">🏢</span>
+      <h4 class="tend-titulo">Fim do remoto puro nas grandes</h4>
+      <p class="tend-desc">Após 2023–2024, empresas grandes estão exigindo modelo híbrido. Mas fintechs, SaaS e startups internacionais mantêm remoto. Quem quer 100% remoto precisa mirar essas empresas especificamente.</p>
+      <span class="tend-sal">Bônus de presença: +15%</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DICAS ESTRATÉGICAS
+============================================================ -->
+<section class="secao" id="dicas">
+  <div class="s-titulo">
+    <div class="s-bolinha" style="background:var(--yellow)"></div>
+    <h2>Como Maximizar Seu Salário</h2>
+    <span class="s-sub">Estratégias concretas</span>
+  </div>
+
+  <div class="dicas-grid">
+    <div class="dica-card">
+      <span class="dica-num">01</span>
+      <div class="dica-content">
+        <h4>Inglês é multiplicador, não diferencial</h4>
+        <p>Dev com inglês fluente acessa vagas internacionais remotas que pagam 4–7× mais. Não é opcional para quem quer o topo da tabela salarial.</p>
+      </div>
+    </div>
+    <div class="dica-card">
+      <span class="dica-num">02</span>
+      <div class="dica-content">
+        <h4>Especialização > generalismo</h4>
+        <p>O mercado de 2025–2026 pagou muito mais por especialistas em IA, segurança e dados do que por full stacks genéricos. Escolha uma área e vá fundo.</p>
+      </div>
+    </div>
+    <div class="dica-card">
+      <span class="dica-num">03</span>
+      <div class="dica-content">
+        <h4>Portfólio no GitHub vale mais que diploma</h4>
+        <p>Empresas americanas contratando remotamente verificam GitHub, contribuições open source e projetos reais. Um repositório com 100 stars vale mais que 3 certificados.</p>
+      </div>
+    </div>
+    <div class="dica-card">
+      <span class="dica-num">04</span>
+      <div class="dica-content">
+        <h4>Computação Quântica: entre agora</h4>
+        <p>A janela de oportunidade é agora, antes da massa descobrir. IBM Quantum Learning é gratuito. Quem entrar nos próximos 2 anos estará anos à frente quando o mercado explodir.</p>
+      </div>
+    </div>
+    <div class="dica-card">
+      <span class="dica-num">05</span>
+      <div class="dica-content">
+        <h4>CLT vs PJ vs remoto internacional</h4>
+        <p>CLT pleno BR médio: R$9k. PJ com cliente SP: R$12–15k. Remoto para EUA: R$25–45k. A diferença de regime jurídico pode ser o maior salto salarial da sua carreira.</p>
+      </div>
+    </div>
+    <div class="dica-card">
+      <span class="dica-num">06</span>
+      <div class="dica-content">
+        <h4>ADS é uma porta, não um teto</h4>
+        <p>Análise e Desenvolvimento de Sistemas dá a base técnica. Quem combina ADS + especialização em IA, cloud ou segurança + inglês entra na faixa dos R$15k+ em 2–3 anos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span class="footer-txt">
+    Fontes: <a href="https://www.roberthalf.com/br/pt/insights/guia-salarial/tecnologia" target="_blank">Robert Half 2026</a> ·
+    <a href="https://pesquisa.codigofonte.com.br/2025" target="_blank">Código Fonte TV 2025</a> ·
+    <a href="https://tiinside.com.br/25/11/2025/eua-lideram-contratacoes-de-devs-brasileiros" target="_blank">TechFX 2025</a> ·
+    CAGED/MTE
+  </span>
+  <span class="footer-txt">BALCÃO TECH © 2025</span>
+</footer>
+
+<script>
+// NAV SCROLL
+function ir(id) {
+  document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'});
+  document.querySelectorAll('.snbtn').forEach(b => b.classList.remove('ativo'));
+  event.currentTarget.classList.add('ativo');
+}
+
+// ANIMAÇÃO BARRAS
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.g-bar').forEach(bar => {
+        bar.style.width = bar.dataset.pct + '%';
+      });
+    }
+  });
+}, {threshold: 0.3});
+
+const grafico = document.getElementById('grafico');
+if (grafico) observer.observe(grafico);
+
+// SUBNAV ACTIVE ON SCROLL
+const secoes = document.querySelectorAll('section[id]');
+const btns   = document.querySelectorAll('.snbtn');
+const ids    = ['brasil','global','regioes','crescimento','quantum','futuro','dicas'];
+
+window.addEventListener('scroll', () => {
+  let atual = '';
+  secoes.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 200) atual = s.id;
+  });
+  btns.forEach((b, i) => {
+    b.classList.toggle('ativo', ids[i] === atual);
+  });
+}, {passive: true});
+</script>
+</body>
+</html>

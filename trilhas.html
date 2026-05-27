@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trilhas de Estudo — BALCÃO TECH</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0a0a0f; --surface:#13131a; --s2:#1c1c28; --border:rgba(255,255,255,.07);
+  --text:#f0eeff; --muted:rgba(240,238,255,.38);
+  --green:#4dff91; --cyan:#00ffe0; --yellow:#ffe94d; --pink:#ff6ef7;
+  --orange:#ff8c42; --blue:#4d9fff; --purple:#b06dff; --red:#ff5c5c;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.4;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E")}
+
+.blob{position:fixed;border-radius:50%;filter:blur(140px);pointer-events:none;z-index:0;opacity:.12}
+.b1{width:500px;height:500px;background:var(--cyan);top:-100px;left:-80px}
+.b2{width:450px;height:450px;background:var(--purple);bottom:-80px;right:-80px}
+.b3{width:280px;height:280px;background:var(--yellow);top:50%;left:55%}
+
+/* HEADER */
+header{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;
+  justify-content:space-between;padding:16px 6%;
+  background:rgba(10,10,15,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.logo{font-family:'DM Mono',monospace;font-size:.9rem;letter-spacing:2px;color:var(--cyan);text-decoration:none}
+.logo span{color:var(--text)}
+.btn-voltar{font-family:'DM Mono',monospace;font-size:.8rem;color:var(--muted);text-decoration:none;transition:color .2s}
+.btn-voltar:hover{color:var(--cyan)}
+
+/* SUBNAV */
+.subnav{position:sticky;top:57px;z-index:100;display:flex;gap:6px;overflow-x:auto;
+  padding:10px 6%;background:rgba(10,10,15,.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);scrollbar-width:none}
+.subnav::-webkit-scrollbar{display:none}
+.snbtn{font-family:'DM Mono',monospace;font-size:.63rem;letter-spacing:1.5px;
+  padding:7px 15px;border-radius:100px;white-space:nowrap;
+  border:1.5px solid var(--border);background:transparent;
+  color:var(--muted);cursor:pointer;transition:all .2s}
+.snbtn:hover,.snbtn.ativo{border-color:var(--cyan);color:var(--cyan);background:rgba(0,255,224,.06)}
+
+main{position:relative;z-index:1;padding-top:80px}
+
+/* HERO */
+.hero{padding:68px 6% 50px;position:relative;overflow:hidden}
+.hero::after{content:'MAP';position:absolute;right:-1%;top:50%;transform:translateY(-50%);
+  font-size:24vw;font-weight:900;color:rgba(255,255,255,.02);pointer-events:none;white-space:nowrap}
+.htag{font-family:'DM Mono',monospace;font-size:.73rem;color:var(--cyan);letter-spacing:3px;
+  text-transform:uppercase;display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.htag::before,.htag::after{content:'';display:block;width:28px;height:1px;background:var(--cyan)}
+.hero h1{font-size:clamp(3rem,8vw,6.5rem);font-weight:900;line-height:.92;margin-bottom:18px}
+.hero h1 em{font-style:normal;color:var(--cyan);display:block}
+.hero p{font-size:1rem;color:var(--muted);line-height:1.7;max-width:520px;margin-bottom:32px}
+.hero-chips{display:flex;flex-wrap:wrap;gap:8px}
+.hchip{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:1px;
+  padding:6px 14px;border-radius:100px;border:1px solid var(--border);
+  color:var(--muted);background:rgba(255,255,255,.03);cursor:pointer;transition:all .2s}
+.hchip:hover{border-color:var(--cyan);color:var(--cyan)}
+
+/* SEÇÃO */
+.secao{padding:64px 6%}
+.secao+.secao{padding-top:0}
+.stitle{display:flex;align-items:center;gap:12px;margin-bottom:28px;
+  padding-bottom:16px;border-bottom:1px solid var(--border)}
+.sbol{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.stitle h2{font-size:1.05rem;font-weight:800;letter-spacing:.5px}
+.ssub{font-size:.72rem;color:var(--muted);margin-left:auto}
+
+/* ============================================================
+   SELETOR DE TRILHA
+============================================================ */
+.trilha-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
+.ttab{
+  font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:1px;
+  padding:10px 20px;border-radius:12px;cursor:pointer;transition:all .22s;
+  border:1.5px solid var(--border);background:rgba(255,255,255,.03);
+  color:var(--muted);display:flex;align-items:center;gap:8px;
+}
+.ttab:hover{border-color:rgba(255,255,255,.2);color:var(--text)}
+.ttab.ativo{color:var(--text);background:rgba(255,255,255,.06)}
+
+/* ROADMAP */
+.roadmap-wrap{display:none}
+.roadmap-wrap.ativo{display:block;animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+.rm-header{
+  padding:36px 40px;border-radius:20px;margin-bottom:24px;
+  position:relative;overflow:hidden;
+  border:1.5px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.03);
+}
+.rm-header::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--rm-cor,var(--cyan))}
+.rm-emoji{font-size:2.5rem;margin-bottom:12px;display:block}
+.rm-nome{font-size:1.6rem;font-weight:900;line-height:1.1;margin-bottom:8px}
+.rm-desc{font-size:.88rem;color:var(--muted);line-height:1.6;max-width:640px;margin-bottom:20px}
+.rm-meta{display:flex;gap:28px;flex-wrap:wrap}
+.rm-stat{display:flex;flex-direction:column}
+.rm-num{font-family:'DM Mono',monospace;font-size:1.3rem;font-weight:700;line-height:1}
+.rm-label{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:3px}
+
+/* FASES DO ROADMAP */
+.fases{display:flex;flex-direction:column;gap:0}
+
+.fase{
+  display:grid;grid-template-columns:auto 1fr;gap:0 24px;
+  position:relative;
+}
+
+/* linha conectora vertical */
+.fase:not(:last-child) .fase-left::after{
+  content:'';position:absolute;left:19px;top:40px;bottom:-20px;
+  width:1px;background:linear-gradient(to bottom,var(--rm-cor,var(--cyan)),transparent);
+  z-index:0;
+}
+.fase-left{position:relative;display:flex;flex-direction:column;align-items:center;padding-top:4px}
+.fase-num{
+  width:40px;height:40px;border-radius:50%;border:2px solid var(--rm-cor,var(--cyan));
+  background:var(--bg);display:flex;align-items:center;justify-content:center;
+  font-family:'DM Mono',monospace;font-size:.68rem;font-weight:500;
+  color:var(--rm-cor,var(--cyan));z-index:1;flex-shrink:0;position:relative;
+  transition:all .3s;
+}
+.fase:hover .fase-num{background:var(--rm-cor,var(--cyan));color:var(--bg)}
+
+.fase-right{
+  padding:4px 0 32px;
+}
+.fase-titulo{font-size:1rem;font-weight:800;margin-bottom:6px}
+.fase-desc{font-size:.8rem;color:var(--muted);line-height:1.6;margin-bottom:12px}
+
+.fase-items{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.fi{
+  font-family:'DM Mono',monospace;font-size:.62rem;
+  padding:4px 11px;border-radius:100px;
+  border:1px solid rgba(255,255,255,.08);
+  color:rgba(240,238,255,.5);background:rgba(255,255,255,.03);
+}
+
+.fase-links{display:flex;flex-wrap:wrap;gap:6px}
+.fl{
+  font-family:'DM Mono',monospace;font-size:.62rem;
+  padding:5px 12px;border-radius:100px;
+  border:1px solid var(--rm-cor,var(--cyan));
+  color:var(--rm-cor,var(--cyan));background:rgba(255,255,255,.02);
+  text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:5px;
+}
+.fl:hover{background:rgba(255,255,255,.06);transform:translateY(-1px)}
+.fl .ext{opacity:.5;font-size:.55rem}
+
+/* ============================================================
+   PLATAFORMAS GRATUITAS
+============================================================ */
+.plat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.plat-card{
+  padding:24px;border-radius:16px;background:var(--surface);
+  border:1.5px solid var(--border);position:relative;overflow:hidden;
+  transition:transform .22s,border-color .22s;text-decoration:none;color:inherit;display:block;
+}
+.plat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--pc,var(--cyan));opacity:0;transition:opacity .22s}
+.plat-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.16)}
+.plat-card:hover::before{opacity:1}
+.pc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.pc-emoji{font-size:2rem}
+.pc-badge{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:1px;
+  padding:3px 9px;border-radius:100px;border:1px solid var(--border);color:var(--muted)}
+.pc-nome{font-size:1rem;font-weight:800;margin-bottom:6px}
+.pc-desc{font-size:.78rem;color:var(--muted);line-height:1.6;margin-bottom:12px}
+.pc-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+.pctag{font-family:'DM Mono',monospace;font-size:.58rem;padding:3px 9px;border-radius:100px;
+  border:1px solid var(--border);color:rgba(240,238,255,.3)}
+.pc-rodape{display:flex;align-items:center;justify-content:space-between;
+  padding-top:12px;border-top:1px solid var(--border)}
+.pc-tipo{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--muted)}
+.pc-seta{font-size:.85rem;color:var(--pc,var(--cyan));opacity:0;transform:translateX(-4px);transition:all .2s}
+.plat-card:hover .pc-seta{opacity:1;transform:translateX(0)}
+
+/* ============================================================
+   CERTIFICAÇÕES
+============================================================ */
+.cert-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.cert-card{
+  padding:26px;border-radius:16px;background:var(--surface);
+  border:1.5px solid var(--border);position:relative;
+  transition:transform .22s,border-color .22s;
+}
+.cert-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.16)}
+.cert-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.cert-logo{font-size:1.8rem}
+.cert-org{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+.cert-nome{font-size:.95rem;font-weight:800;line-height:1.2;margin-top:2px}
+.cert-desc{font-size:.78rem;color:var(--muted);line-height:1.6;margin-bottom:14px}
+.cert-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.cm{background:rgba(255,255,255,.03);border:1px solid var(--border);
+  border-radius:8px;padding:8px 12px}
+.cm-label{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:1.5px;
+  color:var(--muted);text-transform:uppercase;margin-bottom:2px}
+.cm-val{font-size:.82rem;font-weight:700}
+.cert-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+.ctag{font-family:'DM Mono',monospace;font-size:.58rem;padding:3px 9px;border-radius:100px;
+  border:1px solid rgba(255,255,255,.08);color:rgba(240,238,255,.35)}
+.cert-links{display:flex;flex-wrap:wrap;gap:6px}
+.clink{
+  font-family:'DM Mono',monospace;font-size:.62rem;padding:6px 14px;border-radius:100px;
+  text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:5px;
+  border:1px solid var(--cc,var(--cyan));color:var(--cc,var(--cyan));
+  background:rgba(255,255,255,.02);
+}
+.clink:hover{background:rgba(255,255,255,.06);transform:translateY(-1px)}
+.clink.prim{background:var(--cc,var(--cyan));color:var(--bg);border-color:var(--cc,var(--cyan))}
+.clink.prim:hover{opacity:.88}
+
+/* CERT BADGE (dificuldade) */
+.cert-nivel{
+  position:absolute;top:16px;right:18px;
+  font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:1px;
+  padding:3px 10px;border-radius:100px;border:1px solid;
+}
+.n-entry{border-color:rgba(77,255,145,.3);color:var(--green)}
+.n-mid  {border-color:rgba(255,233,77,.3);color:var(--yellow)}
+.n-adv  {border-color:rgba(255,92,92,.3); color:var(--red)}
+.n-exp  {border-color:rgba(176,109,255,.3);color:var(--purple)}
+
+/* TRILHA DE CERT */
+.cert-trilha-wrap{
+  padding:32px 36px;border-radius:20px;
+  background:rgba(255,255,255,.02);border:1.5px solid var(--border);
+  margin-bottom:16px;
+}
+.ct-nome{font-size:1rem;font-weight:800;margin-bottom:4px}
+.ct-desc{font-size:.78rem;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.ct-passos{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.ct-passo{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 16px;border-radius:12px;
+  background:rgba(255,255,255,.04);border:1px solid var(--border);
+  font-size:.8rem;font-weight:700;
+}
+.ct-seta{color:var(--muted);font-size:.8rem}
+.ct-tempo{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--muted);
+  display:block;margin-top:1px;font-weight:400}
+
+/* DICAS */
+.dica-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.dica-card{display:flex;gap:14px;padding:22px;border-radius:14px;
+  background:var(--surface);border:1px solid var(--border)}
+.dica-n{font-family:'DM Mono',monospace;font-size:1.3rem;font-weight:700;
+  color:rgba(255,255,255,.1);flex-shrink:0;line-height:1;padding-top:2px}
+.dica-h{font-size:.9rem;font-weight:800;margin-bottom:5px}
+.dica-p{font-size:.76rem;color:var(--muted);line-height:1.6}
+
+/* FOOTER */
+footer{padding:40px 6%;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.ft{font-family:'DM Mono',monospace;font-size:.7rem;color:rgba(255,255,255,.18);letter-spacing:1px}
+.ft a{color:var(--cyan);text-decoration:none}
+
+@media(max-width:700px){
+  .hero h1{font-size:2.8rem}
+  .rm-header{padding:24px 20px}
+  .fase{grid-template-columns:auto 1fr;gap:0 16px}
+  .cert-meta{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div class="blob b3"></div>
+
+<header>
+  <a href="index.html" class="logo">BALCÃO<span> TECH</span></a>
+  <a href="index.html" class="btn-voltar">← voltar</a>
+</header>
+
+<nav class="subnav">
+  <button class="snbtn ativo" onclick="ir('roadmaps')">🗺️ Roadmaps</button>
+  <button class="snbtn" onclick="ir('plataformas')">🌐 Plataformas Gratuitas</button>
+  <button class="snbtn" onclick="ir('certificacoes')">🏅 Certificações</button>
+  <button class="snbtn" onclick="ir('trilhas-cert')">📋 Trilha p/ Certificações</button>
+  <button class="snbtn" onclick="ir('dicas')">💡 Dicas de Estudo</button>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="htag">BALCÃO TECH · TRILHAS 2025–2026</p>
+  <h1>Seu mapa<br><em>não tem fim.</em></h1>
+  <p>Roadmaps completos, plataformas 100% gratuitas e trilhas de certificação com links diretos. Escolha uma área e comece agora.</p>
+  <div class="hero-chips">
+    <span class="hchip" onclick="selecionarTrilha('backend')">⚙️ Back-End</span>
+    <span class="hchip" onclick="selecionarTrilha('frontend')">🎨 Front-End</span>
+    <span class="hchip" onclick="selecionarTrilha('dados')">📊 Dados & IA</span>
+    <span class="hchip" onclick="selecionarTrilha('devops')">☁️ DevOps</span>
+    <span class="hchip" onclick="selecionarTrilha('seguranca')">🔐 Segurança</span>
+    <span class="hchip" onclick="selecionarTrilha('mobile')">📱 Mobile</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     ROADMAPS
+============================================================ -->
+<section class="secao" id="roadmaps">
+  <div class="stitle">
+    <div class="sbol" style="background:var(--cyan)"></div>
+    <h2>Roadmaps por Área</h2>
+    <span class="ssub">Clique na trilha para expandir</span>
+  </div>
+
+  <!-- TABS -->
+  <div class="trilha-tabs">
+    <button class="ttab ativo" onclick="selecionarTrilha('backend')"   style="--tc:var(--cyan)">   <span>⚙️</span> Back-End</button>
+    <button class="ttab"       onclick="selecionarTrilha('frontend')"  style="--tc:var(--pink)">   <span>🎨</span> Front-End</button>
+    <button class="ttab"       onclick="selecionarTrilha('dados')"     style="--tc:var(--purple)"> <span>📊</span> Dados & IA</button>
+    <button class="ttab"       onclick="selecionarTrilha('devops')"    style="--tc:var(--orange)"> <span>☁️</span> DevOps</button>
+    <button class="ttab"       onclick="selecionarTrilha('seguranca')" style="--tc:var(--red)">    <span>🔐</span> Segurança</button>
+    <button class="ttab"       onclick="selecionarTrilha('mobile')"    style="--tc:var(--green)">  <span>📱</span> Mobile</button>
+  </div>
+
+  <!-- ── BACK-END ── -->
+  <div class="roadmap-wrap ativo" id="rm-backend" style="--rm-cor:var(--cyan)">
+    <div class="rm-header">
+      <span class="rm-emoji">⚙️</span>
+      <h2 class="rm-nome">Desenvolvedor Back-End</h2>
+      <p class="rm-desc">As engrenagens invisíveis que fazem tudo funcionar. APIs, bancos de dados, autenticação e arquitetura escalável são seu território.</p>
+      <div class="rm-meta">
+        <div class="rm-stat"><span class="rm-num" style="color:var(--cyan)">8–18</span><span class="rm-label">Meses até júnior</span></div>
+        <div class="rm-stat"><span class="rm-num" style="color:var(--cyan)">R$&nbsp;12k+</span><span class="rm-label">Salário pleno</span></div>
+        <div class="rm-stat"><span class="rm-num" style="color:var(--cyan)">🔥 Alta</span><span class="rm-label">Demanda mercado</span></div>
+      </div>
+    </div>
+    <div class="fases">
+      <div class="fase">
+        <div class="fase-left"><div class="fase-num">01</div></div>
+        <div class="fase-right">
+          <h3 class="fase-titulo">Fundamentos Absolutos</h3>
+          <p class="fase-desc">Base que nenhum atalho substitui. Lógica de programação, estruturas de dados e como a web funciona de verdade.</p>
+          <div class="fase-items"><span class="fi">Lógica</span><span class="fi">Git & GitHub</span><span class="fi">Terminal / Bash</span><span class="fi">HTTP/HTTPS</span><span class="fi">JSON</span></div>
+          <div class="fase-links">
+            <a href="https://cs50.harvard.edu/x/" target="_blank" class="fl">CS50 Harvard <span class="ext">↗</span></a>
+            <a href="https://www.freecodecamp.org/learn" target="_blank" class="fl">freeCodeCamp <span class="ext">↗</span></a>
+            <a href="https://git-scm.com/book/pt-br/v2" target="_blank" class="fl">Pro Git (PT-BR) <span class="ext">↗</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="fase">
+        <div class="fase-left"><div class="fase-num">02</div></div>
+        <div class="fase-right">
+          <h3 class="fase-titulo">Linguagem Principal</h3>
+          <p class="fase-desc">Escolha UMA e vá fundo. Python para dados e APIs, Java/Kotlin para enterprise, Go para performance.</p>
+          <div class="fase-items"><span class="fi">Python</span><span class="fi">ou Java</span><span class="fi">ou Node.js</span><span class="fi">ou Go</span><span class="fi">POO</span><span class="fi">Testes</span></div>
+          <div class="fase-links">
+            <a href="https://docs.python.org/pt-br/3/tutorial/" target="_blank" class="fl">Tutorial Python PT-BR <span class="ext">↗</span></a>
+            <a href="https://www.caelum.com.br/apostila/apostila-java-orientacao-objetos.pdf" target="_blank" class="fl">Apostila Java Caelum <span class="ext">↗</span></a>
+            <a href="https://nodejs.org/en/learn/getting-started/introduction-to-nodejs" target="_blank" class="fl">Node.js Docs <span class="ext">↗</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="fase">
+        <div class="fase-left"><div class="fase-num">03</div></div>
+        <div class="fase-right">
+          <h3 class="fase-titulo">Banco de Dados</h3>
+          <p class="fase-desc">SQL é obrigatório. NoSQL é diferencial. Modelagem de dados separa quem entende de quem apenas usa o ORM.</p>
+          <div class="fase-items"><span class="fi">SQL</span><span class="fi">PostgreSQL</span><span class="fi">MySQL</span><span class="fi">MongoDB</span><span class="fi">Redis</span><span class="fi">ORM</span></div>
+          <div class="fase-links">
+            <a href="https://sqlzoo.net" target="_blank" class="fl">SQLZoo <span class="ext">↗</span></a>
+            <a href="https://mystery.knightlab.com" target="_blank" class="fl">SQL Murder Mystery <span class="ext">↗</span></a>
+            <a href="https://www.caelum.com.br/apostila/apostila-sql-oracle-jdbc.pdf" target="_blank" class="fl">Apostila SQL Caelum <span class="ext">↗</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="fase">
+        <div class="fase-left"><div class="fase-num">04</div></div>
+        <div class="fase-right">
+          <h3 class="fase-titulo">APIs & Autenticação</h3>
+          <p class="fase-desc">REST, autenticação com JWT/OAuth2, versionamento, documentação com Swagger e boas práticas de segurança em APIs.</p>
+          <div class="fase-items"><span class="fi">REST API</span><span class="fi">JWT</span><span class="fi">OAuth2</span><span class="fi">Swagger/OpenAPI</span><span class="fi">Rate Limiting</span></div>
+          <div class="fase-links">
+            <a href="https://developer.mozilla.org/pt-BR/docs/Web/HTTP" target="_blank" class="fl">MDN HTTP <span class="ext">↗</span></a>
+            <a href="https://fastapi.tiangolo.com/tutorial/" target="_blank" class="fl">FastAPI Tutorial <span class="ext">↗</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="fase">
+        <div class="fase-left"><div class="fase-num">05</div></div>
+        <div class="fase-right">
+          <h3 class="fase-titulo">Docker & Deploy Básico</h3>
+          <p class="fase-desc">Containerizar sua aplicação e colocar ela no ar. Docker, variáveis de ambiente, CI/CD básico e primeiros passos em cloud.</p>
+          <div class="fase-items"><span class="fi">Docker</span><span class="fi">Docker Compose</span><span class="fi">GitHub Actions</span><span class="fi">Railway/Render</span><span class="fi">Variáveis de Ambiente</span></div>
+          <div class="fase-links">
+            <a href="https://docs.docker.com/get-started/" target="_blank" class="fl">Docker Getting Started <span class="ext">↗</span></a>
+            <a href="https://docs.github.com/pt/actions" target="_blank" class="fl">GitHub Actions Docs <span class="ext">↗</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="fase">
+        <div class="fase-left"><div class="fase-num">06</div></div>
+        <div class="fase-right">
+          <h3 class="fase-titulo">Arquitetura & Senioridade</h3>
+          <p class="fase-desc">Microsserviços, filas de mensagens, cache distribuído e System Design. Aqui a diferença de salário começa a ser brutal.</p>
+          <div class="fase-items"><span class="fi">Microsserviços</span><span class="fi">RabbitMQ/Kafka</span><span class="fi">Redis Cache</span><span class="fi">System Design</span><span class="fi">SOLID</span><span class="fi">Clean Arch</span></div>
+          <div class="fase-links">
+            <a href="https://roadmap.sh/backend" target="_blank" class="fl">roadmap.sh Back-End <span class="ext">↗</span></a>
+            <a href="https://github.com/donnemartin/system-design-primer" target="_blank" class="fl">System Design Primer <span class="ext">↗</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FRONT-END ── -->
+  <div class="roadmap-wrap" id="rm-frontend" style="--rm-cor:var(--pink)">
+    <div class="rm-header">
+      <span class="rm-emoji">🎨</span>
+      <h2 class="rm-nome">Desenvolvedor Front-End</h2>
+      <p class="rm-desc">A interface entre humanos e tecnologia. HTML, CSS e JavaScript são a trindade — React é o dialeto que o mercado paga mais.</p>
+      <div class="rm-meta">
+        <div class="rm-stat"><span class="rm-num" style="color:var(--pink)">6–14</span><span class="rm-label">Meses até júnior</span></div>
+        <div class="rm-stat"><span class="rm-num" style="color:var(--pink)">R$&nbsp;9k+</span><span class="rm-label">Salário pleno</span></div>
+        <div class="rm-stat"><span class="rm-num" style="color:var(--pink)">✅ Alta</span><span class="rm-label">Demanda mercado</span></div>
+      </div>
+    </div>
+    <div class="fases">
+      <div class="fase">
+        <div class="fase-left"><div class="fase-num">01</div></div>
+        <div class="fase-right">
+          <h3 class="fase-titulo">HTML & CSS Semântico</h3>
+          <p class="fase-desc">A base real. HTML semântico, acessibilidade, Flexbox, Grid e responsividade com mobile-first.</p>
+          <div class="fase-items"><span class="fi">HTML5</span><span class="fi">CSS3</span><span class="fi">Flexbox</span><span class="fi">Grid</span><span class="fi">Responsividade</span><span class="fi">Acessibilidade</span></div>
+          <div class="fase-links">
+            <a href="https://developer.mozilla.org/pt-BR/docs/Learn" target="_blank" class="fl">MDN Learn (PT-BR) <span class="ext">↗</span></a>
+            <a href="https://flexboxfroggy.com/#pt-br" target="_blank" class="fl">Flexbox Froggy <span class="ext">↗</span></a>
+            <a href="https://cssgridgarden.com/#pt-br" target="_blank" class="fl">Grid Garden <span class="ext">↗</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="fase">
+        <div class="fase-left"><div class="fase-num">02</div></div>
+        <div class="fase-right">
+          <h3 class="fase-titulo">JavaScript Moderno</h3>
+          <p class="fase-desc">ES6+, DOM manipulation, Fetch API, Promises, async/await. JS vanilla antes de qualquer framework.</p>
+          <div class="fase-items"><span class="fi">ES6+</span><span class="fi">DOM</span><span class="fi">Fetch API</span><span class="fi">Promises</span><span class="fi">async/await</span><span class="fi">LocalStorage</span></div>
+          <div class="fase-links">
+            <a href="https://javascript.info" target="_blank" class="fl">javascript.info <span class="ext">↗</span></a>
+            <a href="https://eloquentjavascript.net" target="_blank" class="fl">Eloquent JS <span class="ext">↗</span></a>
+            <a href="https://javascript30.com" target="_blank" class="fl">JS30 (30 projetos) <span class="ext">↗</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="fase">
+        <div class="fase-left"><div class="fase-num">03</div></div>
+        <div class="fase-right">
+          <h3 class="fase-titulo">React + TypeScript</h3>
+          <p class="fase-desc">O framework que o mercado pede. Componentes, hooks, estado global (Zustand/Context) e TypeScript para robustez.</p>
+          <div class="fase-items"><span class="fi">React</span><span class="fi">Hooks</span><span class="fi">TypeScript</span><span class="fi">Zustand</span><span class="fi">React Router</span><span class="fi">Vite</span></div>
+          <div class="fase-links">
+            <a href="https://react.dev/learn" target="_blank" class="fl">React Docs Oficial <span class="ext">↗</span></a>
+            <a href="https://www.typescriptlang.org/docs/handbook/intro.html" target="_blank" class="fl">TS Handbook <span class="ext">↗</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="fase">
+        <div class="fase-left"><div class="fase-num">04</div></div>
+        <div class="fase-right">
+          <h3 class="fase-titulo">Tooling & Testes</h3>
+          <p class="fase-desc">Git profissional, Vite, Webpack, testes com Vitest/Jest e CI/CD para deploys automatizados.</p>
+          <div class="fase-items"><span class="fi">Vite</span><span class="fi">ESLint</span><span class="fi">Vitest</span><span class="fi">Git avançado</span><span class="fi">Vercel/Netlify</span></div>
+          <div class="fase-links">
+            <a href="https://vitest.dev" target="_blank" class="fl">Vitest Docs <span class="ext">↗</span></a>
+            <a href="https://www.frontendmentor.io" target="_blank" class="fl">Frontend Mentor <span class="ext">↗</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="fase">
+        <div class="fase-left"><div class="fase-num">05</div></div>
+        <div class="fase-right">
+          <h3 class="fase-titulo">Performance & Design System</h3>
+          <p class="fase-desc">Core Web Vitals, lazy loading, design systems, Storybook e acessibilidade WCAG. Isso é o que separa sênior de pleno.</p>
+          <div class="fase-items"><span class="fi">Core Web Vitals</span><span class="fi">Storybook</span><span class="fi">WCAG 2.1</span><span class="fi">Design Tokens</span><span class="fi">SSR/Next.js</span></div>
+          <div class="fase-links">
+            <a href="https://roadmap.sh/frontend" target="_blank" class="fl">roadmap.sh Front-End <span class="ext">↗</span></a>
+            <a href="https://web.dev/learn/" target="_blank" class="fl">web.dev/learn (Google) <span class="ext">↗</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DADOS & IA ── -->
+  <div class="roadmap-wrap" id="rm-dados" style="--rm-cor:var(--purple)">
+    <div class="rm-header">
+      <span class="rm-emoji">📊</span>
+      <h2 class="rm-nome">Dados & Inteligência Artificial</h2>
+      <p class="rm-desc">A área de maior crescimento salarial do mercado. Python, estatística, modelos de ML e LLMs — a combinação mais valorizada de 2025–2026.</p>
+      <div class="rm-meta">
+        <div class="rm-stat"><span class="rm-num" style="color:var(--purple)">10–20</span><span class="rm-label">Meses até júnior</span></div>
+        <div class="rm-stat"><span class="rm-num" style="color:var(--purple)">R$&nbsp;18k+</span><span class="rm-label">Salário pleno</span></div>
+        <div class="rm-stat"><span class="rm-num" style="color:var(--purple)">🔥 Explosiva</span><span class="rm-label">Demanda mercado</span></div>
+      </div>
+    </div>
+    <div class="fases">
+      <div class="fase">
+        <div class="fase-left"><div class="fase-num">01</div></div>
+        <div class="fase-right">
+          <h3 class="fase-titulo">Python para Dados</h3>
+          <p class="fase-desc">Python é a língua franca de dados e IA. NumPy, Pandas e visualização com Matplotlib/Seaborn são o ponto de partida.</p>
+          <div class="fase-items"><span class="fi">Python</span><span class="fi">NumPy</span><span class="fi">Pandas</span><span class="fi">Matplotlib</span><span class="fi">Seaborn</span><span class="fi">Jupyter</span></div>
+          <div class="fase-links">
+            <a href="https://www.kaggle.com/learn/python" target="_blank" class="fl">Kaggle Python <span class="ext">↗</span></a>
+            <a href="https://www.kaggle.com/learn/pandas" target="_blank" class="fl">Kaggle Pandas <span class="ext">↗</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="fase">
+        <div class="fase-left"><div class="fase-num">02</div></div>
+        <div class="fase-right">
+          <h3 class="fase-titulo">SQL & Estatística</h3>
+          <p class="fase-desc">Nenhum cientista de dados escapa de SQL. Estatística descritiva, probabilidade e distribuições são a base matemática.</p>
+          <div class="fase-items"><span class="fi">SQL avançado</span><span class="fi">Estatística Descritiva</span><span class="fi">Probabilidade</span><span class="fi">Distribuições</span><span class="fi">A/B Testing</span></div>
+          <div class="fase-links">
+            <a href="https://selectstarsql.com" target="_blank" class="fl">Select Star SQL <span class="ext">↗</span></a>
+            <a href="https://www.khanacademy.org/math/statistics-probability" target="_blank" class="fl">Khan Academy Estatística <span class="ext">↗</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="fase">
+        <div class="fase-left"><div class="fase-num">03</div></div>
+        <div class="fase-right">
+          <h3 class="fase-titulo">Machine Learning Clássico</h3>
+          <p class="fase-desc">Scikit-learn, regressão, classificação, clustering e avaliação de modelos. A base antes de deep learning.</p>
+          <div class="fase-items"><span class="fi">Scikit-learn</span><span class="fi">Regressão</span><span class="fi">Classificação</span><span class="fi">Clustering</span><span class="fi">Cross-validation</span></div>
+          <div class="fase-links">
+            <a href="https://www.kaggle.com/learn/intro-to-machine-learning" target="_blank" class="fl">Kaggle ML Intro <span class="ext">↗</span></a>
+            <a href="https://scikit-learn.org/stable/tutorial/" target="_blank" class="fl">Scikit-learn Tutorial <span class="ext">↗</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="fase">
+        <div class="fase-left"><div class="fase-num">04</div></div>
+        <div class="fase-right">
+          <h3 class="fase-titulo">Deep Learning & LLMs</h3>
+          <p class="fase-desc">PyTorch, redes neurais, Transformers e o ecossistema de IA generativa. LangChain e RAG são o diferencial de 2025.</p>
+          <div class="fase-items"><span class="fi">PyTorch</span><span class="fi">Transformers</span><span class="fi">HuggingFace</span><span class="fi">LangChain</span><span class="fi">RAG</span><span class="fi">Fine-tuning</span></div>
+          <div class="fase-links">
+            <a href="https://course.fast.ai" target="_blank" class="fl">fast.ai (Gratuito) <span class="ext">↗</span></a>
+            <a href="https://huggingface.co/learn" target="_blank" class="fl">HuggingFace Learn <span class="ext">↗</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="fase">
+        <div class="fase-left"><div class="fase-num">05</div></div>
+        <div class="fase-right">
+          <h3 class="fase-titulo">Engenharia de Dados & MLOps</h3>
+          <p class="fase-desc">Pipelines de dados com Airflow, feature stores, MLflow para tracking e deploy de modelos em produção.</p>
+          <div class="fase-items"><span class="fi">Airflow</span><span class="fi">dbt</span><span class="fi">MLflow</span><span class="fi">Spark</span><span class="fi">Docker</span><span class="fi">Monitoramento</span></div>
+          <div class="fase-links">
+            <a href="https://roadmap.sh/ai-data-scientist" target="_blank" class="fl">roadmap.sh Data Science <span class="ext">↗</span></a>
+            <a href="https://www.kaggle.com/learn" target="_blank" class="fl">Kaggle Learn (todos) <span class="ext">↗</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DEVOPS ── -->
+  <div class="roadmap-wrap" id="rm-devops" style="--rm-cor:var(--orange)">
+    <div class="rm-header">
+      <span class="rm-emoji">☁️</span>
+      <h2 class="rm-nome">DevOps / SRE / Cloud</h2>
+      <p class="rm-desc">A infra que sustenta tudo. Docker, Kubernetes, Terraform e cloud são a tríade dourada. Um dos maiores salários do mercado.</p>
+      <div class="rm-meta">
+        <div class="rm-stat"><span class="rm-num" style="color:var(--orange)">12–20</span><span class="rm-label">Meses até júnior</span></div>
+        <div class="rm-stat"><span class="rm-num" style="color:var(--orange)">R$&nbsp;14k+</span><span class="rm-label">Salário pleno</span></div>
+        <div class="rm-stat"><span class="rm-num" style="color:var(--orange)">🔥 Muito Alta</span><span class="rm-label">Demanda mercado</span></div>
+      </div>
+    </div>
+    <div class="fases">
+      <div class="fase"><div class="fase-left"><div class="fase-num">01</div></div>
+        <div class="fase-right"><h3 class="fase-titulo">Linux & Redes</h3><p class="fase-desc">Sem Linux não existe DevOps. Shell scripting, processos, usuários, SSH e protocolos de rede básicos.</p>
+          <div class="fase-items"><span class="fi">Linux</span><span class="fi">Bash/Shell</span><span class="fi">SSH</span><span class="fi">TCP/IP</span><span class="fi">DNS</span><span class="fi">Firewall</span></div>
+          <div class="fase-links"><a href="https://linuxjourney.com" target="_blank" class="fl">Linux Journey <span class="ext">↗</span></a><a href="https://overthewire.org/wargames/bandit/" target="_blank" class="fl">OverTheWire Bandit <span class="ext">↗</span></a></div>
+        </div>
+      </div>
+      <div class="fase"><div class="fase-left"><div class="fase-num">02</div></div>
+        <div class="fase-right"><h3 class="fase-titulo">Docker & Containers</h3><p class="fase-desc">Containerização do zero ao Docker Compose. Registry, volumes, redes e boas práticas de imagens slim.</p>
+          <div class="fase-items"><span class="fi">Docker</span><span class="fi">Docker Compose</span><span class="fi">Registry</span><span class="fi">Multi-stage build</span></div>
+          <div class="fase-links"><a href="https://docs.docker.com/get-started/" target="_blank" class="fl">Docker Docs <span class="ext">↗</span></a><a href="https://labs.play-with-docker.com" target="_blank" class="fl">Play with Docker <span class="ext">↗</span></a></div>
+        </div>
+      </div>
+      <div class="fase"><div class="fase-left"><div class="fase-num">03</div></div>
+        <div class="fase-right"><h3 class="fase-titulo">Kubernetes</h3><p class="fase-desc">Orquestração de containers em escala. Pods, deployments, services, ingress, Helm charts e namespaces.</p>
+          <div class="fase-items"><span class="fi">Kubernetes</span><span class="fi">Helm</span><span class="fi">kubectl</span><span class="fi">Ingress</span><span class="fi">ConfigMaps</span></div>
+          <div class="fase-links"><a href="https://kubernetes.io/pt-br/docs/tutorials/" target="_blank" class="fl">K8s Tutorials PT-BR <span class="ext">↗</span></a><a href="https://killercoda.com/playgrounds/scenario/kubernetes" target="_blank" class="fl">KillerCoda K8s Lab <span class="ext">↗</span></a></div>
+        </div>
+      </div>
+      <div class="fase"><div class="fase-left"><div class="fase-num">04</div></div>
+        <div class="fase-right"><h3 class="fase-titulo">Cloud + IaC</h3><p class="fase-desc">AWS ou GCP — escolha um e aprenda fundo. Terraform para infraestrutura como código. Free tiers para praticar.</p>
+          <div class="fase-items"><span class="fi">AWS</span><span class="fi">ou GCP</span><span class="fi">Terraform</span><span class="fi">IAM</span><span class="fi">VPC</span><span class="fi">S3/EC2/Lambda</span></div>
+          <div class="fase-links"><a href="https://aws.amazon.com/pt/training/digital/aws-cloud-practitioner-essentials/" target="_blank" class="fl">AWS Essentials (grátis) <span class="ext">↗</span></a><a href="https://developer.hashicorp.com/terraform/tutorials" target="_blank" class="fl">Terraform Tutorials <span class="ext">↗</span></a></div>
+        </div>
+      </div>
+      <div class="fase"><div class="fase-left"><div class="fase-num">05</div></div>
+        <div class="fase-right"><h3 class="fase-titulo">CI/CD & Observabilidade</h3><p class="fase-desc">Pipelines com GitHub Actions ou GitLab CI. Monitoramento com Prometheus, Grafana e OpenTelemetry.</p>
+          <div class="fase-items"><span class="fi">GitHub Actions</span><span class="fi">ArgoCD</span><span class="fi">Prometheus</span><span class="fi">Grafana</span><span class="fi">Loki</span><span class="fi">Alertas</span></div>
+          <div class="fase-links"><a href="https://roadmap.sh/devops" target="_blank" class="fl">roadmap.sh DevOps <span class="ext">↗</span></a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SEGURANÇA ── -->
+  <div class="roadmap-wrap" id="rm-seguranca" style="--rm-cor:var(--red)">
+    <div class="rm-header">
+      <span class="rm-emoji">🔐</span>
+      <h2 class="rm-nome">Segurança da Informação</h2>
+      <p class="rm-desc">A área com mais vagas não preenchidas no mundo. Pentest, SOC, cloud security e criptografia pós-quântica são o futuro próximo.</p>
+      <div class="rm-meta">
+        <div class="rm-stat"><span class="rm-num" style="color:var(--red)">12–24</span><span class="rm-label">Meses até júnior</span></div>
+        <div class="rm-stat"><span class="rm-num" style="color:var(--red)">R$&nbsp;16k+</span><span class="rm-label">Salário pleno</span></div>
+        <div class="rm-stat"><span class="rm-num" style="color:var(--red)">🔥 Extrema</span><span class="rm-label">Demanda mercado</span></div>
+      </div>
+    </div>
+    <div class="fases">
+      <div class="fase"><div class="fase-left"><div class="fase-num">01</div></div>
+        <div class="fase-right"><h3 class="fase-titulo">Linux & Redes (obrigatório)</h3><p class="fase-desc">Base inegociável. Linux avançado, TCP/IP, protocolos, Wireshark e como dados trafegam na rede.</p>
+          <div class="fase-items"><span class="fi">Linux</span><span class="fi">Redes TCP/IP</span><span class="fi">Wireshark</span><span class="fi">Nmap</span><span class="fi">Python</span></div>
+          <div class="fase-links"><a href="https://tryhackme.com/path/outline/presecurity" target="_blank" class="fl">TryHackMe PreSecurity <span class="ext">↗</span></a><a href="https://overthewire.org" target="_blank" class="fl">OverTheWire <span class="ext">↗</span></a></div>
+        </div>
+      </div>
+      <div class="fase"><div class="fase-left"><div class="fase-num">02</div></div>
+        <div class="fase-right"><h3 class="fase-titulo">OWASP & Segurança Web</h3><p class="fase-desc">OWASP Top 10, SQL Injection, XSS, CSRF, SSRF, IDOR. Entender os ataques para saber defender.</p>
+          <div class="fase-items"><span class="fi">OWASP Top 10</span><span class="fi">Burp Suite</span><span class="fi">SQLi</span><span class="fi">XSS</span><span class="fi">CSRF</span><span class="fi">IDOR</span></div>
+          <div class="fase-links"><a href="https://owasp.org/www-project-top-ten/" target="_blank" class="fl">OWASP Top 10 <span class="ext">↗</span></a><a href="https://portswigger.net/web-security" target="_blank" class="fl">PortSwigger Web Academy <span class="ext">↗</span></a></div>
+        </div>
+      </div>
+      <div class="fase"><div class="fase-left"><div class="fase-num">03</div></div>
+        <div class="fase-right"><h3 class="fase-titulo">Pentest & CTF</h3><p class="fase-desc">Prática real em ambientes controlados. TryHackMe, HackTheBox e CTFs são o currículo que a indústria respeita.</p>
+          <div class="fase-items"><span class="fi">Metasploit</span><span class="fi">Kali Linux</span><span class="fi">CTF</span><span class="fi">Privilege Escalation</span><span class="fi">Reverse Shell</span></div>
+          <div class="fase-links"><a href="https://tryhackme.com" target="_blank" class="fl">TryHackMe <span class="ext">↗</span></a><a href="https://www.hackthebox.com" target="_blank" class="fl">HackTheBox <span class="ext">↗</span></a></div>
+        </div>
+      </div>
+      <div class="fase"><div class="fase-left"><div class="fase-num">04</div></div>
+        <div class="fase-right"><h3 class="fase-titulo">Defesa, SOC & Cloud Security</h3><p class="fase-desc">Blue team: SIEM, resposta a incidentes, threat hunting e segurança em ambientes cloud (AWS/Azure).</p>
+          <div class="fase-items"><span class="fi">SIEM</span><span class="fi">Splunk</span><span class="fi">Incident Response</span><span class="fi">Threat Hunting</span><span class="fi">Zero Trust</span></div>
+          <div class="fase-links"><a href="https://roadmap.sh/cyber-security" target="_blank" class="fl">roadmap.sh CyberSec <span class="ext">↗</span></a><a href="https://www.root-me.org/?lang=pt" target="_blank" class="fl">Root-Me PT <span class="ext">↗</span></a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MOBILE ── -->
+  <div class="roadmap-wrap" id="rm-mobile" style="--rm-cor:var(--green)">
+    <div class="rm-header">
+      <span class="rm-emoji">📱</span>
+      <h2 class="rm-nome">Desenvolvimento Mobile</h2>
+      <p class="rm-desc">No bolso de todo mundo. React Native para multiplataforma rápido, Flutter para performance, ou nativo com Kotlin/Swift para quem quer o topo.</p>
+      <div class="rm-meta">
+        <div class="rm-stat"><span class="rm-num" style="color:var(--green)">8–16</span><span class="rm-label">Meses até júnior</span></div>
+        <div class="rm-stat"><span class="rm-num" style="color:var(--green)">R$&nbsp;11k+</span><span class="rm-label">Salário pleno</span></div>
+        <div class="rm-stat"><span class="rm-num" style="color:var(--green)">✅ Alta</span><span class="rm-label">Demanda mercado</span></div>
+      </div>
+    </div>
+    <div class="fases">
+      <div class="fase"><div class="fase-left"><div class="fase-num">01</div></div>
+        <div class="fase-right"><h3 class="fase-titulo">JavaScript/TypeScript + React</h3><p class="fase-desc">React Native usa o mesmo mental model do React web. Dominar JS e React antes economiza meses.</p>
+          <div class="fase-items"><span class="fi">JavaScript</span><span class="fi">TypeScript</span><span class="fi">React</span><span class="fi">Hooks</span><span class="fi">Git</span></div>
+          <div class="fase-links"><a href="https://react.dev/learn" target="_blank" class="fl">React Docs <span class="ext">↗</span></a></div>
+        </div>
+      </div>
+      <div class="fase"><div class="fase-left"><div class="fase-num">02</div></div>
+        <div class="fase-right"><h3 class="fase-titulo">React Native com Expo</h3><p class="fase-desc">Expo elimina a fricção inicial. Componentes nativos, navegação com React Navigation, e acesso a câmera, GPS e notificações.</p>
+          <div class="fase-items"><span class="fi">Expo</span><span class="fi">React Native</span><span class="fi">React Navigation</span><span class="fi">AsyncStorage</span><span class="fi">Notificações Push</span></div>
+          <div class="fase-links"><a href="https://docs.expo.dev" target="_blank" class="fl">Expo Docs <span class="ext">↗</span></a><a href="https://reactnative.dev/docs/getting-started" target="_blank" class="fl">React Native Docs <span class="ext">↗</span></a></div>
+        </div>
+      </div>
+      <div class="fase"><div class="fase-left"><div class="fase-num">03</div></div>
+        <div class="fase-right"><h3 class="fase-titulo">Backend & APIs</h3><p class="fase-desc">Integração com APIs REST, Firebase para backend rápido, autenticação e armazenamento offline.</p>
+          <div class="fase-items"><span class="fi">Firebase</span><span class="fi">Supabase</span><span class="fi">REST</span><span class="fi">SQLite</span><span class="fi">MMKV</span></div>
+          <div class="fase-links"><a href="https://firebase.google.com/docs?hl=pt-br" target="_blank" class="fl">Firebase Docs PT-BR <span class="ext">↗</span></a></div>
+        </div>
+      </div>
+      <div class="fase"><div class="fase-left"><div class="fase-num">04</div></div>
+        <div class="fase-right"><h3 class="fase-titulo">Publicação & Otimização</h3><p class="fase-desc">Play Store, App Store, OTA updates com Expo EAS, análise de performance e estratégias de monetização.</p>
+          <div class="fase-items"><span class="fi">EAS Build</span><span class="fi">Play Store</span><span class="fi">App Store</span><span class="fi">Crashlytics</span><span class="fi">Analytics</span></div>
+          <div class="fase-links"><a href="https://roadmap.sh/react-native" target="_blank" class="fl">roadmap.sh RN <span class="ext">↗</span></a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PLATAFORMAS GRATUITAS
+============================================================ -->
+<section class="secao" id="plataformas">
+  <div class="stitle">
+    <div class="sbol" style="background:var(--yellow)"></div>
+    <h2>Plataformas 100% Gratuitas</h2>
+    <span class="ssub">Zero reais, zero desculpas</span>
+  </div>
+
+  <div class="plat-grid">
+
+    <a href="https://cs50.harvard.edu/x/" target="_blank" class="plat-card" style="--pc:var(--red)">
+      <div class="pc-top"><span class="pc-emoji">🎓</span><span class="pc-badge">Certificado Grátis</span></div>
+      <p class="pc-nome">CS50 — Harvard</p>
+      <p class="pc-desc">O melhor curso de introdução à Ciência da Computação do mundo, gratuito e com certificado. Cobre C, Python, SQL, HTML e muito mais.</p>
+      <div class="pc-tags"><span class="pctag">Fundamentos</span><span class="pctag">C</span><span class="pctag">Python</span><span class="pctag">SQL</span><span class="pctag">Web</span></div>
+      <div class="pc-rodape"><span class="pc-tipo">edX · Harvard Online</span><span class="pc-seta">↗</span></div>
+    </a>
+
+    <a href="https://www.freecodecamp.org/learn" target="_blank" class="plat-card" style="--pc:var(--green)">
+      <div class="pc-top"><span class="pc-emoji">🏕️</span><span class="pc-badge">10 Certificados</span></div>
+      <p class="pc-nome">freeCodeCamp</p>
+      <p class="pc-desc">10 certificações gratuitas cobrindo Web, JavaScript, Python, Data Science, ML e muito mais. Projetos práticos reais em cada trilha.</p>
+      <div class="pc-tags"><span class="pctag">Web</span><span class="pctag">JS</span><span class="pctag">Python</span><span class="pctag">Data</span><span class="pctag">ML</span></div>
+      <div class="pc-rodape"><span class="pc-tipo">ONG · 100% Gratuito</span><span class="pc-seta">↗</span></div>
+    </a>
+
+    <a href="https://www.theodinproject.com" target="_blank" class="plat-card" style="--pc:var(--orange)">
+      <div class="pc-top"><span class="pc-emoji">⚗️</span><span class="pc-badge">Open Source</span></div>
+      <p class="pc-nome">The Odin Project</p>
+      <p class="pc-desc">Currículo completo de Full Stack do zero ao emprego. Projetos reais, Git desde o começo e comunidade ativa. O jeito que programadores de verdade aprendem.</p>
+      <div class="pc-tags"><span class="pctag">HTML/CSS</span><span class="pctag">JS</span><span class="pctag">React</span><span class="pctag">Node</span><span class="pctag">Projetos</span></div>
+      <div class="pc-rodape"><span class="pc-tipo">Open Source</span><span class="pc-seta">↗</span></div>
+    </a>
+
+    <a href="https://www.kaggle.com/learn" target="_blank" class="plat-card" style="--pc:var(--cyan)">
+      <div class="pc-top"><span class="pc-emoji">🏆</span><span class="pc-badge">Certificados Grátis</span></div>
+      <p class="pc-nome">Kaggle Learn</p>
+      <p class="pc-desc">Microcursos interativos de Python, Pandas, ML, Deep Learning, SQL e IA — todos com notebooks no browser. Ideal para dados e IA.</p>
+      <div class="pc-tags"><span class="pctag">Python</span><span class="pctag">Pandas</span><span class="pctag">ML</span><span class="pctag">DL</span><span class="pctag">SQL</span></div>
+      <div class="pc-rodape"><span class="pc-tipo">Google / Kaggle</span><span class="pc-seta">↗</span></div>
+    </a>
+
+    <a href="https://tryhackme.com" target="_blank" class="plat-card" style="--pc:var(--red)">
+      <div class="pc-top"><span class="pc-emoji">🧱</span><span class="pc-badge">Plano Free</span></div>
+      <p class="pc-nome">TryHackMe</p>
+      <p class="pc-desc">Aprenda segurança e pentest com máquinas virtuais no browser. Trilhas guiadas do zero ao avançado, sem precisar de setup local.</p>
+      <div class="pc-tags"><span class="pctag">Segurança</span><span class="pctag">Pentest</span><span class="pctag">Linux</span><span class="pctag">CTF</span></div>
+      <div class="pc-rodape"><span class="pc-tipo">Free tier generoso</span><span class="pc-seta">↗</span></div>
+    </a>
+
+    <a href="https://learn.microsoft.com/pt-br/training/" target="_blank" class="plat-card" style="--pc:var(--blue)">
+      <div class="pc-top"><span class="pc-emoji">🪟</span><span class="pc-badge">PT-BR</span></div>
+      <p class="pc-nome">Microsoft Learn</p>
+      <p class="pc-desc">Plataforma oficial Microsoft com trilhas completas para Azure, .NET, TypeScript, Power Platform e certificações AZ-900, AZ-204, etc.</p>
+      <div class="pc-tags"><span class="pctag">Azure</span><span class="pctag">.NET</span><span class="pctag">TypeScript</span><span class="pctag">Cert Prep</span></div>
+      <div class="pc-rodape"><span class="pc-tipo">Microsoft · PT-BR</span><span class="pc-seta">↗</span></div>
+    </a>
+
+    <a href="https://aws.amazon.com/pt/training/digital/" target="_blank" class="plat-card" style="--pc:var(--orange)">
+      <div class="pc-top"><span class="pc-emoji">☁️</span><span class="pc-badge">Free Tier</span></div>
+      <p class="pc-nome">AWS Skill Builder</p>
+      <p class="pc-desc">Treinamentos oficiais AWS incluindo o AWS Cloud Practitioner Essentials gratuito. Base para a certificação mais impactante de cloud.</p>
+      <div class="pc-tags"><span class="pctag">Cloud</span><span class="pctag">AWS</span><span class="pctag">Cert Prep</span></div>
+      <div class="pc-rodape"><span class="pc-tipo">Amazon Web Services</span><span class="pc-seta">↗</span></div>
+    </a>
+
+    <a href="https://cloud.google.com/learn/training?hl=pt-br" target="_blank" class="plat-card" style="--pc:var(--yellow)">
+      <div class="pc-top"><span class="pc-emoji">🔵</span><span class="pc-badge">Labs Grátis</span></div>
+      <p class="pc-nome">Google Cloud Skills Boost</p>
+      <p class="pc-desc">Labs interativos na nuvem real do Google. Trilhas para GCP, Data Engineering, ML e certificações Google Cloud Professional.</p>
+      <div class="pc-tags"><span class="pctag">GCP</span><span class="pctag">BigQuery</span><span class="pctag">ML</span><span class="pctag">Labs</span></div>
+      <div class="pc-rodape"><span class="pc-tipo">Google Cloud</span><span class="pc-seta">↗</span></div>
+    </a>
+
+    <a href="https://roadmap.sh" target="_blank" class="plat-card" style="--pc:var(--purple)">
+      <div class="pc-top"><span class="pc-emoji">🗺️</span><span class="pc-badge">Open Source</span></div>
+      <p class="pc-nome">roadmap.sh</p>
+      <p class="pc-desc">Roadmaps interativos para todas as áreas de tech — Front, Back, DevOps, Android, IA e mais. A referência da comunidade para se orientar.</p>
+      <div class="pc-tags"><span class="pctag">Todos</span><span class="pctag">Mapas</span><span class="pctag">Trilhas</span></div>
+      <div class="pc-rodape"><span class="pc-tipo">Comunidade Open Source</span><span class="pc-seta">↗</span></div>
+    </a>
+
+    <a href="https://www.youtube.com/@CursoEmVideo" target="_blank" class="plat-card" style="--pc:var(--pink)">
+      <div class="pc-top"><span class="pc-emoji">📺</span><span class="pc-badge">PT-BR</span></div>
+      <p class="pc-nome">Curso em Vídeo</p>
+      <p class="pc-desc">O maior canal brasileiro de TI. Prof. Guanabara com cursos completos de Python, HTML, CSS, JS, Git, PHP — todos gratuitos em português.</p>
+      <div class="pc-tags"><span class="pctag">Python</span><span class="pctag">Web</span><span class="pctag">Git</span><span class="pctag">PT-BR</span></div>
+      <div class="pc-rodape"><span class="pc-tipo">YouTube · 100% PT-BR</span><span class="pc-seta">↗</span></div>
+    </a>
+
+    <a href="https://portswigger.net/web-security" target="_blank" class="plat-card" style="--pc:var(--red)">
+      <div class="pc-top"><span class="pc-emoji">🕵️</span><span class="pc-badge">100% Grátis</span></div>
+      <p class="pc-nome">PortSwigger Web Security Academy</p>
+      <p class="pc-desc">O currículo mais completo de segurança web gratuito. Labs interativos para cada vulnerabilidade do OWASP Top 10 e muito mais.</p>
+      <div class="pc-tags"><span class="pctag">Segurança Web</span><span class="pctag">Burp Suite</span><span class="pctag">Labs</span></div>
+      <div class="pc-rodape"><span class="pc-tipo">PortSwigger · Labs reais</span><span class="pc-seta">↗</span></div>
+    </a>
+
+    <a href="https://developer.mozilla.org/pt-BR/docs/Learn" target="_blank" class="plat-card" style="--pc:var(--orange)">
+      <div class="pc-top"><span class="pc-emoji">🦊</span><span class="pc-badge">PT-BR</span></div>
+      <p class="pc-nome">MDN Web Docs</p>
+      <p class="pc-desc">A documentação de referência para Web. Guias de aprendizado completos de HTML, CSS, JavaScript e APIs web — sempre atualizados.</p>
+      <div class="pc-tags"><span class="pctag">HTML</span><span class="pctag">CSS</span><span class="pctag">JS</span><span class="pctag">APIs Web</span></div>
+      <div class="pc-rodape"><span class="pc-tipo">Mozilla Foundation</span><span class="pc-seta">↗</span></div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     CERTIFICAÇÕES
+============================================================ -->
+<section class="secao" id="certificacoes">
+  <div class="stitle">
+    <div class="sbol" style="background:var(--orange)"></div>
+    <h2>Certificações que o Mercado Paga</h2>
+    <span class="ssub">41% das empresas priorizam certificados · 2026</span>
+  </div>
+
+  <div class="cert-grid">
+
+    <!-- AWS SAA -->
+    <div class="cert-card" style="border-color:rgba(255,140,66,.25)">
+      <span class="cert-nivel n-mid">Intermediário</span>
+      <div class="cert-top"><span class="cert-logo">☁️</span><div><p class="cert-org">Amazon Web Services</p><p class="cert-nome">AWS Solutions Architect Associate</p></div></div>
+      <p class="cert-desc">A mais impactante em relação a custo/benefício. Valida arquitetura de soluções em nuvem. Salário médio BR com essa cert: R$18–25k/mês.</p>
+      <div class="cert-meta">
+        <div class="cm"><p class="cm-label">Custo do exame</p><p class="cm-val">US$ 150</p></div>
+        <div class="cm"><p class="cm-label">Tempo de estudo</p><p class="cm-val">2–3 meses</p></div>
+        <div class="cm"><p class="cm-label">Validade</p><p class="cm-val">3 anos</p></div>
+        <div class="cm"><p class="cm-label">Impacto salarial</p><p class="cm-val">🔥 Muito Alto</p></div>
+      </div>
+      <div class="cert-tags"><span class="ctag">Cloud</span><span class="ctag">Arquitetura</span><span class="ctag">DevOps</span><span class="ctag">Infra</span></div>
+      <div class="cert-links" style="--cc:var(--orange)">
+        <a href="https://aws.amazon.com/pt/certification/certified-solutions-architect-associate/" target="_blank" class="clink prim">Certificação Oficial ↗</a>
+        <a href="https://aws.amazon.com/pt/training/digital/aws-cloud-practitioner-essentials/" target="_blank" class="clink">Free Prep ↗</a>
+      </div>
+    </div>
+
+    <!-- CompTIA Security+ -->
+    <div class="cert-card" style="border-color:rgba(255,92,92,.25)">
+      <span class="cert-nivel n-entry">Entrada</span>
+      <div class="cert-top"><span class="cert-logo">🛡️</span><div><p class="cert-org">CompTIA</p><p class="cert-nome">Security+</p></div></div>
+      <p class="cert-desc">A porta de entrada da cibersegurança. Reconhecida globalmente e exigida pelo Departamento de Defesa americano. Base para CISSP e CEH.</p>
+      <div class="cert-meta">
+        <div class="cm"><p class="cm-label">Custo do exame</p><p class="cm-val">US$ 392</p></div>
+        <div class="cm"><p class="cm-label">Tempo de estudo</p><p class="cm-val">2–3 meses</p></div>
+        <div class="cm"><p class="cm-label">Validade</p><p class="cm-val">3 anos</p></div>
+        <div class="cm"><p class="cm-label">Impacto salarial</p><p class="cm-val">🔥 Alto</p></div>
+      </div>
+      <div class="cert-tags"><span class="ctag">Segurança</span><span class="ctag">Redes</span><span class="ctag">Compliance</span><span class="ctag">Criptografia</span></div>
+      <div class="cert-links" style="--cc:var(--red)">
+        <a href="https://www.comptia.org/certifications/security" target="_blank" class="clink prim">CompTIA Security+ ↗</a>
+        <a href="https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-comptia-security-plus-course/" target="_blank" class="clink">Curso Grátis ↗</a>
+      </div>
+    </div>
+
+    <!-- AZ-900 -->
+    <div class="cert-card" style="border-color:rgba(77,159,255,.25)">
+      <span class="cert-nivel n-entry">Entrada</span>
+      <div class="cert-top"><span class="cert-logo">🪟</span><div><p class="cert-org">Microsoft</p><p class="cert-nome">Azure Fundamentals AZ-900</p></div></div>
+      <p class="cert-desc">Melhor ponto de entrada em cloud para quem está em ambiente Microsoft. Estudo grátis via Microsoft Learn. Exame acessível.</p>
+      <div class="cert-meta">
+        <div class="cm"><p class="cm-label">Custo do exame</p><p class="cm-val">US$ 165</p></div>
+        <div class="cm"><p class="cm-label">Tempo de estudo</p><p class="cm-val">3–6 semanas</p></div>
+        <div class="cm"><p class="cm-label">Validade</p><p class="cm-val">Vitalícia</p></div>
+        <div class="cm"><p class="cm-label">Impacto salarial</p><p class="cm-val">📈 Médio-Alto</p></div>
+      </div>
+      <div class="cert-tags"><span class="ctag">Azure</span><span class="ctag">Cloud</span><span class="ctag">Fundamentos</span></div>
+      <div class="cert-links" style="--cc:var(--blue)">
+        <a href="https://learn.microsoft.com/pt-br/certifications/azure-fundamentals/" target="_blank" class="clink prim">Certificação Oficial ↗</a>
+        <a href="https://learn.microsoft.com/pt-br/training/paths/az-900-describe-cloud-concepts/" target="_blank" class="clink">Estudo Grátis PT-BR ↗</a>
+      </div>
+    </div>
+
+    <!-- CKAD -->
+    <div class="cert-card" style="border-color:rgba(0,255,224,.25)">
+      <span class="cert-nivel n-mid">Intermediário</span>
+      <div class="cert-top"><span class="cert-logo">⎈</span><div><p class="cert-org">CNCF / Linux Foundation</p><p class="cert-nome">CKAD — Certified Kubernetes Application Developer</p></div></div>
+      <p class="cert-desc">Prova prática de 2h no terminal real. Quem tem CKAD no currículo é um DevOps diferenciado. Prova no browser, sem decorar, só resolver.</p>
+      <div class="cert-meta">
+        <div class="cm"><p class="cm-label">Custo do exame</p><p class="cm-val">US$ 395</p></div>
+        <div class="cm"><p class="cm-label">Tempo de estudo</p><p class="cm-val">2–4 meses</p></div>
+        <div class="cm"><p class="cm-label">Validade</p><p class="cm-val">3 anos</p></div>
+        <div class="cm"><p class="cm-label">Impacto salarial</p><p class="cm-val">🔥 Alto</p></div>
+      </div>
+      <div class="cert-tags"><span class="ctag">Kubernetes</span><span class="ctag">DevOps</span><span class="ctag">Containers</span></div>
+      <div class="cert-links" style="--cc:var(--cyan)">
+        <a href="https://training.linuxfoundation.org/certification/certified-kubernetes-application-developer-ckad/" target="_blank" class="clink prim">CKAD Oficial ↗</a>
+        <a href="https://killercoda.com/killer-shell-ckad" target="_blank" class="clink">Labs Grátis ↗</a>
+      </div>
+    </div>
+
+    <!-- Google Professional Data Engineer -->
+    <div class="cert-card" style="border-color:rgba(255,233,77,.25)">
+      <span class="cert-nivel n-adv">Avançado</span>
+      <div class="cert-top"><span class="cert-logo">📊</span><div><p class="cert-org">Google Cloud</p><p class="cert-nome">Professional Data Engineer</p></div></div>
+      <p class="cert-desc">Muito valorizado para Data Science e Big Data em ambientes GCP. BigQuery, Dataflow, Pub/Sub e ML pipelines são o foco da prova.</p>
+      <div class="cert-meta">
+        <div class="cm"><p class="cm-label">Custo do exame</p><p class="cm-val">US$ 200</p></div>
+        <div class="cm"><p class="cm-label">Tempo de estudo</p><p class="cm-val">3–5 meses</p></div>
+        <div class="cm"><p class="cm-label">Validade</p><p class="cm-val">2 anos</p></div>
+        <div class="cm"><p class="cm-label">Impacto salarial</p><p class="cm-val">🔥 Muito Alto</p></div>
+      </div>
+      <div class="cert-tags"><span class="ctag">GCP</span><span class="ctag">BigQuery</span><span class="ctag">ML</span><span class="ctag">Data</span></div>
+      <div class="cert-links" style="--cc:var(--yellow)">
+        <a href="https://cloud.google.com/certification/data-engineer" target="_blank" class="clink prim">GCP Data Engineer ↗</a>
+        <a href="https://cloud.google.com/learn/training?hl=pt-br" target="_blank" class="clink">Skills Boost Grátis ↗</a>
+      </div>
+    </div>
+
+    <!-- CISSP -->
+    <div class="cert-card" style="border-color:rgba(255,92,92,.25)">
+      <span class="cert-nivel n-exp">Expert</span>
+      <div class="cert-top"><span class="cert-logo">🏛️</span><div><p class="cert-org">(ISC)²</p><p class="cert-nome">CISSP</p></div></div>
+      <p class="cert-desc">O "doutorado" da segurança da informação. Exige 5 anos de experiência, mas quem tem CISSP está no top 1% do mercado global de segurança.</p>
+      <div class="cert-meta">
+        <div class="cm"><p class="cm-label">Custo do exame</p><p class="cm-val">US$ 749</p></div>
+        <div class="cm"><p class="cm-label">Tempo de estudo</p><p class="cm-val">6–12 meses</p></div>
+        <div class="cm"><p class="cm-label">Validade</p><p class="cm-val">3 anos</p></div>
+        <div class="cm"><p class="cm-label">Impacto salarial</p><p class="cm-val">🚀 Extremo</p></div>
+      </div>
+      <div class="cert-tags"><span class="ctag">Segurança</span><span class="ctag">Gestão</span><span class="ctag">Arquitetura</span><span class="ctag">Expert</span></div>
+      <div class="cert-links" style="--cc:var(--red)">
+        <a href="https://www.isc2.org/certifications/cissp" target="_blank" class="clink prim">CISSP Oficial ↗</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     TRILHAS DE CERTIFICAÇÃO
+============================================================ -->
+<section class="secao" id="trilhas-cert">
+  <div class="stitle">
+    <div class="sbol" style="background:var(--purple)"></div>
+    <h2>Trilha Completa para Cada Certificação</h2>
+    <span class="ssub">Do zero ao exame aprovado</span>
+  </div>
+
+  <!-- Cloud / AWS -->
+  <div class="cert-trilha-wrap" style="border-color:rgba(255,140,66,.2)">
+    <h3 class="ct-nome">☁️ Trilha Cloud — Do zero ao AWS Solutions Architect</h3>
+    <p class="ct-desc">Tempo total estimado: 4–6 meses estudando 1h/dia</p>
+    <div class="ct-passos">
+      <div class="ct-passo" style="border-color:rgba(255,140,66,.25)">
+        <span>🌐 Redes & Linux básico</span>
+        <span class="ct-tempo">2–3 semanas · <a href="https://linuxjourney.com" target="_blank" style="color:var(--orange);text-decoration:none">Linux Journey</a></span>
+      </div>
+      <span class="ct-seta">→</span>
+      <div class="ct-passo" style="border-color:rgba(255,140,66,.25)">
+        <span>☁️ AWS Cloud Practitioner</span>
+        <span class="ct-tempo">3–4 semanas · <a href="https://aws.amazon.com/pt/training/digital/aws-cloud-practitioner-essentials/" target="_blank" style="color:var(--orange);text-decoration:none">Grátis AWS</a></span>
+      </div>
+      <span class="ct-seta">→</span>
+      <div class="ct-passo" style="border-color:rgba(255,140,66,.25)">
+        <span>🏗️ SAA-C03 Prep</span>
+        <span class="ct-tempo">6–8 semanas · <a href="https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03/" target="_blank" style="color:var(--orange);text-decoration:none">Udemy (SAA)</a></span>
+      </div>
+      <span class="ct-seta">→</span>
+      <div class="ct-passo" style="border-color:rgba(255,140,66,.25)">
+        <span>📝 Simulados</span>
+        <span class="ct-tempo">2 semanas · <a href="https://www.examtopics.com/exams/amazon/aws-certified-solutions-architect-associate-saa-c03/" target="_blank" style="color:var(--orange);text-decoration:none">ExamTopics</a></span>
+      </div>
+      <span class="ct-seta">→</span>
+      <div class="ct-passo" style="background:rgba(255,140,66,.1);border-color:rgba(255,140,66,.4)">
+        <span>🏆 Exame SAA-C03</span>
+        <span class="ct-tempo">US$ 150 · Pearson VUE</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Segurança -->
+  <div class="cert-trilha-wrap" style="border-color:rgba(255,92,92,.2)">
+    <h3 class="ct-nome">🔐 Trilha Segurança — Do zero ao CompTIA Security+</h3>
+    <p class="ct-desc">Tempo total estimado: 3–5 meses estudando 1h/dia</p>
+    <div class="ct-passos">
+      <div class="ct-passo" style="border-color:rgba(255,92,92,.25)">
+        <span>🐧 Linux + Redes</span>
+        <span class="ct-tempo">3 semanas · <a href="https://tryhackme.com/path/outline/presecurity" target="_blank" style="color:var(--red);text-decoration:none">TryHackMe Free</a></span>
+      </div>
+      <span class="ct-seta">→</span>
+      <div class="ct-passo" style="border-color:rgba(255,92,92,.25)">
+        <span>🛡️ Security+ Teoria</span>
+        <span class="ct-tempo">6–8 semanas · <a href="https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-comptia-security-plus-course/" target="_blank" style="color:var(--red);text-decoration:none">Prof. Messer Grátis</a></span>
+      </div>
+      <span class="ct-seta">→</span>
+      <div class="ct-passo" style="border-color:rgba(255,92,92,.25)">
+        <span>⚔️ Labs Práticos</span>
+        <span class="ct-tempo">3–4 semanas · <a href="https://tryhackme.com" target="_blank" style="color:var(--red);text-decoration:none">TryHackMe</a></span>
+      </div>
+      <span class="ct-seta">→</span>
+      <div class="ct-passo" style="border-color:rgba(255,92,92,.25)">
+        <span>📝 Simulados</span>
+        <span class="ct-tempo">2 semanas · <a href="https://www.examcompass.com/comptia-security-plus-practice-tests" target="_blank" style="color:var(--red);text-decoration:none">ExamCompass</a></span>
+      </div>
+      <span class="ct-seta">→</span>
+      <div class="ct-passo" style="background:rgba(255,92,92,.1);border-color:rgba(255,92,92,.4)">
+        <span>🏆 Exame SY0-701</span>
+        <span class="ct-tempo">US$ 392 · Pearson VUE</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DevOps/K8s -->
+  <div class="cert-trilha-wrap" style="border-color:rgba(0,255,224,.2)">
+    <h3 class="ct-nome">⎈ Trilha DevOps — Do zero ao CKAD</h3>
+    <p class="ct-desc">Tempo total estimado: 4–6 meses estudando 1h/dia</p>
+    <div class="ct-passos">
+      <div class="ct-passo" style="border-color:rgba(0,255,224,.25)">
+        <span>🐧 Linux + Docker</span>
+        <span class="ct-tempo">3–4 semanas · <a href="https://labs.play-with-docker.com" target="_blank" style="color:var(--cyan);text-decoration:none">Play with Docker</a></span>
+      </div>
+      <span class="ct-seta">→</span>
+      <div class="ct-passo" style="border-color:rgba(0,255,224,.25)">
+        <span>⎈ Kubernetes Básico</span>
+        <span class="ct-tempo">4–6 semanas · <a href="https://kubernetes.io/pt-br/docs/tutorials/" target="_blank" style="color:var(--cyan);text-decoration:none">K8s Docs</a></span>
+      </div>
+      <span class="ct-seta">→</span>
+      <div class="ct-passo" style="border-color:rgba(0,255,224,.25)">
+        <span>🏋️ CKAD Prática Intensa</span>
+        <span class="ct-tempo">4–6 semanas · <a href="https://killercoda.com/killer-shell-ckad" target="_blank" style="color:var(--cyan);text-decoration:none">KillerCoda Grátis</a></span>
+      </div>
+      <span class="ct-seta">→</span>
+      <div class="ct-passo" style="border-color:rgba(0,255,224,.25)">
+        <span>⏱️ Simulado cronometrado</span>
+        <span class="ct-tempo">2 semanas · killer.sh incluso</span>
+      </div>
+      <span class="ct-seta">→</span>
+      <div class="ct-passo" style="background:rgba(0,255,224,.08);border-color:rgba(0,255,224,.35)">
+        <span>🏆 Exame CKAD</span>
+        <span class="ct-tempo">US$ 395 · PSI</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     DICAS DE ESTUDO
+============================================================ -->
+<section class="secao" id="dicas">
+  <div class="stitle">
+    <div class="sbol" style="background:var(--green)"></div>
+    <h2>Como Estudar de Verdade</h2>
+    <span class="ssub">Baseado em quem chegou lá</span>
+  </div>
+
+  <div class="dica-grid">
+    <div class="dica-card">
+      <span class="dica-n">01</span>
+      <div><h4 class="dica-h">Uma trilha de cada vez</h4><p class="dica-p">Escolha UMA área e UMA linguagem. Trocar de stack a cada semana é a principal causa de quem fica anos sem sair do lugar.</p></div>
+    </div>
+    <div class="dica-card">
+      <span class="dica-n">02</span>
+      <div><h4 class="dica-h">Projeto real > mil tutoriais</h4><p class="dica-p">Construa algo — um site, uma API, um bot. Projeto no GitHub prova habilidade. Tutorial assistido não prova nada.</p></div>
+    </div>
+    <div class="dica-card">
+      <span class="dica-n">03</span>
+      <div><h4 class="dica-h">1h/dia consistente > 8h/fim de semana</h4><p class="dica-p">O cérebro consolida memória com repetição distribuída. 1h diária por 6 meses supera qualquer maratona de estudo.</p></div>
+    </div>
+    <div class="dica-card">
+      <span class="dica-n">04</span>
+      <div><h4 class="dica-h">Leia a documentação oficial</h4><p class="dica-p">Devs seniores leem docs. Devs medianos assistem tutorial. A documentação oficial é sempre mais completa e atualizada.</p></div>
+    </div>
+    <div class="dica-card">
+      <span class="dica-n">05</span>
+      <div><h4 class="dica-h">Certificação: primeiro o mercado, depois a prova</h4><p class="dica-p">Escolha a certificação que o mercado que você quer entrar exige. AWS para cloud em startups, Azure para enterprise Microsoft, CISSP para segurança de alto nível.</p></div>
+    </div>
+    <div class="dica-card">
+      <span class="dica-n">06</span>
+      <div><h4 class="dica-h">ADS + especialização = salário de sênior rápido</h4><p class="dica-p">O curso dá a base técnica. Quem combina ADS + uma certificação cloud ou segurança + portfólio no GitHub chega à faixa dos R$12k+ em 2–3 anos.</p></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span class="ft">
+    Fontes: <a href="https://roadmap.sh" target="_blank">roadmap.sh</a> ·
+    <a href="https://www.freecodecamp.org" target="_blank">freeCodeCamp</a> ·
+    <a href="https://www.comptia.org" target="_blank">CompTIA</a> ·
+    <a href="https://www.opservices.com.br/certificacoes-de-ti/" target="_blank">OpServices 2026</a>
+  </span>
+  <span class="ft">BALCÃO TECH © 2025</span>
+</footer>
+
+<script>
+// NAVEGAÇÃO
+function ir(id) {
+  document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
+  document.querySelectorAll('.snbtn').forEach(b=>b.classList.remove('ativo'));
+  event.currentTarget.classList.add('ativo');
+}
+
+// TRILHAS
+function selecionarTrilha(id) {
+  // esconde todos
+  document.querySelectorAll('.roadmap-wrap').forEach(r=>r.classList.remove('ativo'));
+  document.querySelectorAll('.ttab').forEach(t=>t.classList.remove('ativo'));
+  // mostra o selecionado
+  const rm = document.getElementById('rm-'+id);
+  if(rm){ rm.classList.add('ativo'); }
+  // marca tab
+  document.querySelectorAll('.ttab').forEach(t=>{
+    if(t.textContent.trim().toLowerCase().includes(id.substring(0,4))) t.classList.add('ativo');
+  });
+  // scroll até os roadmaps
+  document.getElementById('roadmaps').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// SUBNAV ativo no scroll
+const secIds = ['roadmaps','plataformas','certificacoes','trilhas-cert','dicas'];
+const btns   = document.querySelectorAll('.snbtn');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  secIds.forEach(id=>{
+    const el = document.getElementById(id);
+    if(el && window.scrollY >= el.offsetTop - 200) cur = id;
+  });
+  btns.forEach((b,i)=>b.classList.toggle('ativo', secIds[i] === cur));
+},{passive:true});
+
+// CHIPS DO HERO — scroll para roadmaps ao clicar
+document.querySelectorAll('.hchip').forEach(c=>{
+  c.addEventListener('click',()=>{
+    document.getElementById('roadmaps').scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+</script>
+</body>
+</html>

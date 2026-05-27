@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teste Vocacional Tech — BALCÃO TECH</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #13131a;
+  --border: rgba(255,255,255,0.08);
+  --text: #f0eeff;
+  --muted: rgba(240,238,255,0.4);
+  --pink:   #ff6ef7;
+  --cyan:   #00ffe0;
+  --yellow: #ffe94d;
+  --green:  #4dff91;
+  --orange: #ff8c42;
+  --blue:   #4d9fff;
+  --purple: #b06dff;
+  --red:    #ff5c5c;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* grain */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9999; opacity: 0.5;
+}
+
+/* ---- BACKGROUND BLOBS ---- */
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.18;
+  transition: all 3s ease;
+}
+.blob-1 { width: 500px; height: 500px; background: var(--pink);   top: -100px; left: -100px; }
+.blob-2 { width: 400px; height: 400px; background: var(--cyan);   bottom: -80px; right: -80px; }
+.blob-3 { width: 300px; height: 300px; background: var(--purple); top: 40%; left: 40%; }
+
+/* ---- HEADER ---- */
+header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 6%;
+  background: rgba(10,10,15,0.8);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.logo {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.9rem; letter-spacing: 2px;
+  color: var(--pink); text-decoration: none;
+}
+.logo span { color: var(--text); }
+.btn-voltar {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8rem; color: var(--muted);
+  text-decoration: none; transition: color 0.2s;
+}
+.btn-voltar:hover { color: var(--cyan); }
+
+/* ---- PROGRESS BAR ---- */
+.progress-wrap {
+  position: fixed; top: 57px; left: 0; right: 0; z-index: 99;
+  height: 3px; background: rgba(255,255,255,0.05);
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--pink), var(--cyan));
+  width: 0%;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 0 0 12px var(--pink);
+}
+
+/* ---- TELA WRAPPER ---- */
+.tela {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 100px 6% 60px;
+  position: relative; z-index: 1;
+}
+.tela.oculta { display: none; }
+
+/* ---- INTRO ---- */
+.intro-box { max-width: 700px; text-align: center; }
+.intro-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem; letter-spacing: 3px;
+  color: var(--pink); margin-bottom: 24px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.intro-tag::before, .intro-tag::after {
+  content: ''; display: block; width: 30px; height: 1px; background: var(--pink);
+}
+.intro-h1 {
+  font-size: clamp(3rem, 8vw, 7rem);
+  font-weight: 900; line-height: 0.9;
+  margin-bottom: 28px;
+}
+.intro-h1 span { color: var(--pink); display: block; }
+.intro-sub {
+  font-size: 1.05rem; color: var(--muted);
+  line-height: 1.7; margin-bottom: 40px; max-width: 480px; margin-left: auto; margin-right: auto;
+}
+.areas-chips {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  justify-content: center; margin-bottom: 48px;
+}
+.chip {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 1px;
+  padding: 6px 14px; border-radius: 100px;
+  border: 1px solid var(--border);
+  color: var(--muted); background: rgba(255,255,255,0.03);
+  animation: popIn 0.4s ease both;
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.8) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.btn-start {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800;
+  padding: 18px 48px; border-radius: 100px;
+  background: var(--pink); color: #0a0a0f;
+  border: none; cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 0 0 rgba(255,110,247,0.4);
+}
+.btn-start:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 40px rgba(255,110,247,0.4);
+}
+.btn-start .seta { font-size: 1.2rem; transition: transform 0.2s; }
+.btn-start:hover .seta { transform: translateX(4px); }
+
+/* ---- QUESTÃO ---- */
+.questao-box { max-width: 720px; width: 100%; }
+.q-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem; color: var(--muted);
+  letter-spacing: 2px; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 12px;
+}
+.q-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem; color: var(--pink); letter-spacing: 1px;
+}
+.q-texto {
+  font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+  font-weight: 800; line-height: 1.2;
+  margin-bottom: 36px;
+}
+.q-emoji { margin-right: 12px; }
+
+.opcoes { display: flex; flex-direction: column; gap: 12px; }
+
+.opcao {
+  display: flex; align-items: center; gap: 16px;
+  padding: 18px 22px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative; overflow: hidden;
+  animation: slideUp 0.35s ease both;
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.opcao:nth-child(1) { animation-delay: 0.05s; }
+.opcao:nth-child(2) { animation-delay: 0.1s; }
+.opcao:nth-child(3) { animation-delay: 0.15s; }
+.opcao:nth-child(4) { animation-delay: 0.2s; }
+
+.opcao::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,110,247,0.08), transparent);
+  opacity: 0; transition: opacity 0.2s;
+}
+.opcao:hover { border-color: rgba(255,110,247,0.5); transform: translateX(4px); }
+.opcao:hover::before { opacity: 1; }
+
+.opcao.selecionada {
+  border-color: var(--pink);
+  background: rgba(255,110,247,0.1);
+  transform: translateX(8px);
+}
+
+.opcao-letra {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem; font-weight: 500;
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; color: var(--muted);
+  transition: all 0.2s;
+}
+.opcao.selecionada .opcao-letra {
+  background: var(--pink); color: #0a0a0f; border-color: var(--pink);
+}
+.opcao-texto { font-size: 0.95rem; font-weight: 700; line-height: 1.4; }
+
+.q-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 32px;
+}
+.btn-prox {
+  font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 800;
+  padding: 14px 36px; border-radius: 100px;
+  background: var(--pink); color: #0a0a0f;
+  border: none; cursor: pointer;
+  transition: all 0.2s; opacity: 0.4; pointer-events: none;
+}
+.btn-prox.ativo { opacity: 1; pointer-events: auto; }
+.btn-prox.ativo:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,110,247,0.35); }
+.btn-ant {
+  font-family: 'DM Mono', monospace; font-size: 0.75rem;
+  color: var(--muted); background: none; border: none;
+  cursor: pointer; transition: color 0.2s; padding: 8px;
+}
+.btn-ant:hover { color: var(--text); }
+
+/* ---- LOADING ---- */
+.loading-box { text-align: center; }
+.loading-glyph {
+  font-size: 5rem; display: block;
+  animation: spin 1.2s linear infinite;
+  margin-bottom: 24px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-txt {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85rem; letter-spacing: 3px; color: var(--muted);
+  animation: blink 1.2s step-end infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ---- RESULTADO ---- */
+.resultado-box { max-width: 860px; width: 100%; }
+
+.res-hero {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  margin-bottom: 32px;
+}
+
+.res-perfil-card {
+  padding: 36px;
+  border-radius: 24px;
+  border: 2px solid var(--accent, var(--pink));
+  background: rgba(255,255,255,0.03);
+  position: relative; overflow: hidden;
+}
+.res-perfil-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--accent, var(--pink));
+}
+.res-area-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 2px; color: var(--accent, var(--pink));
+  margin-bottom: 12px;
+}
+.res-area-emoji { font-size: 2.8rem; display: block; margin-bottom: 12px; }
+.res-area-nome {
+  font-size: 1.8rem; font-weight: 900; line-height: 1.1; margin-bottom: 12px;
+}
+.res-area-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+.res-compat-card {
+  padding: 28px;
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+  display: flex; flex-direction: column; gap: 14px;
+}
+.compat-titulo {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 2px; color: var(--muted); margin-bottom: 4px;
+}
+.compat-item { display: flex; flex-direction: column; gap: 6px; }
+.compat-header { display: flex; justify-content: space-between; align-items: center; }
+.compat-nome { font-size: 0.85rem; font-weight: 700; }
+.compat-pct { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--muted); }
+.compat-bar { height: 4px; border-radius: 2px; background: rgba(255,255,255,0.07); overflow: hidden; }
+.compat-fill { height: 100%; border-radius: 2px; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); width: 0%; }
+
+/* trilha */
+.trilha-titulo {
+  font-size: 1.4rem; font-weight: 800; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px;
+}
+.trilha-titulo::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+.trilha-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  margin-bottom: 32px;
+}
+.trilha-card {
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+  position: relative;
+}
+.trilha-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 2px; color: var(--muted); margin-bottom: 8px;
+}
+.trilha-fase { font-size: 0.85rem; font-weight: 800; margin-bottom: 6px; }
+.trilha-items { font-size: 0.75rem; color: var(--muted); line-height: 1.8; }
+
+/* skills */
+.skills-titulo {
+  font-size: 1.4rem; font-weight: 800; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px;
+}
+.skills-titulo::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+.skills-chips {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px;
+}
+.skill-chip {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem; padding: 8px 16px; border-radius: 100px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.04); color: var(--text);
+  animation: popIn 0.4s ease both;
+}
+
+/* salary */
+.salary-strip {
+  padding: 24px 28px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px; margin-bottom: 32px;
+}
+.salary-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 2px; color: var(--muted); }
+.salary-val { font-size: 1.5rem; font-weight: 900; }
+.salary-range { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+
+/* cta */
+.res-cta {
+  display: flex; gap: 12px; flex-wrap: wrap;
+}
+.btn-cta {
+  font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 800;
+  padding: 14px 32px; border-radius: 100px;
+  cursor: pointer; transition: all 0.2s;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-cta-primary { background: var(--accent, var(--pink)); color: #0a0a0f; border: none; }
+.btn-cta-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,110,247,0.3); }
+.btn-cta-ghost { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+.btn-cta-ghost:hover { border-color: rgba(255,255,255,0.3); }
+
+/* animação entrada resultado */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp 0.6s ease both; }
+
+/* responsivo */
+@media (max-width: 700px) {
+  .res-hero { grid-template-columns: 1fr; }
+  .trilha-grid { grid-template-columns: 1fr; }
+  .q-texto { font-size: 1.4rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
+<header>
+  <a href="index.html" class="logo">BALCÃO<span> TECH</span></a>
+  <a href="index.html" class="btn-voltar">← voltar</a>
+</header>
+
+<div class="progress-wrap"><div class="progress-fill" id="progress"></div></div>
+
+<!-- ============================================================
+     TELA 0 — INTRO
+============================================================ -->
+<div class="tela" id="tela-intro">
+  <div class="intro-box">
+    <p class="intro-tag">BALCÃO TECH · VOCACIONAL</p>
+    <h1 class="intro-h1">Qual dev<br><span>você é?</span></h1>
+    <p class="intro-sub">12 perguntas rápidas para descobrir sua área ideal em tecnologia — com trilha de estudos personalizada no final.</p>
+
+    <div class="areas-chips">
+      <span class="chip" style="animation-delay:0.05s">💻 Dev Back-End</span>
+      <span class="chip" style="animation-delay:0.1s">🎨 Front-End</span>
+      <span class="chip" style="animation-delay:0.15s">📱 Mobile</span>
+      <span class="chip" style="animation-delay:0.2s">🔐 Segurança</span>
+      <span class="chip" style="animation-delay:0.25s">🤖 IA & Dados</span>
+      <span class="chip" style="animation-delay:0.3s">☁️ Cloud/DevOps</span>
+      <span class="chip" style="animation-delay:0.35s">🕹️ Games</span>
+      <span class="chip" style="animation-delay:0.4s">🔗 Blockchain</span>
+      <span class="chip" style="animation-delay:0.45s">🖥️ Sistemas</span>
+      <span class="chip" style="animation-delay:0.5s">📊 Business Tech</span>
+    </div>
+
+    <button class="btn-start" onclick="iniciarTeste()">
+      Começar teste <span class="seta">→</span>
+    </button>
+  </div>
+</div>
+
+<!-- ============================================================
+     TELA 1 — QUIZ
+============================================================ -->
+<div class="tela oculta" id="tela-quiz">
+  <div class="questao-box">
+    <div class="q-meta">
+      <span class="q-num" id="q-num">01 / 12</span>
+      <span id="q-categoria-label"></span>
+    </div>
+    <p class="q-texto" id="q-texto"></p>
+    <div class="opcoes" id="opcoes-container"></div>
+    <div class="q-nav">
+      <button class="btn-ant" id="btn-ant" onclick="anterior()">← anterior</button>
+      <button class="btn-prox" id="btn-prox" onclick="proximo()">Próxima →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     TELA 2 — LOADING
+============================================================ -->
+<div class="tela oculta" id="tela-loading">
+  <div class="loading-box">
+    <span class="loading-glyph">⚙️</span>
+    <p class="loading-txt">ANALISANDO SEU PERFIL...</p>
+  </div>
+</div>
+
+<!-- ============================================================
+     TELA 3 — RESULTADO
+============================================================ -->
+<div class="tela oculta" id="tela-resultado">
+  <div class="resultado-box">
+
+    <div class="res-hero fade-up" style="animation-delay:0.1s">
+      <div class="res-perfil-card" id="res-perfil-card">
+        <p class="res-area-tag" id="res-tag">PERFIL DETECTADO</p>
+        <span class="res-area-emoji" id="res-emoji">💻</span>
+        <h2 class="res-area-nome" id="res-nome">—</h2>
+        <p class="res-area-desc" id="res-desc">—</p>
+      </div>
+      <div class="res-compat-card">
+        <p class="compat-titulo">COMPATIBILIDADE</p>
+        <div id="compat-lista"></div>
+      </div>
+    </div>
+
+    <div class="fade-up" style="animation-delay:0.25s">
+      <h3 class="trilha-titulo">🗺️ Trilha de Estudos</h3>
+      <div class="trilha-grid" id="trilha-grid"></div>
+    </div>
+
+    <div class="fade-up" style="animation-delay:0.35s">
+      <h3 class="skills-titulo">🛠️ Habilidades para desenvolver</h3>
+      <div class="skills-chips" id="skills-chips"></div>
+    </div>
+
+    <div class="salary-strip fade-up" style="animation-delay:0.45s" id="salary-strip">
+      <div>
+        <p class="salary-label">SALÁRIO MÉDIO BRASIL</p>
+        <p class="salary-val" id="salary-val">—</p>
+        <p class="salary-range" id="salary-range">—</p>
+      </div>
+      <div style="text-align:right">
+        <p class="salary-label">DEMANDA NO MERCADO</p>
+        <p class="salary-val" id="demanda-val">—</p>
+      </div>
+    </div>
+
+    <div class="res-cta fade-up" style="animation-delay:0.55s">
+      <a href="biblioteca.html" target="_blank" class="btn-cta btn-cta-primary" id="btn-biblioteca">
+        📚 Ver Biblioteca
+      </a>
+      <button class="btn-cta btn-cta-ghost" onclick="reiniciar()">↺ Refazer teste</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ============================================================
+//  DADOS: PERGUNTAS
+// ============================================================
+const perguntas = [
+  {
+    texto: "🎯 Quando você tem um problema para resolver, você prefere...",
+    categoria: "Estilo de Pensamento",
+    opcoes: [
+      { texto: "Criar uma lógica passo a passo até resolver",         pesos: { backend:3, dados:2, seguranca:2, sistemas:2 } },
+      { texto: "Pensar em como vai ficar visualmente para o usuário", pesos: { frontend:3, mobile:2, games:2 } },
+      { texto: "Analisar padrões e tirar conclusões dos dados",       pesos: { dados:3, ia:3, biz:2 } },
+      { texto: "Entender o sistema todo antes de tocar em qualquer coisa", pesos: { devops:2, sistemas:3, seguranca:2 } },
+    ]
+  },
+  {
+    texto: "🌙 Você está acordado às 2h. O que está fazendo?",
+    categoria: "Personalidade",
+    opcoes: [
+      { texto: "Debugando um código que insiste em não funcionar",    pesos: { backend:3, sistemas:2 } },
+      { texto: "Ajustando pixels de uma interface até ficar perfeita",pesos: { frontend:3, mobile:2, games:1 } },
+      { texto: "Lendo sobre uma falha de segurança recente",          pesos: { seguranca:4, sistemas:1 } },
+      { texto: "Treinando um modelo de IA com seus dados",            pesos: { ia:4, dados:3 } },
+    ]
+  },
+  {
+    texto: "🏗️ Qual tipo de projeto faria você entrar em modo flow?",
+    categoria: "Afinidade de Projeto",
+    opcoes: [
+      { texto: "Uma API robusta que aguenta milhões de requisições",  pesos: { backend:4, devops:2 } },
+      { texto: "Um app mobile bonito que todo mundo baixa",           pesos: { mobile:4, frontend:2 } },
+      { texto: "Um sistema que detecta fraudes automaticamente",      pesos: { ia:3, seguranca:3, dados:2 } },
+      { texto: "Um jogo com mecânicas viciantes",                     pesos: { games:5 } },
+    ]
+  },
+  {
+    texto: "🧩 Qual dessas frases mais combina com você?",
+    categoria: "Identidade",
+    opcoes: [
+      { texto: "\"Código limpo é arte\"",                            pesos: { backend:3, sistemas:2 } },
+      { texto: "\"Design é comunicação, não decoração\"",            pesos: { frontend:4, mobile:2 } },
+      { texto: "\"Dados mentem menos que opiniões\"",                pesos: { dados:4, ia:2, biz:2 } },
+      { texto: "\"Confiança é uma vulnerabilidade\"",                pesos: { seguranca:5 } },
+    ]
+  },
+  {
+    texto: "☁️ Qual cenário tecnológico te empolga mais?",
+    categoria: "Visão de Futuro",
+    opcoes: [
+      { texto: "Containers, Kubernetes e pipelines automatizados",    pesos: { devops:5, sistemas:2 } },
+      { texto: "Interfaces 3D e realidade aumentada",                 pesos: { games:3, frontend:3, mobile:2 } },
+      { texto: "IA que escreve código melhor do que humanos",         pesos: { ia:5, dados:2 } },
+      { texto: "Contratos inteligentes e descentralização total",     pesos: { blockchain:5 } },
+    ]
+  },
+  {
+    texto: "🐛 Você encontra um bug crítico em produção. Sua reação?",
+    categoria: "Reação sob Pressão",
+    opcoes: [
+      { texto: "Liga o modo detetive — logs, testes, bisect",        pesos: { backend:3, sistemas:3, devops:2 } },
+      { texto: "Reproduz localmente e testa cada variável",          pesos: { backend:2, qa:3, dados:2 } },
+      { texto: "Verifica se foi explorado por alguém antes de corrigir", pesos: { seguranca:4 } },
+      { texto: "Reverte o deploy na hora e entende depois",          pesos: { devops:4, sistemas:2 } },
+    ]
+  },
+  {
+    texto: "📱 Você baixou 5 apps novos hoje. O que te chamou atenção?",
+    categoria: "Percepção de Produto",
+    opcoes: [
+      { texto: "A fluidez das animações e o design sem erros",       pesos: { mobile:4, frontend:3 } },
+      { texto: "Como cada um monetiza e retém usuário",              pesos: { biz:4, mobile:2 } },
+      { texto: "As permissões que eles pedem logo na abertura",      pesos: { seguranca:4, mobile:1 } },
+      { texto: "A performance — qual carregou mais rápido",          pesos: { devops:3, sistemas:3, backend:2 } },
+    ]
+  },
+  {
+    texto: "📊 O que você faria com 1 ano de dados de uma empresa?",
+    categoria: "Dados & Estratégia",
+    opcoes: [
+      { texto: "Construir dashboards para o time tomar decisões",    pesos: { dados:4, biz:3 } },
+      { texto: "Treinar um modelo preditivo para antecipar tendências", pesos: { ia:5, dados:3 } },
+      { texto: "Auditar para encontrar vazamentos ou uso indevido",  pesos: { seguranca:4, dados:2 } },
+      { texto: "Criar um pipeline automático de ingestão",           pesos: { devops:3, dados:3, backend:2 } },
+    ]
+  },
+  {
+    texto: "🎮 Você está jogando um game com bugs sérios. O que você pensa?",
+    categoria: "Mentalidade",
+    opcoes: [
+      { texto: "\"Consigo reproduzir esse bug em 3 passos\"",        pesos: { qa:3, games:2, backend:2 } },
+      { texto: "\"Esse shader está errado, dá pra ver o artefato\"", pesos: { games:4, frontend:2 } },
+      { texto: "\"Aposto que tem exploit aqui\"",                    pesos: { seguranca:4, games:2 } },
+      { texto: "\"A física do motor está implementada errada\"",     pesos: { games:4, sistemas:3 } },
+    ]
+  },
+  {
+    texto: "🌐 Qual área te parece mais impactante no próximo década?",
+    categoria: "Visão Macro",
+    opcoes: [
+      { texto: "IA generativa e automação de processos",             pesos: { ia:5, dados:2 } },
+      { texto: "Segurança em sistemas críticos (saúde, energia)",    pesos: { seguranca:5, sistemas:2 } },
+      { texto: "Descentralização financeira e Web3",                 pesos: { blockchain:5 } },
+      { texto: "Infraestrutura de nuvem que sustenta tudo isso",     pesos: { devops:4, sistemas:3 } },
+    ]
+  },
+  {
+    texto: "🤝 Como você prefere trabalhar?",
+    categoria: "Estilo de Trabalho",
+    opcoes: [
+      { texto: "Mergulhado fundo em um problema técnico, sozinho",   pesos: { backend:2, seguranca:2, sistemas:2, dados:2 } },
+      { texto: "Iterando junto com design e produto o tempo todo",   pesos: { frontend:3, mobile:3, biz:2 } },
+      { texto: "Explorando dados e apresentando insights",           pesos: { dados:4, ia:2, biz:3 } },
+      { texto: "Em missões com riscos reais — pentest, incidentes",  pesos: { seguranca:5 } },
+    ]
+  },
+  {
+    texto: "🚀 Qual tecnologia você começaria a aprender amanhã se tivesse tempo?",
+    categoria: "Aprendizado",
+    opcoes: [
+      { texto: "Rust ou Go — performance de verdade",                pesos: { sistemas:4, backend:3 } },
+      { texto: "Three.js ou WebGL — gráficos no browser",            pesos: { frontend:3, games:3 } },
+      { texto: "LangChain ou PyTorch — construir com IA",            pesos: { ia:5, dados:3 } },
+      { texto: "Terraform e Kubernetes — infra como código",         pesos: { devops:5 } },
+    ]
+  },
+];
+
+// ============================================================
+//  DADOS: PERFIS
+// ============================================================
+const perfis = {
+  backend: {
+    nome: "Desenvolvedor Back-End",
+    emoji: "⚙️",
+    cor: "--cyan",
+    hex: "#00ffe0",
+    desc: "Você pensa em sistemas, lógica e performance. Seu prazer está em construir as engrenagens invisíveis que fazem tudo funcionar — APIs, bancos de dados, arquitetura escalável.",
+    salario: "R$ 6.000 – R$ 18.000",
+    medio: "R$ 9.500/mês",
+    demanda: "🔥 Muito Alta",
+    skills: ["Node.js", "Python", "Java", "Go", "PostgreSQL", "Redis", "REST API", "Docker", "Testes automatizados"],
+    trilha: [
+      { num: "01", fase: "Fundamentos", items: "Lógica · Estruturas de Dados · Git · SQL básico" },
+      { num: "02", fase: "Linguagem & Framework", items: "Node.js ou Java · Express/Spring · OOP" },
+      { num: "03", fase: "Banco de Dados", items: "PostgreSQL · MongoDB · Redis · Migrações" },
+      { num: "04", fase: "APIs & Segurança", items: "REST · JWT · OAuth2 · Rate limiting" },
+      { num: "05", fase: "Infra Básica", items: "Docker · CI/CD · Variáveis de ambiente" },
+      { num: "06", fase: "Senioridade", items: "Arquitetura · Microsserviços · System Design" },
+    ]
+  },
+  frontend: {
+    nome: "Desenvolvedor Front-End",
+    emoji: "🎨",
+    cor: "--pink",
+    hex: "#ff6ef7",
+    desc: "A interface entre humanos e tecnologia é o seu território. Você transforma design em experiência real, e sente quando um pixel está 1px fora do lugar.",
+    salario: "R$ 5.000 – R$ 16.000",
+    medio: "R$ 8.000/mês",
+    demanda: "🔥 Alta",
+    skills: ["HTML/CSS", "JavaScript", "React", "TypeScript", "Figma", "Animação CSS", "Acessibilidade", "Performance Web"],
+    trilha: [
+      { num: "01", fase: "Fundamentos Web", items: "HTML semântico · CSS moderno · JS vanilla" },
+      { num: "02", fase: "JavaScript Avançado", items: "ES6+ · Promises · DOM · Fetch API" },
+      { num: "03", fase: "Framework", items: "React · Hooks · Estado global · Roteamento" },
+      { num: "04", fase: "Tooling", items: "TypeScript · Vite · Testes com Vitest" },
+      { num: "05", fase: "Design & UX", items: "Figma · Design System · Acessibilidade WCAG" },
+      { num: "06", fase: "Performance", items: "Core Web Vitals · SSR · Otimização de bundle" },
+    ]
+  },
+  mobile: {
+    nome: "Desenvolvedor Mobile",
+    emoji: "📱",
+    cor: "--green",
+    hex: "#4dff91",
+    desc: "Você quer estar no bolso de todo mundo. Criar apps que as pessoas abrem dezenas de vezes por dia, com experiência nativa fluida, é o que te move.",
+    salario: "R$ 6.000 – R$ 18.000",
+    medio: "R$ 9.000/mês",
+    demanda: "🔥 Alta",
+    skills: ["React Native", "Flutter", "Kotlin", "Swift", "Expo", "App Store / Play Store", "Push Notifications", "SQLite"],
+    trilha: [
+      { num: "01", fase: "Base", items: "JavaScript/Dart · Lógica · Git" },
+      { num: "02", fase: "Plataforma", items: "React Native ou Flutter · Componentes nativos" },
+      { num: "03", fase: "Navegação & Estado", items: "React Navigation · Zustand/Provider" },
+      { num: "04", fase: "Backend & APIs", items: "REST · Firebase · AsyncStorage" },
+      { num: "05", fase: "Nativo Avançado", items: "Kotlin (Android) ou Swift (iOS)" },
+      { num: "06", fase: "Publicação", items: "Play Store · App Store · Monetização" },
+    ]
+  },
+  seguranca: {
+    nome: "Especialista em Segurança",
+    emoji: "🔐",
+    cor: "--red",
+    hex: "#ff5c5c",
+    desc: "Sua mente funciona como um atacante. Você enxerga vulnerabilidades onde outros veem código normal, e dorme bem sabendo que os sistemas que protegeu estão seguros.",
+    salario: "R$ 8.000 – R$ 25.000",
+    medio: "R$ 13.000/mês",
+    demanda: "🔥 Extremamente Alta",
+    skills: ["Pentest", "Linux", "Redes TCP/IP", "OWASP", "Criptografia", "Kali Linux", "Python para segurança", "SIEM"],
+    trilha: [
+      { num: "01", fase: "Fundamentos", items: "Linux · Redes · Protocolos TCP/IP · Python" },
+      { num: "02", fase: "Conceitos de Seg.", items: "OWASP Top 10 · Criptografia · CTFs" },
+      { num: "03", fase: "Pentest Web", items: "Burp Suite · SQL Injection · XSS · CSRF" },
+      { num: "04", fase: "Infra & Redes", items: "Nmap · Wireshark · Active Directory" },
+      { num: "05", fase: "Defesa", items: "SIEM · Logs · Resposta a Incidentes · SOC" },
+      { num: "06", fase: "Certificações", items: "CompTIA Security+ · CEH · OSCP" },
+    ]
+  },
+  ia: {
+    nome: "Engenheiro de IA / ML",
+    emoji: "🤖",
+    cor: "--purple",
+    hex: "#b06dff",
+    desc: "Você quer ensinar máquinas a pensar. Dados são sua matéria-prima e modelos são sua arte. O futuro que você imagina é construído com algoritmos.",
+    salario: "R$ 9.000 – R$ 28.000",
+    medio: "R$ 15.000/mês",
+    demanda: "🔥 Explosiva",
+    skills: ["Python", "PyTorch / TensorFlow", "Scikit-learn", "LangChain", "SQL", "Estatística", "Transformers", "MLOps"],
+    trilha: [
+      { num: "01", fase: "Fundamentos", items: "Python · Numpy · Pandas · SQL · Estatística" },
+      { num: "02", fase: "ML Clássico", items: "Scikit-learn · Regressão · Classificação · Clustering" },
+      { num: "03", fase: "Deep Learning", items: "PyTorch · Redes Neurais · CNN · RNN" },
+      { num: "04", fase: "LLMs & GenAI", items: "Transformers · Fine-tuning · LangChain · RAG" },
+      { num: "05", fase: "Dados em escala", items: "Spark · Airflow · Feature Engineering" },
+      { num: "06", fase: "MLOps", items: "MLflow · Docker · Monitoramento de modelos" },
+    ]
+  },
+  dados: {
+    nome: "Engenheiro / Analista de Dados",
+    emoji: "📊",
+    cor: "--yellow",
+    hex: "#ffe94d",
+    desc: "Você transforma caos em clareza. Números falam uma língua que você domina, e seu maior prazer é quando um gráfico revela algo que ninguém tinha percebido.",
+    salario: "R$ 6.000 – R$ 20.000",
+    medio: "R$ 11.000/mês",
+    demanda: "🔥 Muito Alta",
+    skills: ["SQL", "Python", "dbt", "Spark", "Power BI / Tableau", "Airflow", "Data Warehouse", "Statistics"],
+    trilha: [
+      { num: "01", fase: "Fundamentos", items: "SQL · Python · Estatística básica · Excel" },
+      { num: "02", fase: "Análise", items: "Pandas · Visualização · Power BI · Tableau" },
+      { num: "03", fase: "Engenharia", items: "ETL · dbt · Airflow · Data Warehouse" },
+      { num: "04", fase: "Big Data", items: "Spark · Kafka · Delta Lake · Databricks" },
+      { num: "05", fase: "Cloud Data", items: "BigQuery · Redshift · Snowflake" },
+      { num: "06", fase: "Governança", items: "Data Quality · Catálogo · LGPD" },
+    ]
+  },
+  devops: {
+    nome: "Engenheiro DevOps / SRE",
+    emoji: "☁️",
+    cor: "--orange",
+    hex: "#ff8c42",
+    desc: "Você é o arquiteto da confiabilidade. Enquanto outros escrevem código, você garante que esse código chegue ao usuário rápido, seguro e sem cair.",
+    salario: "R$ 8.000 – R$ 22.000",
+    medio: "R$ 13.500/mês",
+    demanda: "🔥 Muito Alta",
+    skills: ["Docker", "Kubernetes", "Terraform", "AWS/GCP/Azure", "CI/CD", "Linux", "Prometheus", "Bash"],
+    trilha: [
+      { num: "01", fase: "Linux & Redes", items: "Shell · Bash · SSH · Protocolos básicos" },
+      { num: "02", fase: "Containers", items: "Docker · Docker Compose · Registry" },
+      { num: "03", fase: "Orquestração", items: "Kubernetes · Helm · Service Mesh" },
+      { num: "04", fase: "Cloud", items: "AWS ou GCP · IAM · VPC · S3/GCS" },
+      { num: "05", fase: "IaC & CI/CD", items: "Terraform · GitHub Actions · ArgoCD" },
+      { num: "06", fase: "Observabilidade", items: "Prometheus · Grafana · OpenTelemetry" },
+    ]
+  },
+  games: {
+    nome: "Desenvolvedor de Games",
+    emoji: "🕹️",
+    cor: "--green",
+    hex: "#4dff91",
+    desc: "Você cria mundos. Sistemas de física, mecânicas que viciam, histórias que emocionam — a arte e a ciência se encontram no seu trabalho.",
+    salario: "R$ 4.000 – R$ 16.000",
+    medio: "R$ 7.500/mês",
+    demanda: "📈 Crescendo",
+    skills: ["Unity / Unreal", "C# / C++", "Física de jogos", "Shaders / GLSL", "Game Design", "Animação 2D/3D", "Otimização"],
+    trilha: [
+      { num: "01", fase: "Fundamentos", items: "C# · Lógica · Unity básico · Git" },
+      { num: "02", fase: "Game Design", items: "Mecânicas · Loop de gameplay · Level design" },
+      { num: "03", fase: "Engine Avançada", items: "Unity avançado ou Unreal · Physics · UI" },
+      { num: "04", fase: "Gráficos", items: "Shaders · Iluminação · Partículas · VFX" },
+      { num: "05", fase: "Audio & Narrativa", items: "FMOD · Áudio dinâmico · Storytelling" },
+      { num: "06", fase: "Publicação", items: "Otimização · Steam · Mobile · Monetização" },
+    ]
+  },
+  blockchain: {
+    nome: "Desenvolvedor Blockchain / Web3",
+    emoji: "🔗",
+    cor: "--purple",
+    hex: "#b06dff",
+    desc: "Você acredita em sistemas sem intermediários. Contratos inteligentes, tokens e protocolos descentralizados são seu playground.",
+    salario: "R$ 8.000 – R$ 30.000",
+    medio: "R$ 16.000/mês",
+    demanda: "📈 Nicho & Alta remuneração",
+    skills: ["Solidity", "Ethereum", "Hardhat", "Web3.js / Ethers.js", "DeFi protocols", "Rust (Solana)", "Smart contracts", "Tokenomics"],
+    trilha: [
+      { num: "01", fase: "Base", items: "JavaScript · TypeScript · Git · Node.js" },
+      { num: "02", fase: "Blockchain 101", items: "Como funciona · Consenso · Wallets · Hash" },
+      { num: "03", fase: "Smart Contracts", items: "Solidity · Hardhat · OpenZeppelin" },
+      { num: "04", fase: "Frontend Web3", items: "Ethers.js · Wagmi · WalletConnect" },
+      { num: "05", fase: "DeFi & NFT", items: "ERC-20 · ERC-721 · AMMs · Protocols" },
+      { num: "06", fase: "Avançado", items: "Auditoria · Rust/Solana · L2 scaling" },
+    ]
+  },
+  sistemas: {
+    nome: "Engenheiro de Sistemas / Embarcados",
+    emoji: "🖥️",
+    cor: "--cyan",
+    hex: "#00ffe0",
+    desc: "Você fala com o hardware. Onde outros veem abstração, você vê bits, registradores e timing. Sistemas operacionais, drivers e performance em nível baixo são sua zona.",
+    salario: "R$ 7.000 – R$ 20.000",
+    medio: "R$ 11.000/mês",
+    demanda: "📈 Especializado",
+    skills: ["C / C++", "Linux Kernel", "Assembly", "RTOS", "Rust", "Drivers", "Sistemas embarcados", "Debugging com GDB"],
+    trilha: [
+      { num: "01", fase: "Fundamentos", items: "C · Ponteiros · Memória · Arquitetura" },
+      { num: "02", fase: "SO & Linux", items: "Linux · Processos · Threads · Syscalls" },
+      { num: "03", fase: "Embarcados", items: "Arduino · STM32 · RTOS · Comunicação serial" },
+      { num: "04", fase: "C++ Moderno", items: "C++17/20 · STL · Templates · RAII" },
+      { num: "05", fase: "Rust", items: "Ownership · Unsafe · Async · Embedded Rust" },
+      { num: "06", fase: "Kernel & Drivers", items: "Linux Kernel modules · Device drivers" },
+    ]
+  },
+  biz: {
+    nome: "Tech Business / Product Manager",
+    emoji: "📈",
+    cor: "--yellow",
+    hex: "#ffe94d",
+    desc: "Você conecta tecnologia e negócio. Métricas, estratégia de produto, OKRs e a visão do usuário são tão importantes para você quanto qualquer linha de código.",
+    salario: "R$ 7.000 – R$ 22.000",
+    medio: "R$ 12.000/mês",
+    demanda: "🔥 Alta",
+    skills: ["Product Management", "SQL para dados", "UX Research", "OKRs / KPIs", "Agile / Scrum", "Figma básico", "Analytics", "Stakeholder mgmt"],
+    trilha: [
+      { num: "01", fase: "Produto", items: "Product Discovery · Roadmap · User Stories" },
+      { num: "02", fase: "Dados", items: "SQL · Google Analytics · Mixpanel · Dashboards" },
+      { num: "03", fase: "UX & Pesquisa", items: "Entrevistas · Testes de usabilidade · Figma" },
+      { num: "04", fase: "Tech Literacy", items: "APIs · Git básico · Arquitetura de sistemas" },
+      { num: "05", fase: "Estratégia", items: "OKRs · Pricing · Go-to-market · Competição" },
+      { num: "06", fase: "Liderança", items: "Gestão de stakeholders · Comunicação · Dados" },
+    ]
+  },
+  qa: {
+    nome: "QA Engineer / Tester",
+    emoji: "🧪",
+    cor: "--green",
+    hex: "#4dff91",
+    desc: "Você é o guardião da qualidade. Encontrar o bug antes do usuário é quase uma missão. Automação de testes e pensamento analítico são suas armas.",
+    salario: "R$ 4.500 – R$ 14.000",
+    medio: "R$ 7.000/mês",
+    demanda: "📈 Estável",
+    skills: ["Cypress / Playwright", "Selenium", "Jest", "API Testing", "BDD / Gherkin", "Python para QA", "Postman", "Testes de carga"],
+    trilha: [
+      { num: "01", fase: "Fundamentos", items: "Tipos de teste · Casos de teste · Bug report" },
+      { num: "02", fase: "Automação Web", items: "Cypress ou Playwright · Seletores · POM" },
+      { num: "03", fase: "API Testing", items: "Postman · REST Assured · Contrato de API" },
+      { num: "04", fase: "BDD", items: "Gherkin · Cucumber · Cenários de negócio" },
+      { num: "05", fase: "Performance", items: "K6 · JMeter · Load testing · Stress test" },
+      { num: "06", fase: "CI/CD + Mobile", items: "Integrar testes no pipeline · Appium" },
+    ]
+  },
+};
+
+// ============================================================
+//  ESTADO
+// ============================================================
+let respostas = {};  // { indice: opcaoIndex }
+let qAtual = 0;
+
+// ============================================================
+//  NAVEGAÇÃO DE TELAS
+// ============================================================
+function mostrarTela(id) {
+  document.querySelectorAll('.tela').forEach(t => t.classList.add('oculta'));
+  document.getElementById(id).classList.remove('oculta');
+}
+
+// ============================================================
+//  INICIAR
+// ============================================================
+function iniciarTeste() {
+  qAtual = 0;
+  respostas = {};
+  mostrarTela('tela-quiz');
+  renderPergunta();
+}
+
+// ============================================================
+//  RENDER PERGUNTA
+// ============================================================
+function renderPergunta() {
+  const q = perguntas[qAtual];
+  const total = perguntas.length;
+
+  // progress
+  document.getElementById('progress').style.width = ((qAtual / total) * 100) + '%';
+
+  // meta
+  document.getElementById('q-num').textContent =
+    String(qAtual + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+  document.getElementById('q-categoria-label').textContent = q.categoria;
+
+  // texto
+  document.getElementById('q-texto').textContent = q.texto;
+
+  // opções
+  const container = document.getElementById('opcoes-container');
+  container.innerHTML = '';
+  const letras = ['A', 'B', 'C', 'D'];
+
+  q.opcoes.forEach((op, i) => {
+    const div = document.createElement('div');
+    div.className = 'opcao' + (respostas[qAtual] === i ? ' selecionada' : '');
+    div.style.animationDelay = (i * 0.05) + 's';
+    div.innerHTML = `
+      <span class="opcao-letra">${letras[i]}</span>
+      <span class="opcao-texto">${op.texto}</span>
+    `;
+    div.addEventListener('click', () => selecionarOpcao(i));
+    container.appendChild(div);
+  });
+
+  // botões
+  atualizarBotoes();
+
+  // btn anterior
+  document.getElementById('btn-ant').style.visibility = qAtual === 0 ? 'hidden' : 'visible';
+}
+
+function selecionarOpcao(i) {
+  respostas[qAtual] = i;
+  document.querySelectorAll('.opcao').forEach((el, idx) => {
+    el.classList.toggle('selecionada', idx === i);
+  });
+  atualizarBotoes();
+}
+
+function atualizarBotoes() {
+  const btn = document.getElementById('btn-prox');
+  const temResposta = respostas[qAtual] !== undefined;
+  btn.classList.toggle('ativo', temResposta);
+  btn.textContent = (qAtual === perguntas.length - 1) ? 'Ver resultado →' : 'Próxima →';
+}
+
+function proximo() {
+  if (respostas[qAtual] === undefined) return;
+  if (qAtual < perguntas.length - 1) {
+    qAtual++;
+    renderPergunta();
+  } else {
+    calcularResultado();
+  }
+}
+
+function anterior() {
+  if (qAtual > 0) { qAtual--; renderPergunta(); }
+}
+
+// ============================================================
+//  CALCULAR RESULTADO
+// ============================================================
+function calcularResultado() {
+  mostrarTela('tela-loading');
+  document.getElementById('progress').style.width = '100%';
+
+  setTimeout(() => {
+    const scores = {};
+
+    Object.entries(respostas).forEach(([qi, oi]) => {
+      const pesos = perguntas[qi].opcoes[oi].pesos;
+      Object.entries(pesos).forEach(([area, pts]) => {
+        scores[area] = (scores[area] || 0) + pts;
+      });
+    });
+
+    // ordenar
+    const ranking = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+    const top = ranking[0][0];
+    const maxScore = ranking[0][1];
+
+    // compatibilidade: pega top 5
+    const compat = ranking.slice(0, 5).map(([area, pts]) => ({
+      area,
+      pct: Math.round((pts / maxScore) * 100),
+    }));
+
+    renderResultado(top, compat);
+    mostrarTela('tela-resultado');
+  }, 2200);
+}
+
+// ============================================================
+//  RENDER RESULTADO
+// ============================================================
+function renderResultado(area, compat) {
+  const p = perfis[area];
+  if (!p) return;
+
+  // card principal
+  document.getElementById('res-tag').textContent = 'SEU PERFIL DETECTADO';
+  document.getElementById('res-emoji').textContent = p.emoji;
+  document.getElementById('res-nome').textContent = p.nome;
+  document.getElementById('res-desc').textContent = p.desc;
+
+  const card = document.getElementById('res-perfil-card');
+  card.style.setProperty('--accent', p.hex);
+  card.style.borderColor = p.hex;
+
+  // compatibilidade
+  const compatEl = document.getElementById('compat-lista');
+  compatEl.innerHTML = '';
+  compat.forEach((c, i) => {
+    const pf = perfis[c.area];
+    if (!pf) return;
+    const delay = (i * 0.15) + 0.5;
+    compatEl.innerHTML += `
+      <div class="compat-item" style="animation: fadeUp 0.5s ease ${delay}s both">
+        <div class="compat-header">
+          <span class="compat-nome">${pf.emoji} ${pf.nome}</span>
+          <span class="compat-pct">${c.pct}%</span>
+        </div>
+        <div class="compat-bar">
+          <div class="compat-fill" id="bar-${i}" style="background: ${pf.hex}; width: 0%"></div>
+        </div>
+      </div>`;
+  });
+
+  // anima barras
+  setTimeout(() => {
+    compat.forEach((c, i) => {
+      const el = document.getElementById('bar-' + i);
+      if (el) el.style.width = c.pct + '%';
+    });
+  }, 400);
+
+  // trilha
+  const trilhaEl = document.getElementById('trilha-grid');
+  trilhaEl.innerHTML = '';
+  p.trilha.forEach(t => {
+    trilhaEl.innerHTML += `
+      <div class="trilha-card">
+        <p class="trilha-num">FASE ${t.num}</p>
+        <p class="trilha-fase">${t.fase}</p>
+        <p class="trilha-items">${t.items}</p>
+      </div>`;
+  });
+
+  // skills
+  const skillsEl = document.getElementById('skills-chips');
+  skillsEl.innerHTML = '';
+  p.skills.forEach((s, i) => {
+    skillsEl.innerHTML += `<span class="skill-chip" style="animation-delay:${i*0.05}s; border-color: ${p.hex}33; color: ${p.hex}">${s}</span>`;
+  });
+
+  // salary
+  document.getElementById('salary-val').textContent = p.medio;
+  document.getElementById('salary-range').textContent = 'Faixa: ' + p.salario;
+  document.getElementById('demanda-val').textContent = p.demanda;
+  document.getElementById('salary-strip').style.borderColor = p.hex + '44';
+
+  // btn biblioteca
+  const btnBib = document.getElementById('btn-biblioteca');
+  btnBib.style.background = p.hex;
+}
+
+// ============================================================
+//  REINICIAR
+// ============================================================
+function reiniciar() {
+  qAtual = 0;
+  respostas = {};
+  document.getElementById('progress').style.width = '0%';
+  mostrarTela('tela-intro');
+}
+</script>
+</body>
+</html>
