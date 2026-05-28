@@ -122,11 +122,11 @@
                     <p>Roadmaps completos para você não se perder entre Java, Python e Cyber.</p>
                 </a>
     
-                <div class="card card-comunidade">
+                <a href="comunidade.html" target="_blank" class="card card-comunidade">
                     <div class="detalhe-olho roxo"></div>
                     <h3>COMUNIDADE TECH</h3>
                     <p>Conecte-se com outros estudantes e profissionais de BH em nossa rede.</p>
-                </div>
+                </a>
             </div>
         </div>
     </section>
@@ -139,5 +139,155 @@
             }, 3000); 
         });
     </script>
+
+<!-- RODAPÉ -->
+<footer id="rodape-principal">
+  <div class="footer-inner">
+ 
+    <!-- LOGO + TAGLINE -->
+    <div class="footer-brand">
+      <span class="footer-logo">>_ BALCÃO TECH</span>
+      <p class="footer-tagline">Feito para quem está no começo<br>e não quer parar mais.</p>
+    </div>
+ 
+    <!-- LINKS DAS PÁGINAS -->
+    <nav class="footer-nav">
+      <p class="footer-nav-titulo">Explorar</p>
+      <a href="teste_vocacinal.html" target="_blank">Teste Vocacional</a>
+      <a href="biblioteca.html"       target="_blank">Biblioteca Digital</a>
+      <a href="games_desafios.html"            target="_blank">Games & Desafios</a>
+      <a href="mercado_salarios.html" target="_blank">Mercado & Salários</a>
+      <a href="trilhas.html"          target="_blank">Trilhas de Estudo</a>
+      <a href="comunidade.html"       target="_blank">Comunidade Tech</a>
+    </nav>
+ 
+    <!-- CRÉDITOS -->
+    <div class="footer-credits">
+      <p class="footer-nav-titulo">Projeto</p>
+      <p class="footer-credit-txt">Desenvolvido por Luisa Laura -  ADS — BH, Brasil.</p>
+      <p class="footer-copy">© 2025 Balcão Tech<br>Código aberto, conhecimento livre.</p>
+    </div>
+ 
+  </div>
+ 
+  <!-- LINHA FINAL -->
+  <div class="footer-bottom">
+    <span class="footer-bottom-txt">BALCÃO TECH · ADS · BH · 2025</span>
+    <button class="btn-topo" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Topo</button>
+  </div>
+</footer>
+ 
+<!-- ============================================================
+     CSS DO RODAPÉ — cole no final do seu style.css
+============================================================ -->
+<style>
+#rodape-principal {
+  position: relative;
+  z-index: 50;
+  background: #1a1a1a;
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding: 60px 6% 0;
+  font-family: 'Poppins', sans-serif;
+}
+ 
+.footer-inner {
+  display: flex;
+  gap: 60px;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+  align-items: flex-start;
+}
+ 
+/* BRAND */
+.footer-logo {
+  font-family: 'Courier New', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #ff97d6;
+  display: block;
+  margin-bottom: 12px;
+}
+.footer-tagline {
+  font-size: .82rem;
+  color: rgba(255,255,255,.35);
+  line-height: 1.7;
+}
+.footer-brand { flex: 1; min-width: 200px; }
+ 
+/* NAV */
+.footer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 180px;
+}
+.footer-nav-titulo {
+  font-size: .62rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.25);
+  margin-bottom: 4px;
+  font-family: 'Courier New', monospace;
+}
+.footer-nav a {
+  font-size: .85rem;
+  color: rgba(255,255,255,.55);
+  text-decoration: none;
+  transition: color .2s;
+}
+.footer-nav a:hover { color: #ff97d6; }
+ 
+/* CRÉDITOS */
+.footer-credits { min-width: 200px; }
+.footer-credit-txt {
+  font-size: .82rem;
+  color: rgba(255,255,255,.35);
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+.footer-copy {
+  font-family: 'Courier New', monospace;
+  font-size: .7rem;
+  color: rgba(255,255,255,.2);
+  line-height: 1.6;
+}
+ 
+/* LINHA FINAL */
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,.06);
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-bottom-txt {
+  font-family: 'Courier New', monospace;
+  font-size: .65rem;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,.15);
+}
+.btn-topo {
+  font-family: 'Courier New', monospace;
+  font-size: .72rem;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,.3);
+  background: none;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 100px;
+  padding: 7px 16px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.btn-topo:hover {
+  color: #ff97d6;
+  border-color: rgba(255,151,214,.4);
+}
+ 
+@media (max-width: 600px) {
+  .footer-inner { gap: 36px; }
+  .footer-nav, .footer-credits { min-width: 100%; }
+}
+</style>
 </body>
 </html>
